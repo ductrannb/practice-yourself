@@ -29,3 +29,6 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     #- run: npm run test:unit
+    - name: copy dist
+    if: ${{ github.event.pull_request.merged }}
+      run: cp -r ~/actions-runner/_work/practice-yourself/practice-yourself/dist/. /var/www/html/cicd
