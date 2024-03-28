@@ -4,8 +4,6 @@
 name: Practice Yourself CI
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -26,14 +24,3 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     #- run: npm run test:unit
-    # - name: copy dist
-  deploys:
-      if: ${{ github.event.pull_request.merged }}
-      runs-on: self-hosted
-      steps:
-        - uses: canastro/copy-file-action@master
-        - name: Copy dist
-          uses: canastro/copy-file-action@master
-          with:
-            source: "${{ github.workspace }}/dist/."
-            target: "/var/www/html/cicd/"
