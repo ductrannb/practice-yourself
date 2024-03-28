@@ -28,4 +28,5 @@ jobs:
       runs-on: self-hosted
       steps:
         - name: Copy dist
-        - run: cp ${{ github.workspace }}/dist/. /var/www/html/cicd
+          shell: bash
+          run: cp ${{ github.workspace }}/dist/. /var/www/html/cicd
