@@ -9,24 +9,21 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: self-hosted
-    strategy:
-      matrix:
-        node-version: [18.20.0]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
   deploys:
       runs-on: self-hosted
+      strategy:
+        matrix:
+          node-version: [18.20.0]
+          # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
       steps:
+        - uses: actions/checkout@v3
+        - name: Use Node.js ${{ matrix.node-version }}
+          uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node-version }}
+            cache: 'npm'
+        - run: npm ci
+        - run: npm run build --if-present
         - name: Push dist
           working-directory: ${{ github.workspace }}/dist/
           run:
@@ -43,7 +40,7 @@ jobs:
           working-directory: ${{ secrets.SERVER_DIST_DIRECTION }}
           run:
             echo "Start Pull"
-            git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/ductrannb/dist-practice-yourself.git
+            git remote set-url origin https://${{ secrets.GIT_TOKEN }}@github.com/ductrannb/dist-practice-yourself.git
             git pull
             echo "Finish Pull"
             
