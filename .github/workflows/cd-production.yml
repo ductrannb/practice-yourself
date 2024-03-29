@@ -1,15 +1,14 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Practice Yourself CD
+name: Practice Yourself CD - Production
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
 
 jobs:
-  deploys:
+  deploy-production:
       runs-on: self-hosted
       strategy:
         matrix:
@@ -27,21 +26,3 @@ jobs:
         - name: Copy dist
           shell: bash
           run: cp -r ${{ github.workspace }}/dist/. ${{ secrets.SERVER_DIST_DIRECTION }}
-        #   working-directory: ${{ github.workspace }}/dist/
-        #   run: echo "Start Push"
-        #     git init
-        #     git branch -M main
-        #     git remote add origin https://${{ secrets.GITHUB_TOKEN }}@github.com/ductrannb/dist-practice-yourself.git
-        #     git config user.name "Github Actions bot"
-        #     git config user.email "xduc24122002@gmail.com"
-        #     git commit -a -m 'update dist'
-        #     git push -f origin main
-        #     echo "Finish Push"
-        # - name: Pull dist
-        #   working-directory: ${{ secrets.SERVER_DIST_DIRECTION }}
-        #   run:
-        #     echo "Start Pull"
-        #     git remote set-url origin https://${{ secrets.GIT_TOKEN }}@github.com/ductrannb/dist-practice-yourself.git
-        #     git pull
-        #     echo "Finish Pull"
-            
