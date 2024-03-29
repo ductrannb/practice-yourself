@@ -1,121 +1,10 @@
-<script setup>
-</script>
-
 <template>
   <div class="container container-star">
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-1"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
-    <div class="star-2"></div>
+    <div class="star-1" v-for="i in 30" :key="i"></div>
+    <div class="star-2" v-for="i in 30" :key="i"></div>
   </div>
   <div class="container container-bird">
-    <div class="bird bird-anim">
-      <div class="bird-container">
-        <div class="wing wing-left">
-          <div class="wing-left-top"></div>
-        </div>
-        <div class="wing wing-right">
-          <div class="wing-right-top"></div>
-        </div>
-      </div>
-    </div>
-    <div class="bird bird-anim">
-      <div class="bird-container">
-        <div class="wing wing-left">
-          <div class="wing-left-top"></div>
-        </div>
-        <div class="wing wing-right">
-          <div class="wing-right-top"></div>
-        </div>
-      </div>
-    </div>
-    <div class="bird bird-anim">
-      <div class="bird-container">
-        <div class="wing wing-left">
-          <div class="wing-left-top"></div>
-        </div>
-        <div class="wing wing-right">
-          <div class="wing-right-top"></div>
-        </div>
-      </div>
-    </div>
-    <div class="bird bird-anim">
-      <div class="bird-container">
-        <div class="wing wing-left">
-          <div class="wing-left-top"></div>
-        </div>
-        <div class="wing wing-right">
-          <div class="wing-right-top"></div>
-        </div>
-      </div>
-    </div>
-    <div class="bird bird-anim">
-      <div class="bird-container">
-        <div class="wing wing-left">
-          <div class="wing-left-top"></div>
-        </div>
-        <div class="wing wing-right">
-          <div class="wing-right-top"></div>
-        </div>
-      </div>
-    </div>
-    <div class="bird bird-anim">
+    <div class="bird bird-anim" v-for="i in 6" :key="i">
       <div class="bird-container">
         <div class="wing wing-left">
           <div class="wing-left-top"></div>
@@ -1253,5 +1142,4 @@ button:focus {
     transform: scale(0.7);
   }
 }
-
 </style>
