@@ -34,6 +34,14 @@
   </div>
 </template>
 
+<script>
+export default {
+  created() {
+    this.changePageTitle('404 Not Found')
+  }
+}
+</script>
+
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Lato|Russo+One');
 *, *:after, *:before {
