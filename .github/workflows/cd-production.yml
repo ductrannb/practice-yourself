@@ -8,7 +8,7 @@ on:
     branches: ["main"]
 
 jobs:
-  deploys:
+  deploy-production:
       runs-on: self-hosted
       strategy:
         matrix:
