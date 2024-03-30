@@ -1,10 +1,8 @@
 export default {
-    startLoading({commit}, state) {
-        console.log('startLoading')
-        commit('startLoading', state)
+    startLoading({commit}) {
+        commit('setLoading', true)
     },
-    stopLoading({commit}, state) {
-        console.log('stopLoading')
-        commit('stopLoading', state)
+    stopLoading({commit}) {
+        commit('setLoading', false)
     }
 }
