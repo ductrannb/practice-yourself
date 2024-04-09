@@ -1,5 +1,5 @@
 <template>
-  <GoogleLogin :callback="googleLogin"/>
+  <GoogleLogin :callback="googleLogin" prompt/>
 </template>
 
 <script>
