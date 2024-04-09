@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import HelloWorld from "@/views/HelloWorld.vue";
 import PageNotFound from "@/views/PageNotFound.vue";
 import Mixin from "@/Utils/mixin.js";
+import Login from "@/views/Login.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,6 +12,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     },
     {
       path: '/hello',
