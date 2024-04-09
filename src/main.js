@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import mixin from "@/mixins/mixin.js"
+import mixin from "@/Utils/mixin.js"
 import axios from "@/plugins/axios.js"
 import vuetify from "@/plugins/vuetify.js"
 import './assets/main.css'
