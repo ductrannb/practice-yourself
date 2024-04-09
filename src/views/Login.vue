@@ -5,6 +5,7 @@
 <script>
 import { GoogleLogin } from "vue3-google-login"
 import { googleOneTap } from "vue3-google-login"
+import { decodeCredential } from 'vue3-google-login'
 
 export default {
   name: "Login",
@@ -20,6 +21,8 @@ export default {
   },
   methods: {
     googleLogin(response) {
+      const userData = decodeCredential(response.credential)
+      console.log("Handle the userData", userData)
       console.log(response)
     }
   }
