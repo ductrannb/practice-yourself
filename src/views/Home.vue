@@ -1,10 +1,14 @@
 <template>
-  <main>
-    <h1 class="green">Hello World</h1>
-    <v-icon icon="mdi-home" />
-    <v-btn v-if="!isLoading" @click="startLoading">Start Loading</v-btn>
-    <v-btn v-else @click="stopLoading">Stop Loading</v-btn>
-  </main>
+  <div class="container">
+    <div class="slogan-box">
+      <p class="slogan-heading">
+        Chinh phục kỳ thi THPT Quốc gia cùng hệ thống luyện thi Practice Yourself!
+      </p>
+    </div>
+
+    <div>Khóa học mới</div>
+
+  </div>
 </template>
 
 <script>
@@ -18,7 +22,6 @@ export default {
     ...mapGetters(['isLoading'])
   },
   mounted() {
-    axios.get('hello')
   },
   methods: {
     ...mapActions(['startLoading', 'stopLoading'])

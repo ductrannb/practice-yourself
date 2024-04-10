@@ -7,5 +7,7 @@ Yup.setLocale({
     },
     string: {
         email: 'Email không hợp lệ.',
+        min: 'Quá ngắn, tối thiểu ${min} ký tự.',
+        max: 'Quá dài, tối đa ${max} ký tự.'
     },
 });

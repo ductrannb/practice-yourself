@@ -1,27 +1,32 @@
 <template>
   <v-text-field
-      v-model="value"
-      @blur="handleBlur"
-      :label="label"
-      :error-messages="errors"
-      :type="type"
-      :variant="variant"
-      :color="color"
+    class="custom-input"
+    v-model="value"
+    :label="label"
+    :error-messages="errors"
+    :type="typeInput"
+    :variant="variant"
+    :color="color"
+    bg-active="#000000"
+    :append-inner-icon="isPassword ? (isShowPassword ? 'mdi-eye' : 'mdi-eye-off') : null"
+    @click:append-inner="isShowPassword = !isShowPassword"
+    validate-on="blur lazy"
   />
 </template>
 
 <script setup>
-import { defineProps, toRef } from "vue";
+import {computed, defineProps, ref, toRef} from "vue";
 import { useField } from "vee-validate";
+
 
 const props = defineProps({
   name: {
     type: String,
-    requird: false,
+    required: false,
   },
   type: {
     type: String,
-    requird: false,
+    required: false,
   },
   label: {
     type: String,
@@ -33,9 +38,21 @@ const props = defineProps({
   },
   color: {
     type: String,
-    required: false,
+    default: '#000000',
   },
+  isPassword: {
+    type: Boolean,
+    default: false
+  }
 });
+
+let isShowPassword = ref(false);
+const typeInput = computed(() => {
+  if (props.isPassword && !isShowPassword.value) {
+    return 'password'
+  }
+  return 'text'
+})
 
 const { value, handleBlur, errors } = useField(toRef(props, "name"), undefined);
 </script>
