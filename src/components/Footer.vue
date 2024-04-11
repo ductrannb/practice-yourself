@@ -6,7 +6,7 @@
           <img src="/logo-full.svg">
         </div>
         <div class="footer-left-group">
-          <img src="/icons/locale.svg">
+          <img src="/images/icons/locale.svg">
           <span>175 phố Tây Sơn, Quận Đống Đa, Thành phố Hà Nội</span>
         </div>
       </div>
@@ -32,13 +32,13 @@
             <p class="footer-heading">Kết nối với chúng tôi</p>
             <ul>
               <li>
-                <img src="/icons/youtube.svg">
+                <img src="/images/icons/youtube.svg">
               </li>
               <li>
-                <img src="/icons/facebook.svg">
+                <img src="/images/icons/facebook.svg">
               </li>
               <li>
-                <img src="/icons/tiktok.svg">
+                <img src="/images/icons/tiktok.svg">
               </li>
             </ul>
           </div>
