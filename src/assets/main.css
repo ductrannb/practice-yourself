@@ -1,1 +1,40 @@
 @import './base.css';
+.fw-bold {
+    font-weight: bold;
+}
+.page-heading {
+    font-size: 2rem;
+    cursor: default;
+}
+.cursor-default {
+    cursor: default;
+}
+.float-animation:hover, .float-animation:focus, .float-animation:active {
+    transform: translateY(-4px);
+    transition: transform .4s ease-in-out;
+}
+.custom-btn {
+    border: 1px solid var(--color-main);
+    color: var(--color-main);
+    text-align: center;
+    padding: .7rem 1rem;
+    border-radius: 5px;
+}
+.custom-btn:hover {
+    border-color: var(--color-main);
+    background-color: var(--color-main);
+    color: #ffffff;
+}
+
+.custom-input .v-field__input {
+    font-size: 1rem;
+}
+.custom-input .v-messages__message {
+    font-size: 0.8rem;
+}
+.custom-input .v-field-label--floating {
+    font-size: 1rem;
+}
+.custom-input .v-field--focused:not(.v-field--error) .v-field__outline {
+    color: var(--color-main) !important;
+}
