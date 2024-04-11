@@ -30,7 +30,7 @@
       <div class="overview-container container">
         <div class="overview-item-box">
           <div class="overview-item--image-box">
-            <img src="/icons/student.svg">
+            <img src="/images/icons/student.svg">
           </div>
           <div class="overview-item--meta-box">
             <span class="overview-item--meta-number">{{ formatNumber(10000) }}</span>
@@ -39,7 +39,7 @@
         </div>
         <div class="overview-item-box">
           <div class="overview-item--image-box">
-            <img src="/icons/question.svg">
+            <img src="/images/icons/question.svg">
           </div>
           <div class="overview-item--meta-box">
             <span class="overview-item--meta-number">{{ formatNumber(2000) }}</span>
@@ -48,7 +48,7 @@
         </div>
         <div class="overview-item-box">
           <div class="overview-item--image-box">
-            <img src="/icons/exam.svg">
+            <img src="/images/icons/exam.svg">
           </div>
           <div class="overview-item--meta-box">
             <span class="overview-item--meta-number">{{ formatNumber(5000) }}</span>
@@ -57,7 +57,7 @@
         </div>
         <div class="overview-item-box">
           <div class="overview-item--image-box">
-            <img src="/icons/course.svg">
+            <img src="/images/icons/course.svg">
           </div>
           <div class="overview-item--meta-box">
             <span class="overview-item--meta-number">{{ formatNumber(90) }}</span>
@@ -157,6 +157,7 @@ export default {
   margin: 5rem 0;
   height: 230px;
   background-image: url(/images/overview-bg.png);
+  background-size: cover;
   display: flex;
   align-items: center;
 }
