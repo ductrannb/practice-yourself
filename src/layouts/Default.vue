@@ -1,6 +1,6 @@
 <template>
   <Header></Header>
-  <main>
+  <main class="main-content">
     <router-view></router-view>
   </main>
   <Footer></Footer>
@@ -17,5 +17,7 @@ export default {
 </script>
 
 <style scoped>
-
+.main-content {
+  padding-top: 7.5rem;
+}
 </style>

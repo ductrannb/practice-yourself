@@ -6,6 +6,9 @@
     font-size: 2rem;
     cursor: default;
 }
+.cursor-default {
+    cursor: default;
+}
 .float-animation:hover, .float-animation:focus, .float-animation:active {
     transform: translateY(-4px);
     transition: transform .4s ease-in-out;
