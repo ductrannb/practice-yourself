@@ -3,8 +3,8 @@ export default {
         return {}
     },
     methods: {
-        helloWorld() {
-            console.log('Hello world from mixins !')
+        formatNumber(number) {
+            return number.toLocaleString() || 0
         },
         changePageTitle(title = 'Practice Yourself') {
             document.title = title

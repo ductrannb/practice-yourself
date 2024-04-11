@@ -1,32 +1,34 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import HelloWorld from "@/views/HelloWorld.vue";
-import PageNotFound from "@/views/PageNotFound.vue";
-import Mixin from "@/Utils/mixin.js";
-import Login from "@/views/Login.vue";
+import Mixin from "@/Utils/mixin.js"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      component: () => import('@/layouts/Default.vue'),
+      children: [
+        {
+          path: '/',
+          name: 'home',
+          component: () => import('@/views/Home.vue')
+        }
+      ]
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: () => import('@/views/Login.vue')
     },
     {
-      path: '/hello',
-      name: 'hello',
-      component: HelloWorld
+      path: '/register',
+      name: 'register',
+      component: import('@/views/Register.vue')
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: PageNotFound
+      component: import('@/views/PageNotFound.vue')
     }
   ]
 })

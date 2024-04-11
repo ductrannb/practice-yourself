@@ -1,7 +1,7 @@
 <template>
   <div class="login-form-wrapper">
     <div class="login-form-container">
-      <h2 class="page-heading fw-bold text-center">Đăng nhập</h2>
+      <h2 class="page-heading fw-bold text-center">Đăng ký</h2>
       <Form class="mb-8" as="v-form" :validation-schema="schema" @submit="onSubmit">
         <InputValidation
             class="mb-2"
@@ -19,17 +19,25 @@
             variant="underlined"
             color="red"
         />
-        <div class="btn-login-container">
-          <button type="submit" class="custom-btn btn-login float-animation fw-bold">Đăng nhập</button>
+        <InputValidation
+            class="mb-4"
+            name="password_confirmation"
+            label="Xác nhận mật khẩu"
+            :is-password="true"
+            variant="underlined"
+            color="red"
+        />
+        <div class="btn-register-container">
+          <button type="submit" class="custom-btn btn-register float-animation fw-bold">Đăng ký</button>
         </div>
       </Form>
       <boundary-line text="Or"/>
-      <div class="btn-login-container">
-        <GoogleLogin class="btn-login" :callback="googleLogin" prompt/>
+      <div class="btn-register-container">
+        <GoogleLogin class="btn-register" :callback="googleLogin" prompt/>
       </div>
       <p class="register-link">
-        Bạn chưa có tài khoản?
-        <router-link :to="{name: 'register'}">Đăng ký</router-link>
+        Bạn đã có tài khoản?
+        <router-link :to="{name: 'login'}">Đăng nhập</router-link>
       </p>
     </div>
   </div>
@@ -41,11 +49,15 @@ import * as Yup from 'yup'
 import BoundaryLine from "@/components/BoundaryLine.vue";
 
 export default {
-  name: "Login",
+  name: "Register",
   setup() {
     const schema = Yup.object().shape({
       email: Yup.string().required().email().label('email'),
       password: Yup.string().required().min(6).label('mật khẩu'),
+      password_confirmation: Yup.string()
+        .required().min(6)
+        .oneOf([Yup.ref('password')], 'Mật khẩu xác nhận không trùng khớp.')
+        .label('mật khẩu xác nhận')
     });
 
     return { schema }
@@ -58,12 +70,12 @@ export default {
   components: {BoundaryLine, GoogleLogin},
   mounted() {
     googleOneTap()
-      .then((response) => {
-        console.log("Handle the response", response)
-      })
-      .catch((error) => {
-        console.log("Handle the error", error)
-      })
+        .then((response) => {
+          console.log("Handle the response", response)
+        })
+        .catch((error) => {
+          console.log("Handle the error", error)
+        })
   },
   methods: {
     googleLogin(response) {
@@ -101,11 +113,11 @@ export default {
 .page-heading {
   margin-bottom: 1.5rem;
 }
-.btn-login-container {
+.btn-register-container {
   width: 80%;
   margin: auto;
 }
-.btn-login {
+.btn-register {
   width: 100%;
 }
 .register-link {
@@ -119,13 +131,16 @@ export default {
   color: var(--color-primary);
   text-decoration: underline;
 }
+.v-text-field--outlined >>> fieldset {
+  border-color: rgba(192, 0, 250, 0.986);
+}
 @media screen and (max-width: 425px) {
   .page-heading {
     margin-bottom: 1rem;
   }
 }
 @media screen and (max-width: 320px) {
-  .btn-login-container {
+  .btn-register-container {
     width: 100%;
   }
 }
