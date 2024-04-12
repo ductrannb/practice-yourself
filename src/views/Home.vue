@@ -2,7 +2,7 @@
   <div>
     <div class="slogan-box container">
       <p class="slogan-heading cursor-default">
-        Chinh phục kỳ thi THPT Quốc gia cùng hệ thống luyện thi <span>Practice Yourself</span>
+        Chinh phục kỳ thi THPT Quốc gia cùng hệ thống luyện thi <br> <span>Practice Yourself</span>
       </p>
     </div>
 
@@ -123,17 +123,6 @@ export default {
 .slogan-heading span {
   color: var(--color-main);
   font-weight: 800;
-}
-.group-heading {
-  position: relative;
-  font-size: 2rem;
-  font-weight: 600;
-  text-align: center;
-  margin: 1.5rem 0 1rem;
-}
-.group-heading p {
-  position: relative;
-  z-index: 2;
 }
 .course-wrapper {
   padding-top: 2rem;

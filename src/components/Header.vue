@@ -10,10 +10,20 @@
       <nav class="header-nav">
         <ul class="header-nav-list">
           <li>
-            <router-link class="header-nav-item float-animation" :to="{name: 'home'}">Trang chủ</router-link>
+            <router-link
+                :class="{'header-nav-item': true, 'float-animation': true, 'link-active': $route.name === 'home'}"
+                :to="{name: 'home'}"
+            >
+              Trang chủ
+            </router-link>
           </li>
           <li>
-            <router-link class="header-nav-item float-animation" to="">Các khóa học</router-link>
+            <router-link
+                :class="{'header-nav-item': true, 'float-animation': true, 'link-active': $route.name === 'courses'}"
+                :to="{name: 'courses'}"
+            >
+              Các khóa học
+            </router-link>
           </li>
           <li>
             <router-link class="header-nav-item float-animation" to="">Đề thi thử THPT</router-link>
@@ -29,8 +39,12 @@
 </template>
 
 <script>
+import router from "@/router/index.js";
+
 export default {
-  name: "Header"
+  name: "Header",
+  methods: {
+  }
 }
 </script>
 
