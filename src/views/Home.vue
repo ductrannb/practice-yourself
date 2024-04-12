@@ -33,7 +33,7 @@
             <img src="/images/icons/student.svg">
           </div>
           <div class="overview-item--meta-box">
-            <span class="overview-item--meta-number">{{ formatNumber(10000) }}</span>
+            <span class="overview-item--meta-number">{{ $filter.formatNumber(10000) }}</span>
             <span class="overview-item--meta-title">Người dùng</span>
           </div>
         </div>
@@ -42,7 +42,7 @@
             <img src="/images/icons/question.svg">
           </div>
           <div class="overview-item--meta-box">
-            <span class="overview-item--meta-number">{{ formatNumber(2000) }}</span>
+            <span class="overview-item--meta-number">{{ $filter.formatNumber(2000) }}</span>
             <span class="overview-item--meta-title">Câu trắc nghiệm</span>
           </div>
         </div>
@@ -51,7 +51,7 @@
             <img src="/images/icons/exam.svg">
           </div>
           <div class="overview-item--meta-box">
-            <span class="overview-item--meta-number">{{ formatNumber(5000) }}</span>
+            <span class="overview-item--meta-number">{{ $filter.formatNumber(5000) }}</span>
             <span class="overview-item--meta-title">Đề thi thử</span>
           </div>
         </div>
@@ -60,7 +60,7 @@
             <img src="/images/icons/course.svg">
           </div>
           <div class="overview-item--meta-box">
-            <span class="overview-item--meta-number">{{ formatNumber(90) }}</span>
+            <span class="overview-item--meta-number">{{ $filter.formatNumber(90) }}</span>
             <span class="overview-item--meta-title">Khóa học</span>
           </div>
         </div>

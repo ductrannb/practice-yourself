@@ -15,6 +15,11 @@ window.axios = axios
 
 const app = createApp(App)
 
+app.config.globalProperties.$filter = {
+    formatNumber(number) {
+        return number.toLocaleString() || 0
+    }
+}
 app.use(router).use(vuetify).use(vuex).use(googleLogin.vue3GoogleLogin, googleLogin.options)
 app.component('InputValidation', InputValidation).component('Form', Form).component('Field', Field)
 app.mixin(mixin)

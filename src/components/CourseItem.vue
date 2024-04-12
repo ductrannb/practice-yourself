@@ -1,5 +1,5 @@
 <template>
-  <router-link to="" class="course-item-box float-animation">
+  <router-link :to="{name: 'course-detail', params: {id: item.id}}" class="course-item-box float-animation">
     <div class="course-item--image-box">
       <img :src="item.image" alt="course">
     </div>

@@ -9,7 +9,7 @@
         <CourseItem v-for="course in courses" :key="course.id" :item="course" />
       </div>
       <div class="btn-load-more-box">
-        <button class="custom-btn">Xem thêm khóa học</button>
+        <button class="btn-load-more custom-btn float-animation">Xem thêm khóa học</button>
       </div>
     </div>
   </div>
@@ -61,5 +61,8 @@ export default {
 .btn-load-more-box {
   text-align: center;
   margin: 3rem 0;
+}
+.btn-load-more {
+  box-shadow: var(--color-main) 2px 5px 14px -1px;
 }
 </style>
