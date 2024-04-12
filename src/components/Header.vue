@@ -16,7 +16,7 @@
             <router-link class="header-nav-item float-animation" to="">Các khóa học</router-link>
           </li>
           <li>
-            <router-link class="header-nav-item float-animation" to="">Thi thử THPT</router-link>
+            <router-link class="header-nav-item float-animation" to="">Đề thi thử THPT</router-link>
           </li>
         </ul>
 

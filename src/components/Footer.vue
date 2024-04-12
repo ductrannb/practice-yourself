@@ -97,6 +97,7 @@ export default {
   font-weight: 800;
   margin-bottom: .5rem;
   display: inline-block;
+  cursor: default;
 }
 .footer-heading::after {
   content: '';

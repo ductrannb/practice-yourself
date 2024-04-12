@@ -18,7 +18,7 @@
 
     <div class="exam-wrapper container">
       <div class="group-heading cursor-default">
-        <p>Thi thử</p>
+        <p>Đề thi thử</p>
         <TextBackgroundColor :blue="true"/>
       </div>
       <div class="exam-list home-list-product">

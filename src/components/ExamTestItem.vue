@@ -1,10 +1,9 @@
 <template>
-  <div class="exam-item-box">
+  <router-link to="" class="exam-item-box">
     <p class="exam-item--name">{{item.name}}</p>
     <p class="exam-item--short-description">{{item.short_description}}</p>
     <router-link class="custom-btn exam-item--subscribe-btn" to="">Thi thử ngay</router-link>
-    <a></a>
-  </div>
+  </router-link>
 </template>
 
 <script>
