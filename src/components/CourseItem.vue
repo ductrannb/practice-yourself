@@ -8,7 +8,7 @@
       <TextBackgroundColor/>
     </div>
     <p class="course-item--short-description">{{item.short_description}}</p>
-    <router-link class="custom-btn course-item--subscribe-btn" to="">Đăng ký ngay</router-link>
+    <router-link class="custom-btn course-item--subscribe-btn" :to="{name: 'course-detail', params: {id: item.id}}">Đăng ký ngay</router-link>
   </router-link>
 </template>
 

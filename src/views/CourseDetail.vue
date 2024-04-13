@@ -18,11 +18,11 @@
           <div class="course-overview-item">
             <div>Nhận biết</div>
             <div class="course-overview-item--process-box">
-              <div>67%</div>
+              <div>{{course.percentage_easy}}%</div>
               <v-progress-linear
                 class="course-overview-item--process-linear"
                 color="#40B4E5"
-                model-value="67"
+                :model-value="course.percentage_easy"
                 :height="10"
                 bg-color="#E7ECEF"
                 bg-opacity="1"
@@ -33,11 +33,11 @@
           <div class="course-overview-item">
             <div>Thông hiểu</div>
             <div class="course-overview-item--process-box">
-              <div>24%</div>
+              <div>{{course.percentage_medium}}%</div>
               <v-progress-linear
                 class="course-overview-item--process-linear"
                 color="#8AC53E"
-                model-value="24"
+                :model-value="course.percentage_medium"
                 bg-color="#E7ECEF"
                 bg-opacity="1"
                 :height="10"
@@ -48,11 +48,11 @@
           <div class="course-overview-item">
             <div>Vận dụng</div>
             <div class="course-overview-item--process-box">
-              <div>9%</div>
+              <div>{{course.percentage_hard}}%</div>
               <v-progress-linear
                 class="course-overview-item--process-linear"
                 color="#FF9B2F"
-                model-value="9"
+                :model-value="course.percentage_hard"
                 bg-color="#E7ECEF"
                 bg-opacity="1"
                 :height="10"
@@ -62,24 +62,29 @@
           </div>
         </div>
 
-        <div class="course-lesson-list">
-          <v-timeline side="end" align="start">
-            <v-timeline-item
-                v-for="lesson in course.lessons"
-                dot-color="var(--color-main)"
-                elevation="number"
+        <div class="course-lesson-list-box">
+          <div class="course-lesson-list">
+            <div
+              :class="{
+                'course-lesson-item': true,
+                'course-lesson-item--complete': lesson.completion === lesson.count_question
+              }"
+              v-for="(lesson, index) in course.lessons"
+              :key="index"
             >
-              <div class="course-lesson-item">
+              <div class="course-lesson-item--index"><span>{{index + 1}}</span></div>
+              <div class="course-lesson-item--info">
                 <div class="course-lesson-item--meta">
                   <p>{{ lesson.name }}</p>
                   <span>{{ lesson.count_question }} câu hỏi</span>
                 </div>
                 <div class="course-lesson-item--completion">
-                  <span>{{ lesson.completion }}/{{lesson.count_question}}</span>
+                  <span v-if="lesson.completion === lesson.count_question">Hoàn thành</span>
+                  <span v-else>{{ lesson.completion }}/{{lesson.count_question}}</span>
                 </div>
               </div>
-            </v-timeline-item>
-          </v-timeline>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -113,16 +118,19 @@ export default {
       course: {
         name: 'Ứng dụng của đạo hàm để khảo sát - vẽ đồ thị hàm số',
         lessons: [
-          {id: 1, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
+          {id: 1, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
           {id: 2, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-          {id: 3, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
+          {id: 3, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
           {id: 4, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
           {id: 5, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
           {id: 6, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
           {id: 7, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
           {id: 8, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
         ],
-        total_question: 160
+        total_question: 160,
+        percentage_easy: 67,
+        percentage_medium: 24,
+        percentage_hard: 9
       }
     }
   }
@@ -172,7 +180,70 @@ export default {
   color: var(--color-main);
 }
 .course-lesson-list {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-bottom: 3rem;
+  border-radius: 4px;
+}
+.course-lesson-item {
   display: flex;
-  justify-content: start;
+  border: 1px solid #eeeeee;
+}
+.course-lesson-item:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.course-lesson-item:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.course-lesson-item:hover {
+  position: relative;
+  box-shadow: rgba(255, 121, 47, 0.7) 0px 3px 8px;
+  z-index: 2;
+  cursor: pointer;
+}
+.course-lesson-item:hover .course-lesson-item--meta p {
+  color: var(--color-main);
+}
+.course-lesson-item:not(:last-child) {
+  border-bottom: unset;
+}
+.course-lesson-item--index {
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.course-lesson-item--index > span {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-main);
+  color: #ffffff;
+  border-radius: 50%;
+  border: 1px solid var(--color-main);
+  font-weight: 800;
+}
+.course-lesson-item--info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 80px);
+  padding: 1rem 2rem 1rem 1rem;
+}
+.course-lesson-item--complete {
+  background: #f0f9eb;
+}
+.course-lesson-item--complete .course-lesson-item--completion span {
+  color: var(--color-main);
+}
+.course-lesson-item--meta p {
+  font-weight: 600;
+}
+.course-lesson-item--meta span {
+  font-size: .85rem;
+  color: #949ba3;
 }
 </style>
