@@ -64,13 +64,14 @@
 
         <div class="course-lesson-list-box">
           <div class="course-lesson-list">
-            <div
+            <router-link
               :class="{
                 'course-lesson-item': true,
                 'course-lesson-item--complete': lesson.completion === lesson.count_question
               }"
               v-for="(lesson, index) in course.lessons"
               :key="index"
+              :to="{name: 'lesson-detail', params: {id: lesson.id}}"
             >
               <div class="course-lesson-item--index"><span>{{index + 1}}</span></div>
               <div class="course-lesson-item--info">
@@ -83,7 +84,7 @@
                   <span v-else>{{ lesson.completion }}/{{lesson.count_question}}</span>
                 </div>
               </div>
-            </div>
+            </router-link>
           </div>
         </div>
       </div>
@@ -121,13 +122,13 @@ export default {
           {id: 1, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
           {id: 2, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
           {id: 3, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
-          {id: 4, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
+          {id: 4, name: 'Xét tính đơn điệu của hàm số', count_question: 15, completion: 12},
           {id: 5, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
           {id: 6, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
           {id: 7, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
           {id: 8, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
         ],
-        total_question: 160,
+        total_question: 155,
         percentage_easy: 67,
         percentage_medium: 24,
         percentage_hard: 9
@@ -138,9 +139,6 @@ export default {
 </script>
 
 <style scoped>
-.breadcrumb-wrapper {
-  margin: 2rem 0 1rem;
-}
 .page-heading {
   font-size: 1.5rem;
   font-weight: 800;

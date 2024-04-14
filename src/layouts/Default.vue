@@ -3,7 +3,7 @@
   <main class="main-content">
     <router-view></router-view>
   </main>
-  <Footer></Footer>
+  <Footer v-if="!isHideFooter"></Footer>
 </template>
 
 <script>
@@ -12,7 +12,17 @@ import Footer from "@/components/Footer.vue";
 
 export default {
   name: "Default",
-  components: {Footer, Header}
+  components: {Footer, Header},
+  computed: {
+    isHideFooter() {
+      return this.routesHideFooter.includes(this.$route.name)
+    }
+  },
+  data() {
+    return {
+      routesHideFooter: ['lesson-detail']
+    }
+  },
 }
 </script>
 

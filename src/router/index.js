@@ -13,18 +13,31 @@ const router = createRouter({
           name: 'home',
           component: () => import('@/views/Home.vue')
         },
+        // Courses routes
         {
           path: '/courses',
-          name: 'courses',
-          component: () => import('@/views/Courses.vue')
+          children: [
+            {
+              path: '',
+              name: 'courses',
+              component: () => import('@/views/Courses.vue')
+            },
+            {
+              path: ':id',
+              name: 'course-detail',
+              component: () => import('@/views/CourseDetail.vue')
+            }
+          ]
         },
+        // Lessons routes
         {
-          path: '/courses/:id',
-          name: 'course-detail',
-          component: () => import('@/views/CourseDetail.vue')
+          path: '/lessons/:id',
+          name: 'lesson-detail',
+          component: () => import('@/views/LessonDetail.vue')
         }
       ]
     },
+    // Auth routes
     {
       path: '/login',
       name: 'login',
@@ -33,12 +46,13 @@ const router = createRouter({
     {
       path: '/register',
       name: 'register',
-      component: import('@/views/Register.vue')
+      component: () => import('@/views/Register.vue')
     },
+    // Not found route
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: import('@/views/PageNotFound.vue')
+      component: () => import('@/views/PageNotFound.vue')
     }
   ]
 })

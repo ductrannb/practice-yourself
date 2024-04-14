@@ -33,10 +33,10 @@ export default {
   font-weight: 500;
 }
 .breadcrumb-item a {
-  text-decoration: underline;
+  color: var(--color-main);
 }
 .breadcrumb-item:hover a {
-  color: var(--color-main);
+  text-decoration: underline;
 }
 .breadcrumb-item:last-child {
   cursor: default;
