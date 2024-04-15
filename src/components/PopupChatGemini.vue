@@ -1,7 +1,7 @@
 <template>
   <div class="popup-chat-container">
     <Transition name="bounce">
-      <div v-if="isShowPopupChat" class="popup-chat-messages-box">
+      <div v-if="isShowPopupChat" class="popup-chat-messages-box" v-click-outside="closePopup">
         <div class="popup-chat-messages-list">
           <div
               :class="{
@@ -64,6 +64,36 @@ export default {
           },
           {
             id: '5a62827f-02d8-46c9-9ec7-748252751b66',
+            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
+            role: 'user',
+          },
+          {
+            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
+            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
+            role: 'user',
+          },
+          {
+            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
+            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
+            role: 'user',
+          },
+          {
+            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
+            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
+            role: 'user',
+          },
+          {
+            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
+            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
+            role: 'user',
+          },
+          {
+            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
+            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
+            role: 'user',
+          },
+          {
+            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
             text: 'Dạ, bạn cần giúp gì ạ?',
             role: 'model',
           }
@@ -74,6 +104,9 @@ export default {
   methods: {
     togglePopupChat() {
       this.isShowPopupChat = !this.isShowPopupChat
+    },
+    closePopup() {
+      this.isShowPopupChat = false
     }
   }
 }
@@ -90,10 +123,13 @@ export default {
   border-radius: 8px;
   box-shadow: var(--color-main) 0px 1px 6px;
   background-color: #FFFFFF;
+  overflow: hidden;
 }
 .popup-chat-messages-list {
   padding: 1rem 1rem 1rem .5rem;
   width: 600px;
+  max-height: 50vh;
+  overflow: auto;
 }
 .popup-chat-icon {
   width: 40px;
@@ -170,10 +206,15 @@ export default {
 .popup-chat-messages-box--footer textarea::-webkit-scrollbar {
   width: 2px;
 }
-.popup-chat-messages-box--footer textarea::-webkit-scrollbar-track {
+.popup-chat-messages-list::-webkit-scrollbar {
+  width: 8px;
+}
+.popup-chat-messages-box--footer textarea::-webkit-scrollbar-track,
+.popup-chat-messages-list::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px #f8bc9b;
 }
-.popup-chat-messages-box--footer textarea::-webkit-scrollbar-thumb {
+.popup-chat-messages-box--footer textarea::-webkit-scrollbar-thumb,
+.popup-chat-messages-list::-webkit-scrollbar-thumb {
   background-color: var(--color-main);
   border-radius: 100px;
 }

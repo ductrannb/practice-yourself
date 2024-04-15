@@ -89,7 +89,7 @@ export default {
   padding: .25rem .5rem;
   border-radius: 100px;
   border: 1px solid;
-  width: 80px;
+  width: 82px;
   text-align: center;
   font-weight: 500;
   color: white;

@@ -1,7 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
 :root {
   --color-main: #FF792F;
   --color-primary: #005eff;
+}
+@font-face {
+  font-family: SVN-Poppions;
+  src: url('/fonts/SVN-Poppins.woff2') format('woff2');
+  font-weight: 400;
+}
+@font-face {
+  font-family: SVN-Poppions;
+  src: url('/fonts/SVN-PoppinsMedium.woff2') format('woff2');
+  font-weight: 500;
+}
+@font-face {
+  font-family: SVN-Poppions;
+  src: url('/fonts/SVN-PoppinsSemiBold.woff2') format('woff2');
+  font-weight: 600;
+}
+@font-face {
+  font-family: SVN-Poppions;
+  src: url('/fonts/SVN-PoppinsBold.woff2') format('woff2');
+  font-weight: 700;
 }
 * {
   margin: 0;
@@ -21,7 +40,7 @@ ul li {
   list-style: none;
 }
 body {
-  font-family: "Noto Serif", serif;
+  font-family: "SVN-Poppions", serif;
   font-optical-sizing: auto;
   font-weight: normal;
   font-style: normal;

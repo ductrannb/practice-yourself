@@ -410,6 +410,10 @@ export default {
   font-weight: 600;
   cursor: pointer;
 }
+.question-console-item:hover {
+  color: #faf7f7;
+  background-color: #8d8e90;
+}
 .question-console-item--correct {
   color: #FFFFFF;
   background-color: #4CAF50;
