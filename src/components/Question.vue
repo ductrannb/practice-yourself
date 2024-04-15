@@ -14,8 +14,9 @@
       <div
           :class="{
             'question-choice-item': true,
-            'question-choice-item--correct': index === 0 && question.id === 1,
-            'question-choice-item--wrong': index === 1 && question.id === 2
+            'question-choice-item--correct': $route.name === 'lesson-detail' && index === 0 && question.id === 1,
+            'question-choice-item--wrong': $route.name === 'lesson-detail' && index === 1 && question.id === 2,
+            'question-choice-item--select': $route.name === 'exam-detail' && index === 1 && question.id === 2
           }"
           v-for="(choice, index) in question.choices"
           :key="index">
@@ -113,8 +114,16 @@ export default {
 }
 .question-choice-item {
   display: flex;
-  margin-bottom: .5rem;
   cursor: pointer;
+  padding: .5rem .4rem;
+}
+.question-choice-item:hover {
+  display: flex;
+  cursor: pointer;
+  padding: .5rem .4rem;
+  background-color: #ececec;
+  border-radius: 4px;
+  transition: background-color .2s;
 }
 .question-choice-code {
   font-weight: 600;
@@ -137,5 +146,9 @@ export default {
 .question-choice-item--wrong:before {
   content: '';
   background-image: url("/images/icons/choice-wrong.svg");
+}
+.question-choice-item--select:before {
+  content: '';
+  background-image: url("/images/icons/choice-select.svg");
 }
 </style>

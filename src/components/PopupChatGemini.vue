@@ -188,6 +188,7 @@ export default {
   box-shadow: var(--color-main) 0px 1px 6px;
   background-color: #f8f7f7;
   color: var(--color-main);
+  transition: color 0s;
 }
 .popup-chat-messages-box--footer {
   border-top: 1px solid var(--color-main);

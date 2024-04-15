@@ -1,43 +1,51 @@
 <template>
-  <div class="lesson-detail-wrapper">
+  <div class="exam-detail-wrapper">
     <div class="container">
       <breadcrumb class="breadcrumb-wrapper" :items="breadcrumbs"/>
-      <div class="lesson-container">
-        <div class="lesson-box">
-          <p class="lesson-title">{{ lesson.name }}</p>
-          <div class="lesson-question-list-box">
+      <p class="exam-title">{{ exam.name }}</p>
+      <div class="exam-container">
+        <div class="exam-box">
+          <div class="exam-question-list-box">
             <question
-                class="lesson-question-item"
-                v-for="(question, index) in lesson.questions"
-                :key="question.id"
-                :index="index + 1"
-                :question="question"
+              class="exam-question-item"
+              v-for="(question, index) in exam.questions"
+              :key="question.id"
+              :index="index + 1"
+              :question="question"
             />
           </div>
         </div>
         <div class="question-console-wrapper">
           <div class="question-console-box box-shadow-beautiful">
             <p class="question-console-title">Bảng câu hỏi</p>
-            <p class="overview-answer overview-answer--correct"><span>{{'1/20'}}</span> Câu đúng</p>
-            <p class="overview-answer overview-answer--wrong"><span>{{'1/20'}}</span> Câu sai</p>
+            <vue-countdown :time="exam.time_limit * 60 * 1000" v-slot="{ days, hours, minutes, seconds }">
+              <div class="question-console--countdown">
+                <img src="/images/icons/timer.svg">
+                <span>
+                  <span v-if="exam.time_limit >= 60">{{ ('0' + hours).slice(-2) }} : </span>
+                  <span>{{ ('0' + minutes).slice(-2) }}</span>
+                  :
+                  <span>{{ ('0' + seconds).slice(-2) }}</span>
+                </span>
+              </div>
+            </vue-countdown>
             <div class="question-console-list">
-            <span
+              <span
                 :class="{
                   'question-console-item': true,
-                  'question-console-item--correct': index === 0,
-                  'question-console-item--wrong': index === 1
+                  'question-console-item--select': question.id === 2,
                 }"
-                v-for="(question, index) in lesson.questions"
+                v-for="(question, index) in exam.questions"
                 :key="index"
-            >
-              {{ index + 1 }}
-            </span>
+              >
+                {{ index + 1 }}
+              </span>
             </div>
+            <button class="question-console--btn-submit">Nộp bài</button>
           </div>
         </div>
       </div>
     </div>
-    <popup-chat-gemini chat-id="5a62827f-02d8-46c9-9ec7-748252751b66"/>
   </div>
 </template>
 
@@ -47,7 +55,7 @@ import Question from "@/components/Question.vue";
 import PopupChatGemini from "@/components/PopupChatGemini.vue";
 
 export default {
-  name: "LessonDetail",
+  name: "ExamDetail",
   components: {PopupChatGemini, Question, Breadcrumb},
   data() {
     return {
@@ -59,21 +67,16 @@ export default {
         },
         {
           id: 2,
-          title: 'Các khóa học',
-          route: {name: 'courses'}
+          title: 'Thi thử',
+          route: {name: 'exams'}
         },
         {
           id: 3,
-          title: 'Ứng dụng của đạo hàm để khảo sát - vẽ đồ thị hàm số',
-          route: {name: 'course-detail', params: {id: 1}},
-        },
-        {
-          id: 4,
-          title: 'Xét tính đơn điệu của hàm số'
+          title: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh',
         }
       ],
-      lesson: {
-        name: 'Xét tính đơn điệu của hàm số',
+      exam: {
+        name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh',
         questions: [
           {
             id: 1,
@@ -355,7 +358,8 @@ export default {
               },
             ]
           },
-        ]
+        ],
+        time_limit: 90
       },
     };
   },
@@ -363,19 +367,19 @@ export default {
 </script>
 
 <style scoped>
-.lesson-container {
+.exam-container {
   display: flex;
   margin-bottom: 4rem;
 }
-.lesson-box {
+.exam-box {
   width: 77%;
   padding: 0 2rem 0 1rem;
 }
-.lesson-title {
+.exam-title {
   font-size: 1.3rem;
   font-weight: 600;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 .question-console-wrapper {
   width: 23%;
@@ -414,29 +418,37 @@ export default {
   color: #faf7f7;
   background-color: #8d8e90;
 }
-.question-console-item--correct {
+.question-console-item--select {
+  background-color: var(--color-primary);
   color: #FFFFFF;
-  background-color: #4CAF50;
 }
-.question-console-item--wrong {
+.question-console--btn-submit {
+  width: 100%;
+  background-color: var(--color-primary);
+  margin-top: 1rem;
+  padding: .5rem;
   color: #FFFFFF;
-  background-color: #F44336;
+  font-weight: 600;
+  border-radius: 4px;
 }
-.overview-answer {
-  font-size: .9rem;
+.question-console--btn-submit:hover {
+  background-color: #1d6b97;
 }
-.overview-answer::before {
-  display: inline-block;
-  content: '';
-  width: .5rem;
-  height: .5rem;
-  margin-bottom: .1rem;
+.question-console--countdown {
+  display: flex;
+  align-items: center;
+}
+.question-console--countdown > p {
+  display: flex;
+  align-items: center;
+}
+.question-console--countdown > p > span {
+  padding: .25rem;
+  background-color: #FFFFFF;
+}
+.question-console--countdown img {
+  width: 1.5rem;
+  height: 1.5rem;
   margin-right: .5rem;
-}
-.overview-answer--correct::before {
-  background-color: #4CAF50;
-}
-.overview-answer--wrong::before {
-  background-color: #F44336;
 }
 </style>

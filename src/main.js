@@ -8,8 +8,10 @@ import './assets/main.css'
 import vuex from '@/plugins/vuex.js'
 import googleLogin from "@/plugins/google-login.js"
 import InputValidation from '@/components/InputValidation.vue'
+import VueCountdown from '@chenfengyuan/vue-countdown'
 import { Field, Form } from 'vee-validate'
 import '@/plugins/vee-validate.js'
+
 
 window.axios = axios
 
@@ -21,6 +23,9 @@ app.config.globalProperties.$filter = {
     }
 }
 app.use(router).use(vuetify).use(vuex).use(googleLogin.vue3GoogleLogin, googleLogin.options)
-app.component('InputValidation', InputValidation).component('Form', Form).component('Field', Field)
+app.component('InputValidation', InputValidation)
+    .component('Form', Form)
+    .component('Field', Field)
+    .component('VueCountdown', VueCountdown)
 app.mixin(mixin)
 app.mount('#app')

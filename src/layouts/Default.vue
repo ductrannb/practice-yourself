@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      routesHideFooter: ['lesson-detail']
+      routesHideFooter: ['lesson-detail', 'exam-detail']
     }
   },
 }

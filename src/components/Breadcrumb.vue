@@ -32,6 +32,9 @@ export default {
 .breadcrumb-item {
   font-weight: 500;
 }
+.breadcrumb-item span {
+  line-height: 1.8;
+}
 .breadcrumb-item a {
   color: var(--color-main);
 }

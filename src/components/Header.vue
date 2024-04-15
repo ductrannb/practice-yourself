@@ -26,7 +26,12 @@
             </router-link>
           </li>
           <li>
-            <router-link class="header-nav-item float-animation" to="">Đề thi thử THPT</router-link>
+            <router-link
+                :class="{'header-nav-item': true, 'float-animation': true, 'link-active': $route.name === 'exams'}"
+                :to="{name: 'exams'}"
+            >
+              Thi thử
+            </router-link>
           </li>
         </ul>
 

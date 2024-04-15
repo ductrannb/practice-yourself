@@ -7,7 +7,11 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition
     } else {
-      return { top: 0 }
+      let result = { top: 0 }
+      if (to.name === from.name) {
+        result.behavior = 'smooth'
+      }
+      return result
     }
   },
   routes: [
@@ -33,14 +37,28 @@ const router = createRouter({
               path: ':id',
               name: 'course-detail',
               component: () => import('@/views/CourseDetail.vue')
+            },
+            {
+              path: 'lessons/:id',
+              name: 'lesson-detail',
+              component: () => import('@/views/LessonDetail.vue')
             }
           ]
         },
-        // Lessons routes
         {
-          path: '/lessons/:id',
-          name: 'lesson-detail',
-          component: () => import('@/views/LessonDetail.vue')
+          path: '/exams',
+          children: [
+            {
+              path: '',
+              name: 'exams',
+              component: () => import('@/views/Exams.vue')
+            },
+            {
+              path: ':id',
+              name: 'exam-detail',
+              component: () => import('@/views/ExamDetail.vue')
+            }
+          ]
         }
       ]
     },

@@ -15,8 +15,8 @@
           <div class="footer-right-subgroup">
             <p class="footer-heading">Liên hệ</p>
             <ul>
-              <li>Email: xduc24122002@gmail.com</li>
-              <li>Phone: 0355937013</li>
+              <li>Email: ductran@gmail.com</li>
+              <li>Phone: 0355.000.000</li>
             </ul>
           </div>
           <div class="footer-right-subgroup">
