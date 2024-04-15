@@ -10,7 +10,7 @@
 import TextBackgroundColor from "@/components/TextBackgroundColor.vue";
 
 export default {
-  name: "ExamTestItem",
+  name: "ExamItem",
   components: {TextBackgroundColor},
   props: {
     item: {

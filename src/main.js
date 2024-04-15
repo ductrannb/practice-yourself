@@ -11,6 +11,7 @@ import InputValidation from '@/components/InputValidation.vue'
 import VueCountdown from '@chenfengyuan/vue-countdown'
 import { Field, Form } from 'vee-validate'
 import '@/plugins/vee-validate.js'
+import moment from "moment";
 
 
 window.axios = axios
@@ -20,6 +21,9 @@ const app = createApp(App)
 app.config.globalProperties.$filter = {
     formatNumber(number) {
         return number.toLocaleString() || 0
+    },
+    formatDatetime(datetime) {
+        return moment(datetime).format('DD/MM/YYYY HH:mm')
     }
 }
 app.use(router).use(vuetify).use(vuex).use(googleLogin.vue3GoogleLogin, googleLogin.options)

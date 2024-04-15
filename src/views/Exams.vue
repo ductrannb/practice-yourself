@@ -18,7 +18,7 @@
               }"
               v-for="(exam, index) in exams"
               :key="index"
-              :to="{name: 'exam-detail', params: {id: exam.id}}"
+              :to="{name: 'exam-overview', params: {id: exam.id}}"
           >
             <div class="exam-item--index"><span>{{index + 1}}</span></div>
             <div class="exam-item--info">

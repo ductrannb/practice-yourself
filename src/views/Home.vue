@@ -72,7 +72,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex"
 import CourseItem from "@/components/CourseItem.vue"
-import ExamTestItem from "@/components/ExamTestItem.vue"
+import ExamTestItem from "@/components/ExamItem.vue"
 import TextBackgroundColor from "@/components/TextBackgroundColor.vue"
 
 export default {
