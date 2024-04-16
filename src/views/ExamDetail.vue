@@ -10,7 +10,7 @@
               class="exam-question-item"
               v-for="(question, index) in exam.questions"
               :key="question.id"
-              :index="index + 1"
+              :index="index"
               :question="question"
             />
           </div>
@@ -76,33 +76,33 @@ export default {
         }
       ],
       exam: {
-        name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh',
+        name: 'Xét tính đơn điệu của hàm số',
         questions: [
           {
             id: 1,
             level: 1,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 1,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },
@@ -110,27 +110,27 @@ export default {
             id: 2,
             level: 2,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 1,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },
@@ -138,27 +138,27 @@ export default {
             id: 3,
             level: 1,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 2,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },
@@ -166,27 +166,27 @@ export default {
             id: 4,
             level: 1,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 2,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },
@@ -194,27 +194,27 @@ export default {
             id: 5,
             level: 3,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 3,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },
@@ -222,27 +222,27 @@ export default {
             id: 6,
             level: 1,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 1,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },
@@ -250,27 +250,27 @@ export default {
             id: 7,
             level: 1,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 1,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },
@@ -278,27 +278,27 @@ export default {
             id: 8,
             level: 1,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 1,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },
@@ -306,27 +306,27 @@ export default {
             id: 9,
             level: 1,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 2,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },
@@ -334,27 +334,27 @@ export default {
             id: 10,
             level: 1,
             content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: null,
+            choice_selected: 2,
+            choice_correct: {
+              id: 1,
+              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
+            },
             choices: [
               {
                 id: 1,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: true
               },
               {
                 id: 2,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 3,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
               {
                 id: 4,
                 content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-                is_correct: false
               },
             ]
           },

@@ -1,7 +1,7 @@
 <template>
   <div class="question-box">
     <div class="question-heading-box">
-      <span class="question-index">{{index}}.</span>
+      <span class="question-index">{{index + 1}}.</span>
       <div class="question-content" v-html="question.content"/>
       <span :class="{
         'question-level': true,
@@ -14,9 +14,9 @@
       <div
           :class="{
             'question-choice-item': true,
-            'question-choice-item--correct': ,
-            'question-choice-item--wrong': ,
-            'question-choice-item--select':
+            'question-choice-item--wrong': isChoiceWrong(choice),
+            'question-choice-item--correct': isChoiceCorrect(choice),
+            'question-choice-item--select': isChoiceSelected(choice)
           }"
           v-for="(choice, index) in question.choices"
           :key="index">
@@ -47,14 +47,14 @@ export default {
     }
   },
   methods: {
-    isChoiceSelected(index) {
-      return ['exam-detail', 'exam-review'].includes(this.$route.name) && this.question.selected_choice === index
+    isChoiceSelected(choice) {
+      return ['exam-detail', 'exam-review'].includes(this.$route.name) && this.question.choice_selected === choice.id
     },
-    isChoiceCorrect(index) {
-      return ['lesson-detail'].includes(this.$route.name) && this.question.correct_choice === index
+    isChoiceCorrect(choice) {
+      return ['lesson-detail', 'exam-review'].includes(this.$route.name) && this.question.choice_correct.id === choice.id
     },
-    isChoiceWrong(index) {
-      return ['lesson-detail'].includes(this.$route.name) && this.question.selected_choice === index && this.question.correct_choice !== index
+    isChoiceWrong(choice) {
+      return ['lesson-detail'].includes(this.$route.name) && this.question.choice_selected === choice.id && this.question.choice_correct !== choice.id
     },
     getLevelText(value) {
       switch (value) {
