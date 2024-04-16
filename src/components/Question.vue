@@ -14,9 +14,9 @@
       <div
           :class="{
             'question-choice-item': true,
-            'question-choice-item--correct': $route.name === 'lesson-detail' && index === 0 && question.id === 1,
-            'question-choice-item--wrong': $route.name === 'lesson-detail' && index === 1 && question.id === 2,
-            'question-choice-item--select': $route.name === 'exam-detail' && index === 1 && question.id === 2
+            'question-choice-item--correct': ,
+            'question-choice-item--wrong': ,
+            'question-choice-item--select':
           }"
           v-for="(choice, index) in question.choices"
           :key="index">
@@ -47,6 +47,15 @@ export default {
     }
   },
   methods: {
+    isChoiceSelected(index) {
+      return ['exam-detail', 'exam-review'].includes(this.$route.name) && this.question.selected_choice === index
+    },
+    isChoiceCorrect(index) {
+      return ['lesson-detail'].includes(this.$route.name) && this.question.correct_choice === index
+    },
+    isChoiceWrong(index) {
+      return ['lesson-detail'].includes(this.$route.name) && this.question.selected_choice === index && this.question.correct_choice !== index
+    },
     getLevelText(value) {
       switch (value) {
         case constants.LESSON_LEVEL.CODE.LEVEL_EASY:

@@ -31,7 +31,7 @@
                 class="exam-lesson-item"
                 v-for="(history, index) in exam.histories"
                 :key="index"
-                :to="{name: 'lesson-detail', params: {id: history.id}}"
+                :to="{name: 'exam-review', params: {id: history.id}}"
             >
               <div class="exam-lesson-item--index"><span>{{index + 1}}</span></div>
               <div class="exam-lesson-item--info">
