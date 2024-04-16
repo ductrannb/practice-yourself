@@ -1,8 +1,8 @@
 <template>
-  <router-link to="" class="exam-item-box">
+  <router-link :to="{name: 'exam-overview', params: {id: item.id}}" class="exam-item-box">
     <p class="exam-item--name">{{item.name}}</p>
     <p class="exam-item--short-description">{{item.short_description}}</p>
-    <router-link class="custom-btn exam-item--subscribe-btn" to="">Thi thử ngay</router-link>
+    <router-link class="custom-btn exam-item--subscribe-btn" :to="{name: 'exam-overview', params: {id: item.id}}" >Thi thử ngay</router-link>
   </router-link>
 </template>
 

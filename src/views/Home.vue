@@ -22,7 +22,7 @@
         <TextBackgroundColor :blue="true"/>
       </div>
       <div class="exam-list home-list-product">
-        <ExamTestItem v-for="exam in exams" :key="exam.id" :item="exam" />
+        <ExamItem v-for="exam in exams" :key="exam.id" :item="exam" />
       </div>
     </div>
 
@@ -72,11 +72,11 @@
 <script>
 import {mapActions, mapGetters} from "vuex"
 import CourseItem from "@/components/CourseItem.vue"
-import ExamTestItem from "@/components/ExamItem.vue"
+import ExamItem from "@/components/ExamItem.vue"
 import TextBackgroundColor from "@/components/TextBackgroundColor.vue"
 
 export default {
-  components: {TextBackgroundColor, ExamTestItem, CourseItem},
+  components: {TextBackgroundColor, ExamItem, CourseItem},
   data() {
     return {
       courses: [
