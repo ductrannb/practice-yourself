@@ -69,6 +69,18 @@ const router = createRouter({
               component: () => import('@/views/ExamReview.vue')
             }
           ]
+        },
+      ]
+    },
+    // Admin routes
+    {
+      path: '/xadmin',
+      component: () => import('@/layouts/Admin.vue'),
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: () => import('@/views/admin/Dashboard.vue')
         }
       ]
     },
