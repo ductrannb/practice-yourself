@@ -1,5 +1,7 @@
 <template>
   <Bar :data="chartData" />
+  <Bar :data="chartData" />
+  <Bar :data="chartData" />
 </template>
 
 <script>

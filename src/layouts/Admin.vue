@@ -5,19 +5,19 @@
         <img src="/logo-full-light.svg" alt="logo">
       </div>
       <div class="navbar-menu-box">
-        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'dashboard'}">
+        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'admin.dashboard'}">
           <v-icon icon="mdi-chart-line"/>
           Dashboard
         </router-link>
-        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'dashboard'}">
+        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'admin.users'}">
           <v-icon icon="mdi-account-school"/>
           Người dùng
         </router-link>
-        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'dashboard'}">
+        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'admin.dashboard'}">
           <v-icon icon="mdi-account-group"/>
           Giáo viên
         </router-link>
-        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'dashboard'}">
+        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'admin.dashboard'}">
           <v-icon icon="mdi-book-open-variant-outline"/>
           Khóa học
         </router-link>
@@ -71,8 +71,10 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 .admin-layout {
   display: flex;
+  font-family: 'Roboto', sans-serif;
 }
 .navbar-wrapper {
   height: 100vh;
@@ -85,6 +87,9 @@ export default {
 }
 .body-wrapper {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 .navbar-footer-box {
   margin-top: auto;
@@ -132,8 +137,8 @@ export default {
   color: #FFFFFF;
 }
 .main-content-wrapper {
-  height: calc(100vh - 60px);
   overflow: auto;
+  flex: 1;
 }
 
 </style>
