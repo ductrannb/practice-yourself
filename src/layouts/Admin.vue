@@ -5,20 +5,36 @@
         <img src="/logo-full-light.svg" alt="logo">
       </div>
       <div class="navbar-menu-box">
-        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'admin.dashboard'}">
+        <router-link
+            :class="{'navbar-menu-item': true, 'navbar-menu-item--active': $route.name === 'admin.dashboard'}"
+            :to="{name: 'admin.dashboard'}">
           <v-icon icon="mdi-chart-line"/>
           Dashboard
         </router-link>
-        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'admin.users'}">
+        <router-link
+            :class="{
+              'navbar-menu-item': true,
+              'navbar-menu-item--active': ['admin.users', 'admin.users.create'].includes($route.name)
+        }"
+            :to="{name: 'admin.users'}">
           <v-icon icon="mdi-account-school"/>
           Người dùng
         </router-link>
-        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'admin.dashboard'}">
-          <v-icon icon="mdi-account-group"/>
+        <router-link
+            :class="{
+            'navbar-menu-item': true,
+            'navbar-menu-item--active': ['admin.teachers', 'admin.teachers.create'].includes($route.name)
+          }"
+            :to="{name: 'admin.teachers'}"
+        >
+          <v-icon icon="mdi-book-open-variant-outline"/>
           Giáo viên
         </router-link>
-        <router-link :class="{'navbar-menu-item': true}" :to="{name: 'admin.dashboard'}">
-          <v-icon icon="mdi-book-open-variant-outline"/>
+        <router-link
+          :class="{'navbar-menu-item': true}"
+          :to="{name: 'admin.dashboard'}"
+        >
+          <v-icon icon="mdi-account-group"/>
           Khóa học
         </router-link>
       </div>
@@ -136,9 +152,15 @@ export default {
   border-bottom: 1px solid #323a49;
   color: #FFFFFF;
 }
+.navbar-menu-item:hover {
+  background-color: #323a49;
+}
 .main-content-wrapper {
   overflow: auto;
   flex: 1;
+  padding: 1rem;
 }
-
+.navbar-menu-item--active {
+  background-color: #323a49;
+}
 </style>

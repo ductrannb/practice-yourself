@@ -11,6 +11,8 @@
     :append-inner-icon="isPassword ? (isShowPassword ? 'mdi-eye' : 'mdi-eye-off') : null"
     @click:append-inner="isShowPassword = !isShowPassword"
     validate-on="blur lazy"
+    :mask="numberMask"
+    :rules="numberRules"
   />
 </template>
 
@@ -43,6 +45,14 @@ const props = defineProps({
   isPassword: {
     type: Boolean,
     default: false
+  },
+  numberMask: {
+    type: String,
+    required: false,
+  },
+  numberRules: {
+    type: Array,
+    required: false,
   }
 });
 
