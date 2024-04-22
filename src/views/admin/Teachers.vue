@@ -41,7 +41,7 @@
 import Breadcrumb from "@/components/Breadcrumb.vue";
 
 export default {
-  name: "User",
+  name: "Teachers",
   components: {Breadcrumb},
   data() {
     return {

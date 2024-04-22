@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{name: 'course-detail', params: {id: item.id}}" class="course-item-box float-animation">
+  <router-link :to="{name: 'courses.detail', params: {id: item.id}}" class="course-item-box float-animation">
     <div class="course-item--image-box">
       <img :src="item.image" alt="course">
     </div>
@@ -8,12 +8,12 @@
       <TextBackgroundColor/>
     </div>
     <p class="course-item--short-description">{{item.short_description}}</p>
-    <router-link class="custom-btn course-item--subscribe-btn" :to="{name: 'course-detail', params: {id: item.id}}">Đăng ký ngay</router-link>
+    <router-link class="custom-btn course-item--subscribe-btn" :to="{name: 'courses.detail', params: {id: item.id}}">Đăng ký ngay</router-link>
   </router-link>
 </template>
 
 <script>
-import TextBackgroundColor from "@/components/TextBackgroundColor.vue";
+import TextBackgroundColor from "@/components/TextBackgroundColor.vue"
 
 export default {
   name: "CourseItem",

@@ -35,12 +35,12 @@ const router = createRouter({
             },
             {
               path: ':id',
-              name: 'course-detail',
+              name: 'courses.detail',
               component: () => import('@/views/CourseDetail.vue')
             },
             {
               path: 'lessons/:id',
-              name: 'lesson-detail',
+              name: 'lessons.detail',
               component: () => import('@/views/LessonDetail.vue')
             }
           ]
@@ -55,17 +55,17 @@ const router = createRouter({
             },
             {
               path: ':id',
-              name: 'exam-detail',
+              name: 'exams.detail',
               component: () => import('@/views/ExamDetail.vue')
             },
             {
               path: 'overview/:id',
-              name: 'exam-overview',
+              name: 'exams.overview',
               component: () => import('@/views/ExamOverview.vue')
             },
             {
               path: 'review/:id',
-              name: 'exam-review',
+              name: 'exams.review',
               component: () => import('@/views/ExamReview.vue')
             }
           ]
@@ -90,7 +90,7 @@ const router = createRouter({
         {
           path: 'users/create',
           name: 'admin.users.create',
-          component: () => import('@/views/admin/CreateUser.vue')
+          component: () => import('@/views/admin/UserCreate.vue')
         },
         {
           path: 'teachers',
@@ -100,7 +100,37 @@ const router = createRouter({
         {
           path: 'teachers/create',
           name: 'admin.teachers.create',
-          component: () => import('@/views/admin/CreateTeacher.vue')
+          component: () => import('@/views/admin/TeacherCreate.vue')
+        },
+        {
+          path: 'courses',
+          name: 'admin.courses',
+          component: () => import('@/views/admin/Courses.vue')
+        },
+        {
+          path: 'courses/create',
+          name: 'admin.courses.create',
+          component: () => import('@/views/admin/CourseCreate.vue')
+        },
+        {
+          path: 'courses/:id/lessons',
+          name: 'admin.courses.lessons',
+          component: () => import('@/views/admin/Lessons.vue')
+        },
+        {
+          path: 'courses/:id/lessons/create',
+          name: 'admin.courses.lessons.create',
+          component: () => import('@/views/admin/LessonCreate.vue')
+        },
+        {
+          path: 'courses/:id/lessons/:lessonId/questions',
+          name: 'admin.courses.lessons.questions',
+          component: () => import('@/views/admin/Questions.vue')
+        },
+        {
+          path: 'courses/:id/lessons/:lessonId/questions/create',
+          name: 'admin.courses.lessons.questions.create',
+          component: () => import('@/views/admin/QuestionCreate.vue')
         }
       ]
     },

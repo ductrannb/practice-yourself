@@ -6,33 +6,38 @@
       </div>
       <div class="navbar-menu-box">
         <router-link
-            :class="{'navbar-menu-item': true, 'navbar-menu-item--active': $route.name === 'admin.dashboard'}"
-            :to="{name: 'admin.dashboard'}">
+          :class="{'navbar-menu-item': true, 'navbar-menu-item--active': $route.name === 'admin.dashboard'}"
+          :to="{name: 'admin.dashboard'}"
+        >
           <v-icon icon="mdi-chart-line"/>
           Dashboard
         </router-link>
         <router-link
-            :class="{
-              'navbar-menu-item': true,
-              'navbar-menu-item--active': ['admin.users', 'admin.users.create'].includes($route.name)
-        }"
-            :to="{name: 'admin.users'}">
+          :class="{
+            'navbar-menu-item': true,
+            'navbar-menu-item--active': routesUser.includes($route.name)
+          }"
+          :to="{name: 'admin.users'}"
+        >
           <v-icon icon="mdi-account-school"/>
           Người dùng
         </router-link>
         <router-link
-            :class="{
+          :class="{
             'navbar-menu-item': true,
-            'navbar-menu-item--active': ['admin.teachers', 'admin.teachers.create'].includes($route.name)
+            'navbar-menu-item--active': routesTeacher.includes($route.name)
           }"
-            :to="{name: 'admin.teachers'}"
+          :to="{name: 'admin.teachers'}"
         >
           <v-icon icon="mdi-book-open-variant-outline"/>
           Giáo viên
         </router-link>
         <router-link
-          :class="{'navbar-menu-item': true}"
-          :to="{name: 'admin.dashboard'}"
+          :class="{
+            'navbar-menu-item': true,
+            'navbar-menu-item--active': routesCourse.includes($route.name)
+          }"
+          :to="{name: 'admin.courses'}"
         >
           <v-icon icon="mdi-account-group"/>
           Khóa học
@@ -42,7 +47,7 @@
         <v-icon icon="mdi-chevron-double-left"/>
       </div>
     </div>
-    <div class="body-wrapper">
+    <div class="body-wrapper" ref="bodyWrapper">
       <div class="header-wrapper">
         <div class="header-container">
           <div class="header-left">
@@ -82,7 +87,18 @@
 
 <script>
 export default {
-  name: "Admin"
+  name: "Admin",
+  computed: {
+    routesUser() {
+      return ['admin.users', 'admin.users.create']
+    },
+    routesTeacher() {
+      return ['admin.teachers', 'admin.teachers.create']
+    },
+    routesCourse() {
+      return ['admin.courses', 'admin.courses.create', 'admin.courses.lessons']
+    }
+  }
 }
 </script>
 
@@ -106,6 +122,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  max-width: calc(100% - 230px);
 }
 .navbar-footer-box {
   margin-top: auto;

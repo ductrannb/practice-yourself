@@ -3,7 +3,7 @@
     <InputValidation
         class="mb-2"
         name="name"
-        label="Họ và tên"
+        label="Họ và tên *"
         type="text"
         variant="underlined"
         color="red"
@@ -12,7 +12,7 @@
     <InputValidation
         class="mb-2"
         name="email"
-        label="Email"
+        label="Email *"
         type="text"
         variant="underlined"
         color="red"
@@ -21,7 +21,7 @@
     <div class="form-input-password-box mb-2">
       <InputValidation
           name="password"
-          label="Mật khẩu"
+          label="Mật khẩu *"
           :is-password="true"
           variant="underlined"
           color="red"
@@ -59,7 +59,7 @@ export default {
       name: Yup.string().required().label('họ và tên'),
       email: Yup.string().required().email().label('email'),
       password: Yup.string().required().min(6).label('mật khẩu'),
-      phone: Yup.string().required().min(10)
+      phone: Yup.string().min(10)
         .matches(/^(84|0[35789])[0-9]{8}$/, 'Số điện thoại không hợp lệ')
         .label('số điện thoại'),
     });

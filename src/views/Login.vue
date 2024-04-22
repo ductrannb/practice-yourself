@@ -38,7 +38,7 @@
 <script>
 import { GoogleLogin, googleOneTap, decodeCredential } from "vue3-google-login"
 import * as Yup from 'yup'
-import BoundaryLine from "@/components/BoundaryLine.vue";
+import BoundaryLine from "@/components/BoundaryLine.vue"
 
 export default {
   name: "Login",

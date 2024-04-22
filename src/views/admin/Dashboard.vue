@@ -1,7 +1,9 @@
 <template>
-  <Bar :data="chartData" />
-  <Bar :data="chartData" />
-  <Bar :data="chartData" />
+  <div class="dashboard-wrapper">
+    <Bar :data="chartData" />
+    <Bar :data="chartData" />
+    <Bar :data="chartData" />
+  </div>
 </template>
 
 <script>
@@ -29,3 +31,8 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.dashboard-wrapper {
+}
+</style>

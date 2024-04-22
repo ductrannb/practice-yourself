@@ -14,7 +14,7 @@ import Breadcrumb from "@/components/Breadcrumb.vue";
 import UserForm from "@/components/UserForm.vue";
 
 export default {
-  name: "CreateUser",
+  name: "TeacherCreate",
   components: {UserForm, Breadcrumb},
   data() {
     return {

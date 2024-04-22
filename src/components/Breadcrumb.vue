@@ -41,7 +41,7 @@ export default {
 .breadcrumb-item:hover a {
   text-decoration: underline;
 }
-.breadcrumb-item:last-child {
+.breadcrumb-item span {
   cursor: default;
 }
 .breadcrumb-item:not(:last-child):after {

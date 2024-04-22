@@ -3,7 +3,7 @@
     <div class="admin-container">
       <breadcrumb class="admin-breadcrumb-wrapper" :items="breadcrumbs"/>
       <div class="user-form-container">
-        <UserForm></UserForm>
+        <LessonForm @onSubmit="onSubmit"></LessonForm>
       </div>
     </div>
   </div>
@@ -11,11 +11,12 @@
 
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
-import UserForm from "@/components/UserForm.vue";
+import CourseForm from "@/components/CourseForm.vue";
+import LessonForm from "@/components/LessonForm.vue";
 
 export default {
-  name: "CreateUser",
-  components: {UserForm, Breadcrumb},
+  name: "LessonCreate",
+  components: {LessonForm, CourseForm, Breadcrumb},
   data() {
     return {
       breadcrumbs: [
@@ -26,14 +27,29 @@ export default {
         },
         {
           id: 2,
-          title: 'Người dùng',
-          route: {name: 'admin.users'}
+          title: 'Khóa học',
+          route: {name: 'admin.courses'}
+        },
+        {
+          id: 3,
+          title: 'Tên khóa học'
+        },
+        {
+          id: 4,
+          title: 'Danh sách bài học',
+          route: {name: "admin.courses.lessons", params: {id: 1}}
         },
         {
           id: 3,
           title: 'Thêm mới'
         },
       ],
+    }
+  },
+  methods: {
+    onSubmit(form) {
+      console.log(form)
+      this.deleteConfirm()
     }
   }
 }

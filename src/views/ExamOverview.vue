@@ -18,7 +18,7 @@
           </template>
           <template v-slot:overview-last-item>
             <div class="overview-item--last-item">
-              <router-link class="custom-btn" :to="{name: 'exam-detail', params: {id: exam.id}}">
+              <router-link class="custom-btn" :to="{name: 'exams.detail', params: {id: exam.id}}">
                 Làm ngay
               </router-link>
             </div>
@@ -31,7 +31,7 @@
                 class="exam-lesson-item"
                 v-for="(history, index) in exam.histories"
                 :key="index"
-                :to="{name: 'exam-review', params: {id: history.id}}"
+                :to="{name: 'exams.review', params: {id: history.id}}"
             >
               <div class="exam-lesson-item--index"><span>{{index + 1}}</span></div>
               <div class="exam-lesson-item--info">

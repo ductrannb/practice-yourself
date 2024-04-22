@@ -1,6 +1,7 @@
 :root {
   --color-main: #FF792F;
   --color-primary: #2CA6EB;
+  --color-secondary: #6c757d;
 }
 @font-face {
   font-family: SVN-Poppions;

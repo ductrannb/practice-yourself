@@ -65,7 +65,7 @@ export default {
         {
           id: 3,
           title: 'Ứng dụng của đạo hàm để khảo sát - vẽ đồ thị hàm số',
-          route: {name: 'course-detail', params: {id: 1}},
+          route: {name: 'courses.detail', params: {id: 1}},
         },
         {
           id: 4,

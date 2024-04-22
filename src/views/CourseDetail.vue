@@ -24,7 +24,7 @@
               }"
               v-for="(lesson, index) in course.lessons"
               :key="index"
-              :to="{name: 'lesson-detail', params: {id: lesson.id}}"
+              :to="{name: 'lessons.detail', params: {id: lesson.id}}"
             >
               <div class="course-lesson-item--index"><span>{{index + 1}}</span></div>
               <div class="course-lesson-item--info">

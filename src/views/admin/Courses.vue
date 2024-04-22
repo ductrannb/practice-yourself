@@ -8,19 +8,19 @@
             <svg class="search-input--icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
             <input placeholder="Tìm kiếm ..." type="search"  class="search-input--input">
           </div>
-          <router-link :to="{name: 'admin.users.create'}" class="custom-btn">Thêm mới</router-link>
+          <router-link :to="{name: 'admin.courses.create'}" class="custom-btn">Thêm mới</router-link>
         </div>
         <p class="admin-count-data-label">Tổng: <span>500</span></p>
         <v-data-table
           :headers="headers"
-          :items="users"
+          :items="courses"
         >
-          <template v-slot:[`item.created_at`]="{ item }">
-            <span>{{ $filter.formatDatetime(item.created_at) }}</span>
+          <template v-slot:[`item.teachers`]="{ item }">
+            <span>{{ getLabelTeachers(item.teachers) }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <div class="admin-user-table--column-action-box">
-              <v-icon icon="mdi-eye"/>
+              <v-icon icon="mdi-eye" @click="$router.push({name: 'admin.courses.lessons', params: {id: 1}})"/>
               <v-icon icon="mdi-pencil"/>
               <v-icon icon="mdi-delete" color="red"/>
             </div>
@@ -41,7 +41,7 @@
 import Breadcrumb from "@/components/Breadcrumb.vue";
 
 export default {
-  name: "Users",
+  name: "Courses",
   components: {Breadcrumb},
   data() {
     return {
@@ -53,7 +53,7 @@ export default {
         },
         {
           id: 2,
-          title: 'Người dùng',
+          title: 'Khóa học',
         },
       ],
       headers: [
@@ -65,22 +65,34 @@ export default {
           width: '50px'
         },
         {
-          title: 'Họ tên',
+          title: 'Tên',
           align: 'start',
           sortable: false,
           key: 'name'
         },
         {
-          title: 'Email',
+          title: 'Giáo viên',
           align: 'start',
           sortable: false,
-          key: 'email'
+          key: 'teachers'
         },
         {
-          title: 'Ngày đăng ký',
+          title: 'Số bài học',
           align: 'center',
           sortable: false,
-          key: 'created_at'
+          key: 'count_lesson'
+        },
+        {
+          title: 'Số câu hỏi',
+          align: 'center',
+          sortable: false,
+          key: 'count_question'
+        },
+        {
+          title: 'Lượt bán',
+          align: 'center',
+          sortable: false,
+          key: 'sold'
         },
         {
           title: 'Hành động',
@@ -89,77 +101,108 @@ export default {
           key: 'actions'
         }
       ],
-      users: [
+      courses: [
         {
           index: 1,
           id: 1,
           name: 'Nguyễn Văn A',
-          email: 'nguyenvana@gmail.com',
-          created_at: '2021-09-01 12:00:00',
+          teachers: ['Trần Đức 1', 'Trần Đức 2', 'Trần Đức 3'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },
         {
           index: 2,
           id: 2,
           name: 'Nguyễn Văn B',
-          email: 'nguyenvanb@gmail.com',
-          created_at: '2021-09-01 14:09:00',
+          teachers: ['Trần Đức 1'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },
         {
           index: 3,
           id: 3,
           name: 'Nguyễn Văn C',
-          email: 'nguyenvanc@gmail.com',
-          created_at: '2021-09-01 15:00:00',
+          teachers: ['Trần Đức 1', 'Trần Đức 2'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },
         {
           index: 4,
           id: 4,
           name: 'Nguyễn Văn D',
-          email: 'nguyenvand@gmail.com',
-          created_at: '2021-09-01 16:00:00',
+          teachers: ['Trần Đức 1', 'Trần Đức 2', 'Trần Đức 3'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },
         {
           index: 5,
           id: 5,
           name: 'Nguyễn Văn E',
-          email: 'nguyenvane@gmail.com',
-          created_at: '2021-09-01 17:00:00',
+          teachers: ['Trần Đức 1', 'Trần Đức 2', 'Trần Đức 3'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },{
           index: 6,
           id: 6,
           name: 'Nguyễn Văn A',
-          email: 'nguyenvana@gmail.com',
-          created_at: '2021-09-01 12:00:00',
+          teachers: ['Trần Đức 1', 'Trần Đức 2', 'Trần Đức 3'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },
         {
           index: 7,
           id: 7,
           name: 'Nguyễn Văn B',
-          email: 'nguyenvanb@gmail.com',
-          created_at: '2021-09-01 14:09:00',
+          teachers: ['Trần Đức 1', 'Trần Đức 2', 'Trần Đức 3'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },
         {
           index: 8,
           id: 8,
           name: 'Nguyễn Văn C',
-          email: 'nguyenvanc@gmail.com',
-          created_at: '2021-09-01 15:00:00',
+          teachers: ['Trần Đức 1', 'Trần Đức 2', 'Trần Đức 3'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },
         {
           index: 9,
           id: 9,
           name: 'Nguyễn Văn D',
-          email: 'nguyenvand@gmail.com',
-          created_at: '2021-09-01 16:00:00',
+          teachers: ['Trần Đức 1', 'Trần Đức 2', 'Trần Đức 3'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },
         {
           index: 10,
           id: 10,
           name: 'Nguyễn Văn E',
-          email: 'nguyenvane@gmail.com',
-          created_at: '2021-09-01 17:00:00',
+          teachers: ['Trần Đức 1', 'Trần Đức 2', 'Trần Đức 3'],
+          count_lesson: 15,
+          count_question: 500,
+          sold: 30
         },
       ]
+    }
+  },
+  methods: {
+    getLabelTeachers(teachers) {
+      if (!Array.isArray(teachers)) {
+        return ''
+      }
+      if (teachers.length <= 2) {
+        return teachers.join(', ')
+      }
+      return `${teachers.slice(0, 2).join(', ')}, (+${teachers.length - 2})`
     }
   }
 }
