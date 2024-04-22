@@ -1,9 +1,12 @@
 <template>
-  <Form as="v-form" :validation-schema="schema" @submit="onSubmit">
-    <CustomCkeditor v-model="form.name"></CustomCkeditor>
+  <Form class="question-form" as="v-form" :validation-schema="schema" @submit="onSubmit">
+    <div class="question-form-group">
+      <label>Nội dung câu hỏi *</label>
+      <CustomCkeditor id="content" v-model="form.content"></CustomCkeditor>
+    </div>
     <div class="admin-form-footer">
       <router-link
-          :to="{name: 'admin.courses.lessons', params: {id: 1}}"
+          :to="{name: 'admin.courses.lessons.questions', params: {id: 1, lessonId: 2}}"
           class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
@@ -15,11 +18,9 @@
 
 <script>
 import * as Yup from "yup";
-import CustomCkeditor from "@/components/CustomCkeditor.vue";
 
 export default {
   name: "QuestionForm",
-  components: {CustomCkeditor},
   setup() {
     const schema = Yup.object().shape({
       name: Yup.string().required().label('tiêu đề'),
@@ -31,8 +32,7 @@ export default {
   data() {
     return {
       form: {
-        name: null,
-        price: null,
+        content: ''
       },
       teachers: [
         {id: 1, name: 'Trần Đức 1'},

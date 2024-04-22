@@ -2,7 +2,6 @@
   <v-text-field
     class="custom-input"
     v-model="value"
-    :label="label"
     :error-messages="errors"
     :type="typeInput"
     :variant="variant"
@@ -13,7 +12,11 @@
     validate-on="blur lazy"
     :mask="numberMask"
     :rules="numberRules"
-  />
+  >
+    <template v-slot:label>
+      {{ label }}<span v-if="isRequired" class="required"> *</span>
+    </template>
+  </v-text-field>
 </template>
 
 <script setup>
@@ -53,6 +56,10 @@ const props = defineProps({
   numberRules: {
     type: Array,
     required: false,
+  },
+  isRequired: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -66,3 +73,8 @@ const typeInput = computed(() => {
 
 const { value, handleBlur, errors } = useField(toRef(props, "name"), undefined);
 </script>
+<style scoped>
+.required {
+  color: red;
+}
+</style>

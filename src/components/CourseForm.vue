@@ -3,18 +3,20 @@
     <InputValidation
         class="mb-2"
         name="name"
-        label="Tiêu đề *"
+        label="Tiêu đề"
         type="text"
         variant="underlined"
         color="red"
+        :is-required="true"
         v-model="form.name"
     />
     <InputValidation
         class="mb-2"
         name="price"
-        label="Giá *"
+        label="Giá"
         variant="underlined"
         color="red"
+        :is-required="true"
         v-model="form.price"
     />
     <v-file-input

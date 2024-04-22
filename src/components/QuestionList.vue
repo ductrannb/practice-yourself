@@ -17,7 +17,7 @@
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <div class="admin-user-table--column-action-box">
-          <v-icon icon="mdi-eye" @click="$router.push({name: 'admin.courses.lessons.questions', params: {id: 1, lessonId: 2}})"/>
+          <v-icon icon="mdi-eye"/>
           <v-icon icon="mdi-pencil"/>
           <v-icon icon="mdi-delete" color="red"/>
         </div>

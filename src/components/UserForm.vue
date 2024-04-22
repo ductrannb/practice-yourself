@@ -1,46 +1,49 @@
 <template>
   <Form as="v-form" :validation-schema="schema" @submit="onSubmit">
     <InputValidation
-        class="mb-2"
-        name="name"
-        label="Họ và tên *"
-        type="text"
-        variant="underlined"
-        color="red"
-        v-model="form.name"
+      class="mb-2"
+      name="name"
+      label="Họ và tên"
+      type="text"
+      variant="underlined"
+      color="red"
+      :is-required="true"
+      v-model="form.name"
     />
     <InputValidation
-        class="mb-2"
-        name="email"
-        label="Email *"
-        type="text"
-        variant="underlined"
-        color="red"
-        v-model="form.email"
+      class="mb-2"
+      name="email"
+      label="Email"
+      type="text"
+      variant="underlined"
+      color="red"
+      :is-required="true"
+      v-model="form.email"
     />
     <div class="form-input-password-box mb-2">
       <InputValidation
-          name="password"
-          label="Mật khẩu *"
-          :is-password="true"
-          variant="underlined"
-          color="red"
-          v-model="form.password"
+        name="password"
+        label="Mật khẩu"
+        :is-password="true"
+        variant="underlined"
+        color="red"
+        :is-required="true"
+        v-model="form.password"
       />
       <button type="button" @click="generateRandomPassword">Tạo mật khẩu ngẫu nhiên</button>
     </div>
     <InputValidation
-        class="mb-2"
-        name="phone"
-        label="Số điện thoại"
-        variant="underlined"
-        color="red"
-        v-model="form.phone"
+      class="mb-2"
+      name="phone"
+      label="Số điện thoại"
+      variant="underlined"
+      color="red"
+      v-model="form.phone"
     />
     <div class="admin-form-footer">
       <router-link
-          :to="{name: 'admin.users'}"
-          class="admin-form-footer-btn admin-form-footer-btn--cancel"
+        :to="{name: 'admin.users'}"
+        class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
       </router-link>

@@ -3,10 +3,11 @@
     <InputValidation
         class="mb-2"
         name="name"
-        label="Tên bài học *"
+        label="Tên bài học"
         type="text"
         variant="underlined"
         color="red"
+        :is-required="true"
         v-model="form.name"
     />
     <div class="admin-form-footer">

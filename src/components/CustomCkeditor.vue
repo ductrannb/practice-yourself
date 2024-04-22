@@ -1,24 +1,34 @@
 <template>
-  <ckeditor :editor="editor" :config="editorConfig" v-model="model"></ckeditor>
+  <div class="ckeditor-box" ref="ckeditor">
+    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+  </div>
 </template>
 
 <script>
-import CKEditor from "@ckeditor/ckeditor5-vue"
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKEditor from '@ckeditor/ckeditor5-vue';
+
 export default {
-  name: 'CustomCkeditor',
-  components: [CKEditor],
+  components: {ckeditor: CKEditor.component},
+  props: {
+    minHeight: {
+      type: String,
+      default: '500px'
+    }
+  },
   data() {
     return {
       editor: ClassicEditor,
+      editorData: '',
       editorConfig: {
-      },
-      model: ''
-    };
+
+      }
+    }
+  },
+  mounted() {
   }
 }
 </script>
 
 <style scoped>
-
 </style>
