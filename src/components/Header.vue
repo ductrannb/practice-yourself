@@ -35,9 +35,14 @@
           </li>
         </ul>
 
-        <router-link class="login-btn-box" :to="{name: 'login'}">
-          <span class="custom-btn float-animation">Đăng nhập</span>
-        </router-link>
+        <div class="group-btn-box">
+          <router-link class="login-btn-box" :to="{name: 'login'}">
+            <span class="custom-btn float-animation">Đăng nhập</span>
+          </router-link>
+          <router-link class="login-btn-box" :to="{name: 'register'}">
+            <span class="custom-btn float-animation">Đăng ký</span>
+          </router-link>
+        </div>
       </nav>
     </div>
   </header>
@@ -91,6 +96,10 @@ export default {
 .header-nav-item:hover {
   transform: translateY(-.5rem);
   color: var(--color-main);
+}
+.group-btn-box {
+  display: flex;
+  column-gap: .5rem;
 }
 .login-btn-box {
   display: flex;
