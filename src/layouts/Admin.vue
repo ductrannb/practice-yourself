@@ -96,7 +96,11 @@ export default {
       return ['admin.teachers', 'admin.teachers.create']
     },
     routesCourse() {
-      return ['admin.courses', 'admin.courses.create', 'admin.courses.lessons']
+      return [
+        'admin.courses', 'admin.courses.create',
+        'admin.courses.lessons', 'admin.courses.lessons.create',
+        'admin.courses.lessons.questions', 'admin.courses.lessons.questions.create'
+      ]
     }
   }
 }

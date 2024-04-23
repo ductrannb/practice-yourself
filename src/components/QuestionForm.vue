@@ -3,35 +3,39 @@
     <span class="question-form--text-note">Hãy nhập nội dung câu hỏi và các đáp án. Sau đó tích vào một đáp án để chọn nó là đáp án đúng</span>
     <div class="question-form-group">
       <label class="required">Nội dung câu hỏi</label>
-      <CustomCkeditor class="question-form--question-content" v-model="form.content"></CustomCkeditor>
+      <CustomCkeditor
+        class="question-form--question-content"
+        v-model="form.content"
+        placeholder="Nhập nội dung câu hỏi"
+      />
     </div>
     <div class="question-form-group">
       <div class="question-choice-box">
         <label class="question-choice-label required">Đáp án A</label>
         <v-checkbox-btn size="20"></v-checkbox-btn>
       </div>
-      <CustomCkeditor v-model="form.content"></CustomCkeditor>
+      <CustomCkeditor v-model="form.content" placeholder="Nhập nội dung đáp án A"/>
     </div>
     <div class="question-form-group">
       <div class="question-choice-box">
         <label class="question-choice-label required">Đáp án B</label>
         <v-checkbox-btn size="20"></v-checkbox-btn>
       </div>
-      <CustomCkeditor v-model="form.content"></CustomCkeditor>
+      <CustomCkeditor v-model="form.content" placeholder="Nhập nội dung đáp án B"/>
     </div>
     <div class="question-form-group">
       <div class="question-choice-box">
         <label class="question-choice-label required">Đáp án C</label>
         <v-checkbox-btn size="20"></v-checkbox-btn>
       </div>
-      <CustomCkeditor v-model="form.content"></CustomCkeditor>
+      <CustomCkeditor v-model="form.content" placeholder="Nhập nội dung đáp án C"/>
     </div>
     <div class="question-form-group">
       <div class="question-choice-box">
         <label class="question-choice-label required">Đáp án D</label>
         <v-checkbox-btn size="20"></v-checkbox-btn>
       </div>
-      <CustomCkeditor v-model="form.content"></CustomCkeditor>
+      <CustomCkeditor v-model="form.content" placeholder="Nhập nội dung đáp án D"/>
     </div>
     <div class="admin-form-footer">
       <router-link
