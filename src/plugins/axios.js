@@ -1,9 +1,11 @@
 import axios from "axios"
+import store from "@/plugins/vuex.js";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL_API
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 axios.interceptors.request.use((config) => {
+    store.state.isLoading = true
     if (localStorage.getItem('access_token')) {
         config.headers.Authorization = 'Bearer ' + localStorage.getItem('access_token')
     }
@@ -14,6 +16,7 @@ axios.interceptors.request.use((config) => {
 })
 
 axios.interceptors.response.use((response) => {
+    store.state.isLoading = false
     if (response.data?.access_token) {
         localStorage.setItem('access_token', response.data.access_token)
     }

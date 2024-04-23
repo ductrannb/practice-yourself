@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     async login() {
-      const data = await this.POST('login', this.form)
+      const data = await this.$axios.post('login', this.form)
       console.log(data)
     },
     googleLogin(response) {

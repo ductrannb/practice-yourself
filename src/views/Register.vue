@@ -1,8 +1,8 @@
 <template>
-  <div class="login-form-wrapper">
-    <div class="login-form-container">
+  <div class="register-form-wrapper">
+    <div class="register-form-container">
       <h2 class="page-heading fw-bold text-center">Đăng ký</h2>
-      <Form class="mb-8" as="v-form" :validation-schema="schema" @submit="onSubmit">
+      <Form class="mb-8" as="v-form" :validation-schema="schema" @submit="register">
         <InputValidation
             class="mb-2"
             name="email"
@@ -10,6 +10,7 @@
             type="text"
             variant="underlined"
             color="red"
+            v-model="form.email"
         />
         <InputValidation
             class="mb-4"
@@ -18,6 +19,7 @@
             :is-password="true"
             variant="underlined"
             color="red"
+            v-model="form.password"
         />
         <InputValidation
             class="mb-4"
@@ -26,7 +28,20 @@
             :is-password="true"
             variant="underlined"
             color="red"
+            v-model="form.password_confirmation"
         />
+        <InputValidation
+            class="mb-4"
+            name="otp"
+            label="Mã OTP"
+            variant="underlined"
+            color="red"
+            v-model="form.otp"
+        >
+          <template v-slot:append>
+            <button class="register-form--btn-send-otp">Gửi mã</button>
+          </template>
+        </InputValidation>
         <div class="btn-register-container">
           <button type="submit" class="custom-btn btn-register float-animation fw-bold">Đăng ký</button>
         </div>
@@ -57,14 +72,26 @@ export default {
       password_confirmation: Yup.string()
         .required().min(6)
         .oneOf([Yup.ref('password')], 'Mật khẩu xác nhận không trùng khớp.')
-        .label('mật khẩu xác nhận')
+        .label('mật khẩu xác nhận'),
+      otp: Yup.string()
+          .required()
+          .matches(/^[0-9]+$/, 'Chỉ được nhập ký tự số')
+          .min(6)
+          .max(6)
+          .label('mã OTP')
     });
 
     return { schema }
   },
   data() {
     return {
-      showPassword: false
+      showPassword: false,
+      form: {
+        email: null,
+        password: null,
+        password_confirmation: null,
+        otp: null
+      }
     }
   },
   components: {BoundaryLine, GoogleLogin},
@@ -78,6 +105,10 @@ export default {
         })
   },
   methods: {
+    async register() {
+      const response = await this.post('register', this.form)
+      console.log(response)
+    },
     googleLogin(response) {
       const userData = decodeCredential(response.credential)
       // Họ: family_name
@@ -93,7 +124,7 @@ export default {
 </script>
 
 <style scoped>
-.login-form-wrapper {
+.register-form-wrapper {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -102,7 +133,7 @@ export default {
   background-color: #f1f1f1;
   overflow: hidden;
 }
-.login-form-container {
+.register-form-container {
   max-width: 500px;
   width: 90%;
   padding: 48px 24px;
@@ -146,5 +177,13 @@ export default {
   .btn-register-container {
     width: 100%;
   }
+}
+.register-form--btn-send-otp {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.register-form--btn-send-otp:hover {
+  color: var(--color-main);
 }
 </style>
