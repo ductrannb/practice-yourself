@@ -2,7 +2,7 @@
   <div class="login-form-wrapper">
     <div class="login-form-container">
       <h2 class="page-heading fw-bold text-center">Đăng nhập</h2>
-      <Form class="mb-8" as="v-form" :validation-schema="schema" @submit="onSubmit">
+      <Form class="mb-8" as="v-form" :validation-schema="schema" @submit="login">
         <InputValidation
             class="mb-2"
             name="email"
@@ -10,6 +10,7 @@
             type="text"
             variant="underlined"
             color="red"
+            v-model="form.email"
         />
         <InputValidation
             class="mb-4"
@@ -18,6 +19,7 @@
             :is-password="true"
             variant="underlined"
             color="red"
+            v-model="form.password"
         />
         <div class="btn-login-container">
           <button type="submit" class="custom-btn btn-login float-animation fw-bold">Đăng nhập</button>
@@ -52,7 +54,11 @@ export default {
   },
   data() {
     return {
-      showPassword: false
+      showPassword: false,
+      form: {
+        email: null,
+        password: null
+      }
     }
   },
   components: {BoundaryLine, GoogleLogin},
@@ -66,6 +72,10 @@ export default {
       })
   },
   methods: {
+    async login() {
+      const data = await this.POST('login', this.form)
+      console.log(data)
+    },
     googleLogin(response) {
       const userData = decodeCredential(response.credential)
       // Họ: family_name

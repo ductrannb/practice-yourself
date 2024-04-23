@@ -17,8 +17,6 @@ import moment from "moment"
 import Sweetalert from "@/plugins/sweetalert.js"
 import CKEditor from '@ckeditor/ckeditor5-vue'
 
-window.axios = axios
-
 const app = createApp(App)
 
 app.config.globalProperties.$filter = {
@@ -29,6 +27,7 @@ app.config.globalProperties.$filter = {
         return moment(datetime).format('DD/MM/YYYY HH:mm')
     }
 }
+app.config.globalProperties.$axios = axios
 app.use(router).use(vuetify).use(vuex).use(CKEditor)
     .use(googleLogin.vue3GoogleLogin, googleLogin.options)
     .use(Sweetalert.VueSweetalert2, Sweetalert.options)

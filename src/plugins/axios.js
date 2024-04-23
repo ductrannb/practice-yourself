@@ -4,8 +4,8 @@ axios.defaults.baseURL = import.meta.env.VITE_BASE_URL_API
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 axios.interceptors.request.use((config) => {
-    if (localStorage.getItem('token')) {
-        config.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
+    if (localStorage.getItem('access_token')) {
+        config.headers.Authorization = 'Bearer ' + localStorage.getItem('access_token')
     }
     return config
 }, (error) => {
@@ -14,7 +14,9 @@ axios.interceptors.request.use((config) => {
 })
 
 axios.interceptors.response.use((response) => {
-    console.log(response)
+    if (response.data?.access_token) {
+        localStorage.setItem('access_token', response.data.access_token)
+    }
     return response;
 }, (error) => {
     console.log('Error in axios interceptor response', error)
