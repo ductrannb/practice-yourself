@@ -33,7 +33,7 @@
       </Form>
       <boundary-line text="Or"/>
       <div class="btn-register-container">
-        <GoogleLogin class="btn-register" :callback="googleLogin" prompt/>
+        <button class="button-google-login">Đăng nhập bằng Google</button>
       </div>
       <p class="register-link">
         Bạn đã có tài khoản?
@@ -133,6 +133,9 @@ export default {
 }
 .v-text-field--outlined >>> fieldset {
   border-color: rgba(192, 0, 250, 0.986);
+}
+.button-google-login {
+  width: 100%;
 }
 @media screen and (max-width: 425px) {
   .page-heading {

@@ -146,3 +146,25 @@
 .ckeditor-box .ck-editor__editable h1 {
     display: none;
 }
+.button-google-login {
+    text-align: center;
+    padding: .7rem 1rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #757575;
+    border: 1px solid #757575;
+    transition: background-color .3s;
+}
+.button-google-login:hover {
+    background-color: #a4a4a4;
+    border-color: #a4a4a4;
+    color: #FFFFFF;
+}
+.button-google-login:before {
+    display: block;
+    position: absolute;
+    content: '';
+    background-image: url("/images/icons/google.svg");
+    width: 20px;
+    height: 20px;
+}
