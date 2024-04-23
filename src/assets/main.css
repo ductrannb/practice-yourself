@@ -9,7 +9,7 @@
 .cursor-default {
     cursor: default;
 }
-.float-animation:hover {
+.float-animation {
     transform: translateY(-4px);
     transition: transform .4s ease-in-out;
 }
@@ -128,4 +128,21 @@
 .admin-form-footer .admin-form-footer-btn--submit:hover {
     background-color: var(--color-primary);
     color: #FFFFFF;
+}
+.required:after {
+    content: '*';
+    padding-left: .5rem;
+    color: red;
+}
+.question-form--question-content .ck-editor__editable{
+    min-height: 5rem;
+}
+.ckeditor-box .ck-editor__editable{
+    max-height: 500px;
+}
+.ckeditor-box .ck.ck-editor__editable_inline {
+    padding: .5rem;
+}
+.ckeditor-box .ck-editor__editable h1 {
+    display: none;
 }

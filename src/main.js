@@ -15,6 +15,7 @@ import { Field, Form } from 'vee-validate'
 import '@/plugins/vee-validate.js'
 import moment from "moment"
 import Sweetalert from "@/plugins/sweetalert.js"
+import CKEditor from '@ckeditor/ckeditor5-vue'
 
 window.axios = axios
 
@@ -28,7 +29,7 @@ app.config.globalProperties.$filter = {
         return moment(datetime).format('DD/MM/YYYY HH:mm')
     }
 }
-app.use(router).use(vuetify).use(vuex)
+app.use(router).use(vuetify).use(vuex).use(CKEditor)
     .use(googleLogin.vue3GoogleLogin, googleLogin.options)
     .use(Sweetalert.VueSweetalert2, Sweetalert.options)
 app.component('InputValidation', InputValidation)

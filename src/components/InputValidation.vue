@@ -14,7 +14,7 @@
     :rules="numberRules"
   >
     <template v-slot:label>
-      {{ label }}<span v-if="isRequired" class="required"> *</span>
+      <span :class="{'required': isRequired}">{{ label }}</span>
     </template>
   </v-text-field>
 </template>
@@ -74,7 +74,4 @@ const typeInput = computed(() => {
 const { value, handleBlur, errors } = useField(toRef(props, "name"), undefined);
 </script>
 <style scoped>
-.required {
-  color: red;
-}
 </style>

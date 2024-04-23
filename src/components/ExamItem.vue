@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{name: 'exams.overview', params: {id: item.id}}" class="exam-item-box">
+  <router-link :to="{name: 'exams.overview', params: {id: item.id}}" class="exam-item-box float-animation">
     <p class="exam-item--name">{{item.name}}</p>
     <p class="exam-item--short-description">{{item.short_description}}</p>
     <router-link class="custom-btn exam-item--subscribe-btn" :to="{name: 'exams.overview', params: {id: item.id}}" >Thi thử ngay</router-link>

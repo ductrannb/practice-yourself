@@ -197,6 +197,7 @@ export default {
 .exam-item {
   display: flex;
   border: 1px solid #eeeeee;
+  transition: all .3s;
 }
 .exam-item:first-child {
   border-top-left-radius: 4px;

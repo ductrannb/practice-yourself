@@ -119,6 +119,7 @@ export default {
 .exam-lesson-item {
   display: flex;
   border: 1px solid #eeeeee;
+  transition: all .3s;
 }
 .exam-lesson-item:first-child {
   border-top-left-radius: 4px;

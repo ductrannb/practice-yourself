@@ -1,8 +1,37 @@
 <template>
   <Form class="question-form" as="v-form" :validation-schema="schema" @submit="onSubmit">
+    <span class="question-form--text-note">Hãy nhập nội dung câu hỏi và các đáp án. Sau đó tích vào một đáp án để chọn nó là đáp án đúng</span>
     <div class="question-form-group">
-      <label>Nội dung câu hỏi *</label>
-      <CustomCkeditor id="content" v-model="form.content"></CustomCkeditor>
+      <label class="required">Nội dung câu hỏi</label>
+      <CustomCkeditor class="question-form--question-content" v-model="form.content"></CustomCkeditor>
+    </div>
+    <div class="question-form-group">
+      <div class="question-choice-box">
+        <label class="question-choice-label required">Đáp án A</label>
+        <v-checkbox-btn size="20"></v-checkbox-btn>
+      </div>
+      <CustomCkeditor v-model="form.content"></CustomCkeditor>
+    </div>
+    <div class="question-form-group">
+      <div class="question-choice-box">
+        <label class="question-choice-label required">Đáp án B</label>
+        <v-checkbox-btn size="20"></v-checkbox-btn>
+      </div>
+      <CustomCkeditor v-model="form.content"></CustomCkeditor>
+    </div>
+    <div class="question-form-group">
+      <div class="question-choice-box">
+        <label class="question-choice-label required">Đáp án C</label>
+        <v-checkbox-btn size="20"></v-checkbox-btn>
+      </div>
+      <CustomCkeditor v-model="form.content"></CustomCkeditor>
+    </div>
+    <div class="question-form-group">
+      <div class="question-choice-box">
+        <label class="question-choice-label required">Đáp án D</label>
+        <v-checkbox-btn size="20"></v-checkbox-btn>
+      </div>
+      <CustomCkeditor v-model="form.content"></CustomCkeditor>
     </div>
     <div class="admin-form-footer">
       <router-link
@@ -51,11 +80,6 @@ export default {
 </script>
 
 <style scoped>
-.form-input-password-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 .form-input-password-box button {
   margin-left: 1rem;
   padding: .5rem 1rem;
@@ -66,5 +90,23 @@ export default {
 .form-input-password-box button:hover {
   background-color: var(--color-primary);
   color: #FFFFFF;
+}
+.question-form--text-note {
+  color: red;
+  font-size: .9rem;
+  font-style: italic;
+}
+.question-form-group {
+  margin-top: .75rem;
+}
+.question-form--question-content {
+  margin-top: .5rem;
+}
+.question-choice-box {
+  display: flex;
+  align-items: center;
+}
+.admin-form-footer {
+  margin-top: 2rem;
 }
 </style>

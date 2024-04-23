@@ -5,30 +5,38 @@
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import CKEditor from '@ckeditor/ckeditor5-vue';
+import Editor from "@blowstack/ckeditor5-full-free-build"
 
 export default {
-  components: {ckeditor: CKEditor.component},
   props: {
-    minHeight: {
+    placeholder: {
       type: String,
-      default: '500px'
+      default: 'Nhập nội dung'
     }
   },
   data() {
     return {
-      editor: ClassicEditor,
+      editor: Editor,
       editorData: '',
       editorConfig: {
-
-      }
-    }
-  },
-  mounted() {
+        toolbar: [
+          'bold',
+          'italic',
+          'alignment',
+          'CodeBlock',
+          'FontColor',
+          'FontBackgroundColor',
+          'ImageCaption',
+          'ImageInsert',
+          'ImageUpload',
+          'MathType',
+          '|',
+          'undo',
+          'redo'
+        ],
+        placeholder: this.placeholder
+      },
+    };
   }
-}
+};
 </script>
-
-<style scoped>
-</style>
