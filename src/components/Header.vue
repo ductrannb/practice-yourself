@@ -132,12 +132,16 @@ export default {
   transform: translateY(-.5rem);
 }
 .header-avatar-box {
-   width: 2rem;
-   height: 2rem;
-   border-radius: 50%;
-   border: 1px solid #000;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
- }
+}
+.header-avatar-box img {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #eeeeee;
+  border-radius: 50%;
+}
 .user-menu-box {
   display: flex;
   align-items: center;
