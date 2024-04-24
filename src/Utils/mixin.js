@@ -1,3 +1,5 @@
+import store from "@/plugins/vuex.js";
+
 export default {
     data() {
         return {}
@@ -33,6 +35,19 @@ export default {
             }).then((result) => {
                 console.log(result)
             })
+        },
+        checkAuth() {
+            if (localStorage.getItem('access_token') && store.state.userAuth == null) {
+                axios.get('me')
+                    .then(response => {
+                        console.log(response.data.data)
+                        store.state.userAuth = response.data.data
+                    })
+                    .catch(error => {
+                        localStorage.removeItem('access_token')
+                        console.log(error)
+                    })
+            }
         }
     }
 }

@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Mixin from "@/Utils/mixin.js"
+import adminRoutes from "@/middlewares/admin.js";
+import store from "@/plugins/vuex.js";
+import constants from "@/Utils/constants.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -134,6 +137,47 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path: '/teacher',
+      component: () => import('@/layouts/Admin.vue'),
+      children: [
+        {
+          path: 'dashboard',
+          name: 'teacher.dashboard',
+          component: () => import('@/views/admin/Dashboard.vue')
+        },
+        {
+          path: 'courses',
+          name: 'teacher.courses',
+          component: () => import('@/views/admin/Courses.vue')
+        },
+        {
+          path: 'courses/create',
+          name: 'teacher.courses.create',
+          component: () => import('@/views/admin/CourseCreate.vue')
+        },
+        {
+          path: 'courses/:id/lessons',
+          name: 'teacher.courses.lessons',
+          component: () => import('@/views/admin/Lessons.vue')
+        },
+        {
+          path: 'courses/:id/lessons/create',
+          name: 'teacher.courses.lessons.create',
+          component: () => import('@/views/admin/LessonCreate.vue')
+        },
+        {
+          path: 'courses/:id/lessons/:lessonId/questions',
+          name: 'teacher.courses.lessons.questions',
+          component: () => import('@/views/admin/Questions.vue')
+        },
+        {
+          path: 'courses/:id/lessons/:lessonId/questions/create',
+          name: 'teacher.courses.lessons.questions.create',
+          component: () => import('@/views/admin/QuestionCreate.vue')
+        }
+      ]
+    },
     // Auth routes
     {
       path: '/login',
@@ -153,14 +197,26 @@ const router = createRouter({
     // Not found route
     {
       path: '/:pathMatch(.*)*',
-      name: 'not-found',
+      name: '404',
       component: () => import('@/views/PageNotFound.vue')
     }
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   Mixin.methods.changePageTitle()
+  Mixin.methods.checkAuth()
+  setTimeout(() => {
+    // Check role admin
+    if (adminRoutes.includes(to.name)) {
+      if (store.getters.auth == null) {
+        next({name: 'login'})
+      }
+      if (store.getters.auth?.role_id != constants.ROLE.ADMIN) {
+        next({name: '404'})
+      }
+    }
+  }, 200)
   next()
 })
 

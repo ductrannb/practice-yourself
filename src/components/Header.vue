@@ -34,8 +34,22 @@
             </router-link>
           </li>
         </ul>
-        <div class="user-menu-box"></div>
-        <div class="group-btn-box">
+        <div class="user-menu-box" v-if="auth">
+          <v-menu>
+            <template v-slot:activator="{ props }">
+              <div class="header-avatar-box" v-bind="props">
+                <img class="header-avatar" :src="auth.avatar || '/images/icons/avatar-default.svg'">
+              </div>
+            </template>
+
+            <v-list>
+              <v-list-item>
+                <div>haha</div>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+        <div class="group-btn-box" v-else>
           <router-link class="login-btn-box" :to="{name: 'login'}">
             <span class="custom-btn float-animation">Đăng nhập</span>
           </router-link>
@@ -49,8 +63,16 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Header",
+  created() {
+    this.checkAuth()
+  },
+  computed: {
+    ...mapGetters(['auth'])
+  },
   methods: {
   }
 }
@@ -108,5 +130,17 @@ export default {
 }
 .login-btn-box span:hover{
   transform: translateY(-.5rem);
+}
+.header-avatar-box {
+   width: 2rem;
+   height: 2rem;
+   border-radius: 50%;
+   border: 1px solid #000;
+  cursor: pointer;
+ }
+.user-menu-box {
+  display: flex;
+  align-items: center;
+  padding: 12px;
 }
 </style>

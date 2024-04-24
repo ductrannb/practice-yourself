@@ -18,7 +18,13 @@ const LESSON_LEVEL = {
         LEVEL_HARD: 'Vận dụng',
     },
 }
+const ROLE = {
+    USER: 1,
+    TEACHER: 2,
+    ADMIN: 3
+}
 export default {
     RESPONSES,
     LESSON_LEVEL,
+    ROLE
 }

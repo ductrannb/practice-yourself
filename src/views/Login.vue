@@ -44,6 +44,8 @@
 import { GoogleLogin, googleOneTap, decodeCredential } from "vue3-google-login"
 import * as Yup from 'yup'
 import BoundaryLine from "@/components/BoundaryLine.vue"
+import constants from "@/Utils/constants.js"
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "Login",
@@ -65,6 +67,9 @@ export default {
     }
   },
   components: {BoundaryLine, GoogleLogin},
+  computed: {
+    ...mapGetters(['auth'])
+  },
   mounted() {
     googleOneTap()
       .then((response) => {
@@ -75,11 +80,26 @@ export default {
       })
   },
   methods: {
+    ...mapActions(['loginVuex']),
     login() {
       this.$axios.post('login', this.form)
-          .then(response => {
-            this.noticeSuccess('Đăng nhập thành công')
-            this.$router.push({name: 'home'})
+          .then(async response => {
+            await this.checkAuth()
+            setTimeout(this.noticeSuccess('Đăng nhập thành công'), 100)
+            switch (this.auth.role_id) {
+              case constants.ROLE.USER:
+                this.$router.push({name: 'home'})
+                break
+              case constants.ROLE.TEACHER:
+                this.$router.push({name: 'teacher.dashboard'})
+                break
+              case constants.ROLE.ADMIN:
+                this.$router.push({name: 'admin.dashboard'})
+                break
+              default:
+                console.log('this default', this.auth.role_id)
+                this.$router.push({name: 'home'})
+            }
           })
           .catch(error => {
             console.log(error)

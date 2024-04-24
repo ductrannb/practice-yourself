@@ -19,6 +19,7 @@ import CKEditor from '@ckeditor/ckeditor5-vue'
 import mitt from 'mitt';
 const bus = mitt();
 
+window.axios = axios
 const app = createApp(App)
 
 app.config.globalProperties.$filter = {
