@@ -13,6 +13,9 @@
     transform: translateY(-4px);
     transition: transform .4s ease-in-out;
 }
+.swal2-container {
+    font-family: "Roboto", sans-serif;
+}
 .custom-btn {
     border: 1px solid var(--color-main);
     color: var(--color-main);
@@ -167,4 +170,10 @@
     background-image: url("/images/icons/google.svg");
     width: 20px;
     height: 20px;
+}
+.otp-input .v-input--density-default.v-input--plain-underlined .v-input__prepend, .v-input--density-default.v-input--plain-underlined .v-input__append {
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: end;
 }

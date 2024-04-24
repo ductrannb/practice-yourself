@@ -21,6 +21,9 @@
             color="red"
             v-model="form.password"
         />
+        <div class="forget-password-link-box">
+          <router-link class="forget-password-link" :to="{name: 'forget-password'}">Quên mật khẩu?</router-link>
+        </div>
         <div class="btn-login-container">
           <button type="submit" class="custom-btn btn-login float-animation fw-bold">Đăng nhập</button>
         </div>
@@ -72,9 +75,15 @@ export default {
       })
   },
   methods: {
-    async login() {
-      const data = await this.$axios.post('login', this.form)
-      console.log(data)
+    login() {
+      this.$axios.post('login', this.form)
+          .then(response => {
+            this.noticeSuccess('Đăng nhập thành công')
+            this.$router.push({name: 'home'})
+          })
+          .catch(error => {
+            console.log(error)
+          })
     },
     googleLogin(response) {
       const userData = decodeCredential(response.credential)
@@ -131,6 +140,19 @@ export default {
 }
 .button-google-login {
   width: 100%;
+}
+.forget-password-link-box {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 1rem;
+}
+.forget-password-link {
+  color: var(--color-primary);
+  font-size: .9rem;
+}
+.forget-password-link:hover {
+  text-decoration: underline;
 }
 @media screen and (max-width: 425px) {
   .page-heading {

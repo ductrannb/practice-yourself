@@ -16,6 +16,8 @@ import '@/plugins/vee-validate.js'
 import moment from "moment"
 import Sweetalert from "@/plugins/sweetalert.js"
 import CKEditor from '@ckeditor/ckeditor5-vue'
+import mitt from 'mitt';
+const bus = mitt();
 
 const app = createApp(App)
 
@@ -28,6 +30,7 @@ app.config.globalProperties.$filter = {
     }
 }
 app.config.globalProperties.$axios = axios
+app.config.globalProperties.$bus = bus
 app.use(router).use(vuetify).use(vuex).use(CKEditor)
     .use(googleLogin.vue3GoogleLogin, googleLogin.options)
     .use(Sweetalert.VueSweetalert2, Sweetalert.options)

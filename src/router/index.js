@@ -145,6 +145,11 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/views/Register.vue')
     },
+    {
+      path: '/forget-password',
+      name: 'forget-password',
+      component: () => import('@/views/ForgetPassword.vue')
+    },
     // Not found route
     {
       path: '/:pathMatch(.*)*',

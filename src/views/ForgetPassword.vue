@@ -1,7 +1,7 @@
 <template>
   <div class="register-form-wrapper">
     <div class="register-form-container">
-      <h2 class="page-heading fw-bold text-center">Đăng ký</h2>
+      <h2 class="page-heading fw-bold text-center">Quên mật khẩu</h2>
       <Form class="mb-8" as="v-form" :validation-schema="schema" @submit="register">
         <InputValidation
             class="mb-2"
@@ -14,32 +14,22 @@
             ref="inputEmail"
         />
         <InputValidation
-            class="mb-2"
-            name="name"
-            label="Họ tên"
-            type="text"
-            variant="underlined"
-            color="red"
-            v-model="form.name"
-            ref="inputEmail"
-        />
-        <InputValidation
             class="mb-4"
             name="password"
-            label="Mật khẩu"
+            label="Mật khẩu mới"
             :is-password="true"
             variant="underlined"
             color="red"
-            v-model="form.password"
+            v-model="form.new_password"
         />
         <InputValidation
             class="mb-4"
             name="password_confirmation"
-            label="Xác nhận mật khẩu"
+            label="Xác nhận mật khẩu mới"
             :is-password="true"
             variant="underlined"
             color="red"
-            v-model="form.password_confirmation"
+            v-model="form.new_password_confirmation"
         />
         <InputValidation
             class="otp-input mb-4"
@@ -59,7 +49,7 @@
           </template>
         </InputValidation>
         <div class="btn-register-container">
-          <button type="submit" class="custom-btn btn-register float-animation fw-bold">Đăng ký</button>
+          <button type="submit" class="custom-btn btn-register float-animation fw-bold">Cập nhật</button>
         </div>
       </Form>
       <boundary-line text="Or"/>
@@ -67,8 +57,7 @@
         <button class="button-google-login">Đăng nhập bằng Google</button>
       </div>
       <p class="register-link">
-        Bạn đã có tài khoản?
-        <router-link :to="{name: 'login'}">Đăng nhập</router-link>
+        <router-link :to="{name: 'login'}">Quay về trang đăng nhập</router-link>
       </p>
     </div>
   </div>
@@ -84,8 +73,7 @@ export default {
   setup() {
     const schema = Yup.object().shape({
       email: Yup.string().required().email().label('email'),
-      name: Yup.string().required().max(255).label('họ tên'),
-      password: Yup.string().required().min(6).label('mật khẩu'),
+      password: Yup.string().required().min(6).label('mật khẩu mới'),
       password_confirmation: Yup.string()
         .required().min(6)
         .oneOf([Yup.ref('password')], 'Mật khẩu xác nhận không trùng khớp.')
@@ -105,9 +93,8 @@ export default {
       showPassword: false,
       form: {
         email: null,
-        name: null,
-        password: null,
-        password_confirmation: null,
+        new_password: null,
+        new_password_confirmation: null,
         otp: null
       },
       countdown: 0
@@ -125,7 +112,7 @@ export default {
   },
   methods: {
     register() {
-      this.$axios.post('register', this.form)
+      this.$axios.post('forget-password', this.form)
           .then(response => {
             this.$router.push({name: 'login'})
           })
