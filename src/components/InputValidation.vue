@@ -9,7 +9,7 @@
       bg-active="#000000"
       :append-inner-icon="isPassword ? (isShowPassword ? 'mdi-eye' : 'mdi-eye-off') : null"
       @click:append-inner="isShowPassword = !isShowPassword"
-      :validate-on="validateOn"
+      validate-on="blur lazy"
       :mask="numberMask"
       :rules="numberRules"
   >
@@ -63,9 +63,8 @@ export default {
       type: Boolean,
       default: false
     },
-    validateOn: {
-      type: String,
-      default: 'blur lazy'
+    updater: {
+      required: true
     }
   },
   data() {
@@ -86,6 +85,15 @@ export default {
       this.$bus.on('validate-email', () => {
         this.validate();
       })
+    } else if (this.name == 'password') {
+      this.$bus.on('generate-random', (value) => {
+        this.value = value
+      })
+    }
+  },
+  watch: {
+    updater(value) {
+      this.value = value
     }
   },
   setup(props) {

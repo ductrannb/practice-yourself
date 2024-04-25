@@ -30,7 +30,7 @@ export default {
           route: {name: 'admin.teachers'}
         }, {
           id: 3,
-          title: 'Thêm mới'
+          title: 'Cập nhật'
         },
       ]
     }
@@ -42,7 +42,7 @@ export default {
   methods: {
     async onSubmit(form) {
       form.role_id = constants.ROLE.TEACHER
-      await this.$axios.post('/users', form)
+      await this.$axios.put(`/users/${this.$route.params.id}`, form)
       this.$router.push({name: 'admin.teachers'})
     }
   }

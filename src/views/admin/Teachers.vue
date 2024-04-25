@@ -10,25 +10,28 @@
           </div>
           <router-link :to="{name: 'admin.teachers.create'}" class="custom-btn">Thêm mới</router-link>
         </div>
-        <p class="admin-count-data-label">Tổng: <span>500</span></p>
+        <p class="admin-count-data-label">Tổng: <span>{{ paginate.total }}</span></p>
         <v-data-table
           :headers="headers"
-          :items="users"
+          :items="teachers"
         >
           <template v-slot:[`item.created_at`]="{ item }">
             <span>{{ $filter.formatDatetime(item.created_at) }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <div class="admin-user-table--column-action-box">
-              <v-icon icon="mdi-eye"/>
-              <v-icon icon="mdi-pencil"/>
-              <v-icon icon="mdi-delete" color="red"/>
+              <v-icon icon="mdi-eye" title="Chi tiết" @click="$router.push({name: 'admin.teachers.detail', params: {id: item.id}})"/>
+              <v-icon icon="mdi-pencil" title="Sửa" @click="$router.push({name: 'admin.teachers.update', params: {id: item.id}})"/>
+              <v-icon icon="mdi-delete" title="Xóa" color="red" @click="destroy(item.id)"/>
             </div>
           </template>
           <template v-slot:bottom>
             <v-pagination
-              :length="4"
-              color="var(--color-primary)"
+                v-model="form.page"
+                :length="paginate.lastPage"
+                color="var(--color-primary)"
+                total-visible="5"
+                @update:model-value="fetchList"
             ></v-pagination>
           </template>
         </v-data-table>
@@ -39,127 +42,98 @@
 
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
+import constants from "@/Utils/constants.js";
+import {debounce} from "lodash";
 
 export default {
   name: "Teachers",
   components: {Breadcrumb},
-  data() {
-    return {
-      breadcrumbs: [
-        {
-          id: 1,
-          title: 'Dashboard',
-          route: {name: 'admin.dashboard'}
-        },
-        {
-          id: 2,
-          title: 'Giáo viên',
-        },
-      ],
-      headers: [
+  computed: {
+    headers() {
+      return [
         {
           title: 'STT',
           align: 'center',
           sortable: false,
           key: 'index',
           width: '50px'
-        },
-        {
+        }, {
           title: 'Họ tên',
           align: 'start',
           sortable: false,
           key: 'name'
-        },
-        {
+        }, {
           title: 'Email',
           align: 'start',
           sortable: false,
           key: 'email'
-        },
-        {
+        }, {
           title: 'Ngày đăng ký',
           align: 'center',
           sortable: false,
           key: 'created_at'
-        },
-        {
+        }, {
           title: 'Hành động',
           align: 'center',
           sortable: false,
           key: 'actions'
         }
-      ],
-      users: [
+      ]
+    },
+    breadcrumbs() {
+      return [
         {
-          index: 1,
           id: 1,
-          name: 'Nguyễn Văn A',
-          email: 'nguyenvana@gmail.com',
-          created_at: '2021-09-01 12:00:00',
-        },
-        {
-          index: 2,
+          title: 'Dashboard',
+          route: {name: 'admin.dashboard'}
+        }, {
           id: 2,
-          name: 'Nguyễn Văn B',
-          email: 'nguyenvanb@gmail.com',
-          created_at: '2021-09-01 14:09:00',
-        },
-        {
-          index: 3,
-          id: 3,
-          name: 'Nguyễn Văn C',
-          email: 'nguyenvanc@gmail.com',
-          created_at: '2021-09-01 15:00:00',
-        },
-        {
-          index: 4,
-          id: 4,
-          name: 'Nguyễn Văn D',
-          email: 'nguyenvand@gmail.com',
-          created_at: '2021-09-01 16:00:00',
-        },
-        {
-          index: 5,
-          id: 5,
-          name: 'Nguyễn Văn E',
-          email: 'nguyenvane@gmail.com',
-          created_at: '2021-09-01 17:00:00',
-        },{
-          index: 6,
-          id: 6,
-          name: 'Nguyễn Văn A',
-          email: 'nguyenvana@gmail.com',
-          created_at: '2021-09-01 12:00:00',
-        },
-        {
-          index: 7,
-          id: 7,
-          name: 'Nguyễn Văn B',
-          email: 'nguyenvanb@gmail.com',
-          created_at: '2021-09-01 14:09:00',
-        },
-        {
-          index: 8,
-          id: 8,
-          name: 'Nguyễn Văn C',
-          email: 'nguyenvanc@gmail.com',
-          created_at: '2021-09-01 15:00:00',
-        },
-        {
-          index: 9,
-          id: 9,
-          name: 'Nguyễn Văn D',
-          email: 'nguyenvand@gmail.com',
-          created_at: '2021-09-01 16:00:00',
-        },
-        {
-          index: 10,
-          id: 10,
-          name: 'Nguyễn Văn E',
-          email: 'nguyenvane@gmail.com',
-          created_at: '2021-09-01 17:00:00',
+          title: 'Giáo viên',
         },
       ]
+    }
+  },
+  data() {
+    return {
+      form: {
+        role: constants.ROLE.TEACHER,
+        keyword: null,
+        page: 1
+      },
+      paginate: {
+        current_page: 1,
+        last_page: 1,
+        total: 0,
+      },
+      teachers: []
+    }
+  },
+  created() {
+    this.fetchList()
+  },
+  methods: {
+    async fetchList() {
+      const res = await this.$axios.get('users', {params: this.form})
+      this.teachers = res.data.data
+      this.paginate = {
+        lastPage: res.data.last_page,
+        total: res.data.total
+      }
+      this.form.page = res.data.current_page
+    },
+    search: debounce(
+        function() {
+          this.form.page = 1
+          this.fetchList()
+        },
+        1000
+    ),
+    async destroy(id) {
+      const rs = await this.deleteConfirm()
+      if (rs.isConfirmed) {
+        await this.$axios.delete(`users/${id}`)
+        this.fetchList()
+      }
     }
   }
 }
