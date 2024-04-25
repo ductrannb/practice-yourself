@@ -11,6 +11,7 @@
             variant="underlined"
             color="red"
             v-model="form.email"
+            :updater="form.email"
             ref="inputEmail"
         />
         <InputValidation
@@ -21,6 +22,7 @@
             variant="underlined"
             color="red"
             v-model="form.name"
+            :updater="form.name"
             ref="inputEmail"
         />
         <InputValidation
@@ -31,6 +33,7 @@
             variant="underlined"
             color="red"
             v-model="form.password"
+            :updater="form.password"
         />
         <InputValidation
             class="mb-4"
@@ -40,6 +43,7 @@
             variant="underlined"
             color="red"
             v-model="form.password_confirmation"
+            :updater="form.password_confirmation"
         />
         <InputValidation
             class="otp-input mb-4"
@@ -48,6 +52,7 @@
             variant="underlined"
             color="red"
             v-model="form.otp"
+            :updater="form.otp"
         >
           <template v-slot:append>
             <div class="register-form--btn-send-otp-box">

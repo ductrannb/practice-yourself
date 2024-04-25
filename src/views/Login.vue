@@ -11,6 +11,7 @@
             variant="underlined"
             color="red"
             v-model="form.email"
+            :updater="form.email"
         />
         <InputValidation
             class="mb-4"
@@ -20,6 +21,7 @@
             variant="underlined"
             color="red"
             v-model="form.password"
+            :updater="form.password"
         />
         <div class="forget-password-link-box">
           <router-link class="forget-password-link" :to="{name: 'forget-password'}">Quên mật khẩu?</router-link>

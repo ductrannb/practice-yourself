@@ -9,6 +9,7 @@
         color="red"
         :is-required="true"
         v-model="form.name"
+        :updater="form.name"
     />
     <InputValidation
         class="mb-2"
@@ -18,7 +19,12 @@
         color="red"
         :is-required="true"
         v-model="form.price"
-    />
+        :updater="form.price"
+    >
+      <template v-slot:append>
+        <span class="mr-2">VNĐ</span>
+      </template>
+    </InputValidation>
     <v-file-input
       accept="image/*"
       label="Hình ảnh"
@@ -53,6 +59,7 @@
 
 <script>
 import * as Yup from "yup";
+import constants from "@/Utils/constants.js";
 
 export default {
   name: "CourseForm",
@@ -70,17 +77,20 @@ export default {
         name: null,
         price: null,
       },
-      teachers: [
-        {id: 1, name: 'Trần Đức 1'},
-        {id: 2, name: 'Trần Đức 2'},
-        {id: 3, name: 'Trần Đức 3'},
-        {id: 4, name: 'Trần Đức 4'},
-      ]
+      teachers: []
     }
+  },
+  created() {
+    this.fetchListTeacher()
   },
   methods: {
     onSubmit() {
       this.$emit('onSubmit', this.form)
+    },
+    async fetchListTeacher() {
+      let params = {role: constants.ROLE.TEACHER}
+      const res = await this.$axios.get('users/', {params: params})
+      this.teachers = res.data.data
     }
   }
 }
