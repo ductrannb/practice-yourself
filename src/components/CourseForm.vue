@@ -40,7 +40,7 @@
           <label class="required">Hình ảnh</label>
         </template>
       </v-file-input>
-      <div class="input-image--perview-box" v-if="getUrlPreview()">
+      <div class="input-image--preview-box" v-if="getUrlPreview()">
         <img :src="getUrlPreview()" alt="preview">
       </div>
     </div>
@@ -165,11 +165,11 @@ export default {
 </script>
 
 <style scoped>
-.input-image--perview-box {
+.input-image--preview-box {
   max-width: 250px;
   height: auto;
 }
-.input-image--perview-box img {
+.input-image--preview-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
