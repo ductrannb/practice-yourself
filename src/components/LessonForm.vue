@@ -9,6 +9,7 @@
         color="red"
         :is-required="true"
         v-model="form.name"
+        :updater="form.name"
     />
     <div class="admin-form-footer">
       <router-link
@@ -39,15 +40,13 @@ export default {
     return {
       form: {
         name: null,
-        price: null,
+        course_id: null
       },
-      teachers: [
-        {id: 1, name: 'Trần Đức 1'},
-        {id: 2, name: 'Trần Đức 2'},
-        {id: 3, name: 'Trần Đức 3'},
-        {id: 4, name: 'Trần Đức 4'},
-      ]
+      teachers: []
     }
+  },
+  created() {
+    this.form.course_id = this.$route.params.id
   },
   methods: {
     onSubmit() {

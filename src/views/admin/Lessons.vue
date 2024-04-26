@@ -20,106 +20,40 @@ import LessonList from "@/components/LessonList.vue"
 export default {
   name: "Courses",
   components: {LessonList, Breadcrumb},
-  data() {
-    return {
-      breadcrumbs: [
+  computed: {
+    breadcrumbs() {
+      return [
         {
           id: 1,
           title: 'Dashboard',
           route: {name: 'admin.dashboard'}
-        },
-        {
+        }, {
           id: 2,
           title: 'Khóa học',
           route: {name: 'admin.courses'}
-        },
-        {
+        }, {
           id: 3,
           title: 'Tên khóa học',
-        },
-        {
+        }, {
           id: 2,
           title: 'Danh sách bài học',
-        },
-      ],
+        }
+      ]
+    }
+  },
+  data() {
+    return {
       course: {
-        name: 'Xét tính đơn điệu',
-        teachers: ['Giáo viên 1', 'Giáo viên 2', 'Giáo viên 3'],
-        lessons: [
-          {
-            index: 1,
-            id: 1,
-            name: 'Nguyễn Văn A',
-            count_question: 500,
-            author: 'Giáo viên 1'
-          },
-          {
-            index: 2,
-            id: 2,
-            name: 'Nguyễn Văn B',
-            count_question: 3,
-            author: 'Giáo viên 2'
-          },
-          {
-            index: 3,
-            id: 3,
-            name: 'Nguyễn Văn C',
-            count_question: 500,
-            author: 'Giáo viên 2'
-          },
-          {
-            index: 4,
-            id: 4,
-            name: 'Nguyễn Văn D',
-            count_question: 500,
-            author: 'Giáo viên 2'
-          },
-          {
-            index: 5,
-            id: 5,
-            name: 'Nguyễn Văn E',
-            count_question: 500,
-            author: 'Admin'
-          },{
-            index: 6,
-            id: 6,
-            name: 'Nguyễn Văn A',
-            count_question: 500,
-            author: 'Giáo viên 2'
-          },
-          {
-            index: 7,
-            id: 7,
-            name: 'Nguyễn Văn B',
-            count_question: 500,
-            author: 'Giáo viên 2'
-          },
-          {
-            index: 8,
-            id: 8,
-            name: 'Nguyễn Văn C',
-            count_question: 500,
-            author: 'Giáo viên 2'
-          },
-          {
-            index: 9,
-            id: 9,
-            name: 'Nguyễn Văn D',
-            count_question: 500,
-            author: 'Giáo viên 2'
-          },
-          {
-            index: 10,
-            id: 10,
-            name: 'Nguyễn Văn E',
-            count_question: 500,
-            author: 'Giáo viên 2'
-          },
-        ]
+        name: null,
+        teachers: [],
+        lessons: []
       }
     }
   },
   methods: {
+    fetchLessons() {
+
+    }
   }
 }
 </script>
