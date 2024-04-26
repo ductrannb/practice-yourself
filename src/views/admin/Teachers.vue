@@ -15,6 +15,9 @@
           :headers="headers"
           :items="teachers"
         >
+          <template v-slot:[`item.index`]="{ item }">
+            <span>{{ teachers.indexOf(item) + 1 }}</span>
+          </template>
           <template v-slot:[`item.created_at`]="{ item }">
             <span>{{ $filter.formatDatetime(item.created_at) }}</span>
           </template>
