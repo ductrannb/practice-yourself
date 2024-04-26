@@ -106,7 +106,7 @@ export default {
   },
   data() {
     return {
-      image: null,
+      image: [],
       form: {
         name: null,
         price: null,
@@ -155,8 +155,8 @@ export default {
       this.validateMessages.image = this.form.image == null ? 'Vui lòng chọn hình ảnh.' : null
     },
     getUrlPreview() {
-      if (this.image) {
-        return URL.createObjectURL(this.image)
+      if (this.image[0]) {
+        return URL.createObjectURL(this.image[0])
       }
       return this.form.image || null
     }
