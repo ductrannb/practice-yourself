@@ -45,7 +45,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 100;
   background-color: #e1e1e1;
 }
 .wheel-and-hamster {

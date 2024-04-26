@@ -29,7 +29,7 @@ export default {
           route: {name: 'admin.courses'}
         }, {
           id: 3,
-          title: 'Thêm mới'
+          title: 'Cập nhật'
         },
       ]
     }
@@ -40,8 +40,11 @@ export default {
   },
   methods: {
     async onSubmit(form) {
+      if (!form.image || typeof form.image === 'string') {
+        delete form.image
+      }
       const formData = this.objectToFormData(form)
-      await this.$axios.post('courses', formData, this.configRequestFormData())
+      await this.$axios.post(`courses/${this.$route.params.id}?_method=put`, formData, this.configRequestFormData())
       this.$router.push({name: 'admin.courses'})
     }
   }

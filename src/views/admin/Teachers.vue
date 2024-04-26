@@ -114,12 +114,12 @@ export default {
   methods: {
     async fetchList() {
       const res = await this.$axios.get('users', {params: this.form})
-      this.teachers = res.data.data
+      this.teachers = res.data.data ?? []
       this.paginate = {
-        lastPage: res.data.last_page,
-        total: res.data.total
+        lastPage: res.data.last_page ?? 1,
+        total: res.data.total ?? 0
       }
-      this.form.page = res.data.current_page
+      this.form.page = res.data.current_page ?? 1
     },
     search: debounce(
         function() {

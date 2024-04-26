@@ -1,6 +1,10 @@
 <template>
-  <div class="ckeditor-box" ref="ckeditor">
-    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+  <div :class="{'ckeditor-box': true, 'ckeditor-error': errorMessage}" ref="ckeditor">
+    <ckeditor
+        :editor="editor" v-model="editorModel" :config="editorConfig"
+        @input="$emit('update:modelValue', editorModel.replace('<h1>&nbsp;</h1>', ''))"
+    ></ckeditor>
+    <span class="ckeditor--error-message" v-if="errorMessage">{{ errorMessage }}</span>
   </div>
 </template>
 
@@ -12,13 +16,19 @@ export default {
     placeholder: {
       type: String,
       default: 'Nhập nội dung'
+    },
+    errorMessage: {
+      type: String,
+      default: null
+    },
+    updater: {
+      type: String,
+      required: true
     }
   },
-  data() {
-    return {
-      editor: Editor,
-      editorData: '',
-      editorConfig: {
+  computed: {
+    editorConfig() {
+      return {
         toolbar: [
           'bold',
           'italic',
@@ -33,8 +43,28 @@ export default {
           'redo'
         ],
         placeholder: this.placeholder
-      },
+      }
+    },
+    editor() {
+      return Editor
+    }
+  },
+  data() {
+    return {
+      editorModel: '',
     };
+  },
+  watch: {
+    updater(value) {
+      this.editorModel = value
+    }
   }
 };
 </script>
+
+<style scoped>
+.ckeditor--error-message {
+  color: var(--color-error);
+  font-size: .8rem;
+}
+</style>

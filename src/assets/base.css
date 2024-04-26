@@ -5,6 +5,7 @@
   --color-primary: #2CA6EB;
   --color-secondary: #6c757d;
   --color-primary-dark: #1f3a68;
+  --color-error: #B00020FF;
 }
 @font-face {
   font-family: SVN-Poppions;

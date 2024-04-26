@@ -47,6 +47,28 @@ export default {
         },
         reloadValueInputValidation(value) {
             this.$bus.emit('reload-value', value)
+        },
+        configRequestFormData() {
+            return {headers: {'Content-Type': 'multipart/form-data'}}
+        },
+        objectToFormData(obj, formData = new FormData(), parentKey = '') {
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let propName = parentKey ? `${parentKey}[${key}]` : key;
+                    let propValue = obj[key];
+
+                    if (typeof propValue === 'object' && !(propValue instanceof File)) {
+                        this.objectToFormData(propValue, formData, propName);
+                    } else if (propValue instanceof FileList) {
+                        for (let i = 0; i < propValue.length; i++) {
+                            formData.append(propName, propValue[i]);
+                        }
+                    } else {
+                        formData.append(propName, propValue);
+                    }
+                }
+            }
+            return formData;
         }
     }
 }

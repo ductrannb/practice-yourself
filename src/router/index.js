@@ -136,6 +136,11 @@ const router = createRouter({
           component: () => import('@/views/admin/CourseCreate.vue')
         },
         {
+          path: 'courses/update/:id',
+          name: 'admin.courses.update',
+          component: () => import('@/views/admin/CourseUpdate.vue')
+        },
+        {
           path: 'courses/:id/lessons',
           name: 'admin.courses.lessons',
           component: () => import('@/views/admin/Lessons.vue')
@@ -225,18 +230,16 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   Mixin.methods.changePageTitle()
-  Mixin.methods.checkAuth()
-  setTimeout(() => {
+  await Mixin.methods.checkAuth()
     // Check role admin
-    if (adminRoutes.includes(to.name)) {
-      if (store.getters.auth == null) {
-        next({name: 'login'})
-      }
-      if (store.getters.auth?.role_id != constants.ROLE.ADMIN) {
-        next({name: '404'})
-      }
+  if (adminRoutes.includes(to.name)) {
+    if (store.getters.auth == null) {
+      next({name: 'login'})
     }
-  }, 200)
+    if (store.getters.auth?.role_id != constants.ROLE.ADMIN) {
+      next({name: '404'})
+    }
+  }
   next()
 })
 
