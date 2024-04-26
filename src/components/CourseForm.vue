@@ -147,7 +147,7 @@ export default {
     },
     async fetchListTeacher() {
       let params = {role: constants.ROLE.TEACHER}
-      const res = await this.$axios.get('users/', {params: params})
+      const res = await this.$axios.get('users', {params: params})
       this.teachers = res.data.data || []
     },
     updateImage(event) {
