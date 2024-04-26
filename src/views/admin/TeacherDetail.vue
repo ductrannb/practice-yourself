@@ -3,7 +3,6 @@
     <div class="admin-container">
       <breadcrumb class="admin-breadcrumb-wrapper" :items="breadcrumbs"/>
       <div class="user-form-container">
-        <UserForm @onSubmit="onSubmit"></UserForm>
       </div>
     </div>
   </div>
@@ -12,10 +11,9 @@
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import UserForm from "@/components/UserForm.vue";
-import constants from "@/Utils/constants.js";
 
 export default {
-  name: "TeacherCreate",
+  name: "UserCreate",
   components: {UserForm, Breadcrumb},
   computed: {
     breadcrumbs() {
@@ -30,20 +28,28 @@ export default {
           route: {name: 'admin.teachers'}
         }, {
           id: 3,
-          title: 'Thêm mới'
+          title: this.user.name
         },
       ]
     }
   },
   data() {
     return {
+      user: {}
     }
   },
+  created() {
+    this.fetchUser()
+  },
   methods: {
-    async onSubmit(form) {
-      form.role_id = constants.ROLE.TEACHER
-      await this.$axios.post('/users', form)
-      this.$router.push({name: 'admin.teachers'})
+    fetchUser() {
+      this.$axios.get(`users/${this.$route.params.id}`)
+          .then(response => {
+            this.user = response.data.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
     }
   }
 }

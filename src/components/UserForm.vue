@@ -9,6 +9,7 @@
       color="red"
       :is-required="true"
       v-model="form.name"
+      :updater="form.name"
     />
     <InputValidation
       class="mb-2"
@@ -19,6 +20,7 @@
       color="red"
       :is-required="true"
       v-model="form.email"
+      :updater="form.email"
     />
     <div class="form-input-password-box mb-2">
       <InputValidation
@@ -29,6 +31,7 @@
         color="red"
         :is-required="true"
         v-model="form.password"
+        :updater="form.password"
       />
       <button type="button" @click="generateRandomPassword">Tạo mật khẩu ngẫu nhiên</button>
     </div>
@@ -39,10 +42,11 @@
       variant="underlined"
       color="red"
       v-model="form.phone"
+      :updater="form.phone"
     />
     <div class="admin-form-footer">
       <router-link
-        :to="{name: 'admin.users'}"
+        :to="{name: getRouteNameBack}"
         class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
@@ -54,14 +58,16 @@
 
 <script>
 import * as Yup from "yup";
+import {useRoute} from "vue-router";
 
 export default {
   name: "UserForm",
   setup() {
+    const route = useRoute()
     const schema = Yup.object().shape({
       name: Yup.string().required().label('họ và tên'),
       email: Yup.string().required().email().label('email'),
-      password: Yup.string().required().min(6).label('mật khẩu'),
+      password: (['admin.users.create', 'admin.teachers.create'].includes(route.name) ? Yup.string().required() : Yup.string()).min(6).label('mật khẩu'),
       phone: Yup.string().min(10)
         .matches(/^(84|0[35789])[0-9]{8}$/, 'Số điện thoại không hợp lệ')
         .label('số điện thoại'),
@@ -79,13 +85,33 @@ export default {
       }
     }
   },
+  computed: {
+    getRouteNameBack() {
+      return this.$route.name.startsWith('admin.users') ? 'admin.users' : 'admin.teachers'
+    }
+  },
+  created() {
+    if (['admin.users.update', 'admin.teachers.update'].includes(this.$route.name)) {
+      this.fetchUser()
+    }
+  },
   methods: {
     onSubmit() {
-      this.$emit('submit')
+      this.$emit('onSubmit', this.form)
     },
     generateRandomPassword() {
       this.form.password = Math.random().toString(36).slice(-8)
+      this.$bus.emit('generate-random', this.form.password)
       this.$forceUpdate()
+    },
+    fetchUser() {
+      this.$axios.get(`users/${this.$route.params.id}`)
+          .then(response => {
+            this.form = response.data.data
+          })
+          .catch(error => {
+            console.log(error)
+          })
     }
   }
 }

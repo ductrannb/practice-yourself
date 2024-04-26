@@ -90,10 +90,10 @@ export default {
   name: "Admin",
   computed: {
     routesUser() {
-      return ['admin.users', 'admin.users.create']
+      return ['admin.users', 'admin.users.create', 'admin.users.update', 'admin.users.detail']
     },
     routesTeacher() {
-      return ['admin.teachers', 'admin.teachers.create']
+      return ['admin.teachers', 'admin.teachers.create', 'admin.teachers.update', 'admin.teachers.detail']
     },
     routesCourse() {
       return [

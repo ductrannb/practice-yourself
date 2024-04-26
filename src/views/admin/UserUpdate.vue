@@ -15,7 +15,7 @@ import UserForm from "@/components/UserForm.vue";
 import constants from "@/Utils/constants.js";
 
 export default {
-  name: "TeacherCreate",
+  name: "UserUpdate",
   components: {UserForm, Breadcrumb},
   computed: {
     breadcrumbs() {
@@ -26,24 +26,25 @@ export default {
           route: {name: 'admin.dashboard'}
         }, {
           id: 2,
-          title: 'Giáo viên',
-          route: {name: 'admin.teachers'}
+          title: 'Người dùng',
+          route: {name: 'admin.users'}
         }, {
           id: 3,
-          title: 'Thêm mới'
+          title: 'Cập nhật'
         },
       ]
     }
   },
-  data() {
-    return {
-    }
-  },
   methods: {
-    async onSubmit(form) {
-      form.role_id = constants.ROLE.TEACHER
-      await this.$axios.post('/users', form)
-      this.$router.push({name: 'admin.teachers'})
+    onSubmit(form) {
+      form.role_id = constants.ROLE.USER
+      this.$axios.put(`users/${this.$route.params.id}`, form)
+          .then(response => {
+            this.$router.push({name: 'admin.users'})
+          })
+          .catch(error => {
+            console.log(error)
+          })
     }
   }
 }

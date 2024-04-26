@@ -177,3 +177,13 @@
     justify-content: center;
     align-items: end;
 }
+.ckeditor-form-group {
+    margin: .75rem 0;
+}
+.ckeditor-form--content {
+    margin-top: .5rem;
+}
+.ckeditor-error .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused),
+.ckeditor-error .ck.ck-toolbar {
+    border-color: var(--color-error);
+}

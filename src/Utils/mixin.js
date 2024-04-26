@@ -15,15 +15,13 @@ export default {
             this.$swal(title, message, 'error')
         },
         async deleteConfirm(message = 'Sau khi xóa sẽ không thể hoàn tác.', title = 'Bạn có chắc chắn?') {
-            this.$swal({
+            return await this.$swal({
                 title: title,
                 text: message,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Xóa',
                 cancelButtonText: 'Hủy',
-            }).then((result) => {
-                console.log(result)
             })
         },
         async confirm(message, title) {
@@ -36,18 +34,41 @@ export default {
                 console.log(result)
             })
         },
-        checkAuth() {
+        async checkAuth() {
             if (localStorage.getItem('access_token') && store.state.userAuth == null) {
-                axios.get('me')
-                    .then(response => {
-                        console.log(response.data.data)
-                        store.state.userAuth = response.data.data
-                    })
-                    .catch(error => {
-                        localStorage.removeItem('access_token')
-                        console.log(error)
-                    })
+                try {
+                    const response = await axios.get('me')
+                    store.state.userAuth = response.data.data
+                } catch (error) {
+                    console.log(error)
+                    localStorage.removeItem('access_token')
+                }
             }
+        },
+        reloadValueInputValidation(value) {
+            this.$bus.emit('reload-value', value)
+        },
+        configRequestFormData() {
+            return {headers: {'Content-Type': 'multipart/form-data'}}
+        },
+        objectToFormData(obj, formData = new FormData(), parentKey = '') {
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let propName = parentKey ? `${parentKey}[${key}]` : key;
+                    let propValue = obj[key];
+
+                    if (typeof propValue === 'object' && !(propValue instanceof File)) {
+                        this.objectToFormData(propValue, formData, propName);
+                    } else if (propValue instanceof FileList) {
+                        for (let i = 0; i < propValue.length; i++) {
+                            formData.append(propName, propValue[i]);
+                        }
+                    } else {
+                        formData.append(propName, propValue);
+                    }
+                }
+            }
+            return formData;
         }
     }
 }

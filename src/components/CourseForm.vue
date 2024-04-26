@@ -9,6 +9,7 @@
         color="red"
         :is-required="true"
         v-model="form.name"
+        :updater="form.name"
     />
     <InputValidation
         class="mb-2"
@@ -18,14 +19,50 @@
         color="red"
         :is-required="true"
         v-model="form.price"
-    />
-    <v-file-input
-      accept="image/*"
-      label="Hình ảnh"
-      prepend-icon="mdi-camera"
-      variant="underlined"
-      color="var(--color-main)"
-    ></v-file-input>
+        :updater="form.price"
+    >
+      <template v-slot:append>
+        <span class="mr-2">VNĐ</span>
+      </template>
+    </InputValidation>
+    <div class="input-image-box">
+      <v-file-input
+          accept="image/*"
+          prepend-icon="mdi-camera"
+          variant="underlined"
+          color="var(--color-main)"
+          v-model="image"
+          :error-messages="validateMessages.image"
+          @input="updateImage"
+          @click:clear="form.image = null"
+      >
+        <template v-slot:label>
+          <label class="required">Hình ảnh</label>
+        </template>
+      </v-file-input>
+      <div class="input-image--perview-box" v-if="getUrlPreview()">
+        <img :src="getUrlPreview()" alt="preview">
+      </div>
+    </div>
+    <div class="ckeditor-form-group">
+      <label class="required">Mô tả ngắn</label>
+      <CustomCkeditor
+          class="ckeditor-form--content"
+          v-model="form.short_description"
+          placeholder="Nhập mô tả ngắn"
+          :error-message="validateMessages.short_description"
+          :updater="form.short_description"
+      />
+    </div>
+    <div class="ckeditor-form-group">
+      <label>Mô tả chi tiết</label>
+      <CustomCkeditor
+          class="ckeditor-form--content"
+          v-model="form.description"
+          placeholder="Nhập mô tả chi tiết"
+          :updater="form.description"
+      />
+    </div>
     <v-autocomplete
       v-model="form.teachers"
       :items="teachers"
@@ -53,9 +90,12 @@
 
 <script>
 import * as Yup from "yup";
+import constants from "@/Utils/constants.js";
+import CustomCkeditor from "@/components/CustomCkeditor.vue";
 
 export default {
   name: "CourseForm",
+  components: {CustomCkeditor},
   setup() {
     const schema = Yup.object().shape({
       name: Yup.string().required().label('tiêu đề'),
@@ -66,41 +106,72 @@ export default {
   },
   data() {
     return {
+      image: null,
       form: {
         name: null,
         price: null,
+        image: null,
+        short_description: null,
+        description: null,
+        teachers: []
       },
-      teachers: [
-        {id: 1, name: 'Trần Đức 1'},
-        {id: 2, name: 'Trần Đức 2'},
-        {id: 3, name: 'Trần Đức 3'},
-        {id: 4, name: 'Trần Đức 4'},
-      ]
+      validateMessages: {
+        image: null,
+        short_description: null
+      },
+      teachers: []
+    }
+  },
+  created() {
+    this.fetchListTeacher()
+    if (this.$route.name === 'admin.courses.update') {
+      this.fetchCourse()
     }
   },
   methods: {
     onSubmit() {
+      if (this.form.image == null) {
+        this.validateMessages.image = 'Vui lòng chọn hình ảnh.'
+        return
+      }
+      if (!this.form.short_description) {
+        this.validateMessages.short_description = 'Vui lòng nhập nội dung ngắn.'
+        return
+      }
       this.$emit('onSubmit', this.form)
+    },
+    async fetchCourse() {
+      const res = await this.$axios.get(`courses/${this.$route.params.id}`)
+      this.form = res.data.data
+      this.form.teachers = this.form.teachers.map(teacher => teacher.id)
+    },
+    async fetchListTeacher() {
+      let params = {role: constants.ROLE.TEACHER}
+      const res = await this.$axios.get('users/', {params: params})
+      this.teachers = res.data.data || []
+    },
+    updateImage(event) {
+      this.form.image = event.target.files[0] || null
+      this.validateMessages.image = this.form.image == null ? 'Vui lòng chọn hình ảnh.' : null
+    },
+    getUrlPreview() {
+      if (this.image) {
+        return URL.createObjectURL(this.image)
+      }
+      return this.form.image || null
     }
   }
 }
 </script>
 
 <style scoped>
-.form-input-password-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.input-image--perview-box {
+  max-width: 250px;
+  height: auto;
 }
-.form-input-password-box button {
-  margin-left: 1rem;
-  padding: .5rem 1rem;
-  border: 1px solid var(--color-primary);
-  border-radius: 4px;
-  color: var(--color-primary);
-}
-.form-input-password-box button:hover {
-  background-color: var(--color-primary);
-  color: #FFFFFF;
+.input-image--perview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="admin-container">
       <breadcrumb class="admin-breadcrumb-wrapper" :items="breadcrumbs"/>
       <div class="user-form-container">
-        <UserForm @onSubmit="onSubmit"></UserForm>
+        <CourseForm @onSubmit="onSubmit"></CourseForm>
       </div>
     </div>
   </div>
@@ -11,12 +11,11 @@
 
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
-import UserForm from "@/components/UserForm.vue";
-import constants from "@/Utils/constants.js";
+import CourseForm from "@/components/CourseForm.vue";
 
 export default {
-  name: "TeacherCreate",
-  components: {UserForm, Breadcrumb},
+  name: "CourseCreate",
+  components: {CourseForm, Breadcrumb},
   computed: {
     breadcrumbs() {
       return [
@@ -26,11 +25,11 @@ export default {
           route: {name: 'admin.dashboard'}
         }, {
           id: 2,
-          title: 'Giáo viên',
-          route: {name: 'admin.teachers'}
+          title: 'Khóa học',
+          route: {name: 'admin.courses'}
         }, {
           id: 3,
-          title: 'Thêm mới'
+          title: 'Cập nhật'
         },
       ]
     }
@@ -41,9 +40,12 @@ export default {
   },
   methods: {
     async onSubmit(form) {
-      form.role_id = constants.ROLE.TEACHER
-      await this.$axios.post('/users', form)
-      this.$router.push({name: 'admin.teachers'})
+      if (!form.image || typeof form.image === 'string') {
+        delete form.image
+      }
+      const formData = this.objectToFormData(form)
+      await this.$axios.post(`courses/${this.$route.params.id}?_method=put`, formData, this.configRequestFormData())
+      this.$router.push({name: 'admin.courses'})
     }
   }
 }

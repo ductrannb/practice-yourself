@@ -96,6 +96,16 @@ const router = createRouter({
           component: () => import('@/views/admin/UserCreate.vue')
         },
         {
+          path: 'users/update/:id',
+          name: 'admin.users.update',
+          component: () => import('@/views/admin/UserUpdate.vue')
+        },
+        {
+          path: 'users/:id',
+          name: 'admin.users.detail',
+          component: () => import('@/views/admin/UserDetail.vue')
+        },
+        {
           path: 'teachers',
           name: 'admin.teachers',
           component: () => import('@/views/admin/Teachers.vue')
@@ -106,6 +116,16 @@ const router = createRouter({
           component: () => import('@/views/admin/TeacherCreate.vue')
         },
         {
+          path: 'teachers/update/:id',
+          name: 'admin.teachers.update',
+          component: () => import('@/views/admin/TeacherUpdate.vue')
+        },
+        {
+          path: 'teachers/:id',
+          name: 'admin.teachers.detail',
+          component: () => import('@/views/admin/TeacherDetail.vue')
+        },
+        {
           path: 'courses',
           name: 'admin.courses',
           component: () => import('@/views/admin/Courses.vue')
@@ -114,6 +134,11 @@ const router = createRouter({
           path: 'courses/create',
           name: 'admin.courses.create',
           component: () => import('@/views/admin/CourseCreate.vue')
+        },
+        {
+          path: 'courses/update/:id',
+          name: 'admin.courses.update',
+          component: () => import('@/views/admin/CourseUpdate.vue')
         },
         {
           path: 'courses/:id/lessons',
@@ -205,18 +230,16 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   Mixin.methods.changePageTitle()
-  Mixin.methods.checkAuth()
-  setTimeout(() => {
+  await Mixin.methods.checkAuth()
     // Check role admin
-    if (adminRoutes.includes(to.name)) {
-      if (store.getters.auth == null) {
-        next({name: 'login'})
-      }
-      if (store.getters.auth?.role_id != constants.ROLE.ADMIN) {
-        next({name: '404'})
-      }
+  if (adminRoutes.includes(to.name)) {
+    if (store.getters.auth == null) {
+      next({name: 'login'})
     }
-  }, 200)
+    if (store.getters.auth?.role_id != constants.ROLE.ADMIN) {
+      next({name: '404'})
+    }
+  }
   next()
 })
 

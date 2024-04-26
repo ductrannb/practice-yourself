@@ -28,6 +28,9 @@ app.config.globalProperties.$filter = {
     },
     formatDatetime(datetime) {
         return moment(datetime).format('DD/MM/YYYY HH:mm')
+    },
+    formatMoney(number) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number)
     }
 }
 app.config.globalProperties.$axios = axios

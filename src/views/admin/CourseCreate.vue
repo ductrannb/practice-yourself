@@ -16,30 +16,33 @@ import CourseForm from "@/components/CourseForm.vue";
 export default {
   name: "CourseCreate",
   components: {CourseForm, Breadcrumb},
-  data() {
-    return {
-      breadcrumbs: [
+  computed: {
+    breadcrumbs() {
+      return [
         {
           id: 1,
           title: 'Dashboard',
           route: {name: 'admin.dashboard'}
-        },
-        {
+        }, {
           id: 2,
           title: 'Khóa học',
           route: {name: 'admin.courses'}
-        },
-        {
+        }, {
           id: 3,
           title: 'Thêm mới'
         },
-      ],
+      ]
+    }
+  },
+  data() {
+    return {
     }
   },
   methods: {
-    onSubmit(form) {
-      console.log(form)
-      this.deleteConfirm()
+    async onSubmit(form) {
+      const formData = this.objectToFormData(form)
+      await this.$axios.post('courses', formData, this.configRequestFormData())
+      this.$router.push({name: 'admin.courses'})
     }
   }
 }

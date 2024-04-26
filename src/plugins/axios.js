@@ -1,6 +1,8 @@
 import axios from "axios"
 import store from "@/plugins/vuex.js"
 import Swal from "sweetalert2";
+import constants from "@/Utils/constants.js";
+import router from "@/router/index.js";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL_API
 axios.defaults.headers.common['Content-Type'] = 'application/json'
@@ -17,7 +19,9 @@ axios.interceptors.request.use((config) => {
 })
 
 axios.interceptors.response.use((response) => {
-    store.state.isLoading = false
+    setTimeout(() => {
+        store.state.isLoading = false
+    }, 300)
     if (response.data?.access_token) {
         localStorage.setItem('access_token', response.data.access_token)
     }
@@ -30,13 +34,20 @@ axios.interceptors.response.use((response) => {
     }
     return response;
 }, (error) => {
-    store.state.isLoading = false
-    // handle error axios
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops',
-        text: error.response.data.message || 'Lỗi hệ thống',
-    });
+    setTimeout(() => {
+        store.state.isLoading = false
+    }, 300)
+    if (error.config.url !== 'me') {
+        // handle error axios
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops',
+            text: error.response.data.message || 'Lỗi hệ thống',
+        });
+        if (error.response.status === constants.RESPONSES.HTTP_UNAUTHORIZED) {
+            router.push({name: 'login'})
+        }
+    }
     return Promise.reject(error.message);
 });
 
