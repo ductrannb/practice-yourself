@@ -5,9 +5,9 @@
       <div class="question-content" v-html="question.content"/>
       <span :class="{
         'question-level': true,
-        'question-level--easy': question.level === constants.LESSON_LEVEL.CODE.LEVEL_EASY,
-        'question-level--medium': question.level === constants.LESSON_LEVEL.CODE.LEVEL_MEDIUM,
-        'question-level--hard': question.level === constants.LESSON_LEVEL.CODE.LEVEL_HARD
+        'question-level--easy': question.level === constants.QUESTION_LEVEL.CODE.LEVEL_EASY,
+        'question-level--medium': question.level === constants.QUESTION_LEVEL.CODE.LEVEL_MEDIUM,
+        'question-level--hard': question.level === constants.QUESTION_LEVEL.CODE.LEVEL_HARD
       }">{{getLevelText(question.level)}}</span>
     </div>
     <div class="question-choice-list">
@@ -58,12 +58,12 @@ export default {
     },
     getLevelText(value) {
       switch (value) {
-        case constants.LESSON_LEVEL.CODE.LEVEL_EASY:
-          return constants.LESSON_LEVEL.TEXT.LEVEL_EASY
-        case constants.LESSON_LEVEL.CODE.LEVEL_MEDIUM:
-          return constants.LESSON_LEVEL.TEXT.LEVEL_MEDIUM
-        case constants.LESSON_LEVEL.CODE.LEVEL_HARD:
-          return constants.LESSON_LEVEL.TEXT.LEVEL_HARD
+        case constants.QUESTION_LEVEL.CODE.LEVEL_EASY:
+          return constants.QUESTION_LEVEL.TEXT.LEVEL_EASY
+        case constants.QUESTION_LEVEL.CODE.LEVEL_MEDIUM:
+          return constants.QUESTION_LEVEL.TEXT.LEVEL_MEDIUM
+        case constants.QUESTION_LEVEL.CODE.LEVEL_HARD:
+          return constants.QUESTION_LEVEL.TEXT.LEVEL_HARD
       }
     },
     getChoiceCode(index) {

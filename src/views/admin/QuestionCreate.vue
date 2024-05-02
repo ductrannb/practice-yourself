@@ -11,50 +11,59 @@
 
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
-import CourseForm from "@/components/CourseForm.vue";
-import LessonForm from "@/components/LessonForm.vue";
 import QuestionForm from "@/components/QuestionForm.vue";
 
 export default {
   name: "QuestionCreate",
-  components: {QuestionForm, LessonForm, CourseForm, Breadcrumb},
-  data() {
-    return {
-      breadcrumbs: [
+  components: {QuestionForm, Breadcrumb},
+  computed: {
+    breadcrumbs() {
+      return [
         {
           id: 1,
           title: 'Dashboard',
           route: {name: 'admin.dashboard'}
-        },
-        {
+        }, {
           id: 2,
-          title: 'Khóa học',
+          title: 'Danh sách khóa học',
           route: {name: 'admin.courses'}
-        },
-        {
+        }, {
           id: 3,
-          title: 'Tên khóa học'
-        },
-        {
+          title: this.name.course_name,
+          route: { name: "admin.courses.lessons", params: { id: this.$route.params.id }}
+        }, {
           id: 4,
-          title: 'Danh sách bài học',
-          route: {name: "admin.courses.lessons", params: {id: 1}}
-        },
-        {
+          title: this.name.lesson_name,
+          route: {
+            name: "admin.courses.lessons.questions",
+            params: { id: this.$route.params.id, lessonId: this.$route.params.lessonId }
+          }
+        }, {
           id: 5,
-          title: 'Tên bài học'
-        },
-        {
-          id: 6,
           title: 'Thêm mới'
         }
-      ],
+      ]
     }
+  },
+  data() {
+    return {
+      name: {
+        course_name: null,
+        lesson_name: null
+      }
+    }
+  },
+  created() {
+    this.fetchName()
   },
   methods: {
     onSubmit(form) {
       console.log(form)
       this.deleteConfirm()
+    },
+    async fetchName() {
+      const res = await this.$axios.get(`/lessons/get-name/${this.$route.params.lessonId}`)
+      this.name = res.data.data
     }
   }
 }

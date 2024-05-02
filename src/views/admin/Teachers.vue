@@ -23,9 +23,21 @@
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <div class="admin-user-table--column-action-box">
-              <v-icon icon="mdi-eye" title="Chi tiết" @click="$router.push({name: 'admin.teachers.detail', params: {id: item.id}})"/>
-              <v-icon icon="mdi-pencil" title="Sửa" @click="$router.push({name: 'admin.teachers.update', params: {id: item.id}})"/>
-              <v-icon icon="mdi-delete" title="Xóa" color="red" @click="destroy(item.id)"/>
+              <v-tooltip text="Chi tiết">
+                <template v-slot:activator="{ props }">
+                  <v-icon v-bind="props" icon="mdi-eye" @click="$router.push({name: 'admin.teachers.detail', params: {id: item.id}})"/>
+                </template>
+              </v-tooltip>
+              <v-tooltip text="Sửa">
+                <template v-slot:activator="{ props }">
+                  <v-icon v-bind="props" icon="mdi-pencil" @click="$router.push({name: 'admin.teachers.update', params: {id: item.id}})"/>
+                </template>
+              </v-tooltip>
+              <v-tooltip text="Xóa">
+                <template v-slot:activator="{ props }">
+                  <v-icon v-bind="props" icon="mdi-delete" color="red" @click="destroy(item.id)"/>
+                </template>
+              </v-tooltip>
             </div>
           </template>
           <template v-slot:bottom>

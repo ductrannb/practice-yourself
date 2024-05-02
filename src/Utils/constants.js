@@ -6,7 +6,7 @@ const RESPONSES = {
     HTTP_NOT_ACCEPTABLE: 406,
     HTTP_INTERNAL_SERVER_ERROR: 500,
 }
-const LESSON_LEVEL = {
+const QUESTION_LEVEL = {
     CODE: {
         LEVEL_EASY: 1,
         LEVEL_MEDIUM: 2,
@@ -25,6 +25,6 @@ const ROLE = {
 }
 export default {
     RESPONSES,
-    LESSON_LEVEL,
+    QUESTION_LEVEL,
     ROLE
 }

@@ -18,16 +18,28 @@
       <template v-slot:[`item.author`]="{ item }">
         <div class="author-box">
           <div class="author--avatar-box">
-            <img class="author--avatar avatar" :src="item.author.avatar" alt="avatar">
+            <img class="author--avatar avatar" :src="item.author.avatar || '/images/icons/avatar-default.svg'" alt="avatar">
           </div>
           <span>{{ item.author.name }}</span>
         </div>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <div class="admin-user-table--column-action-box">
-          <v-icon icon="mdi-eye" @click="$router.push({name: 'admin.courses.lessons.questions', params: {id:1, lessonId: item.id}})"/>
-          <v-icon icon="mdi-pencil" @click="$router.push({name: 'admin.courses.lessons.update', params: {id:1, lessonId: item.id}})"/>
-          <v-icon icon="mdi-delete" color="red" @click="destroy(item.id)"/>
+          <v-tooltip text="Danh sách câu hỏi">
+            <template v-slot:activator="{ props }">
+              <v-icon v-bind="props" icon="mdi-eye" @click="$router.push({name: 'admin.courses.lessons.questions', params: {lessonId: item.id}})"/>
+            </template>
+          </v-tooltip>
+          <v-tooltip text="Sửa">
+            <template v-slot:activator="{ props }">
+              <v-icon v-bind="props" icon="mdi-pencil" @click="$router.push({name: 'admin.courses.lessons.update', params: {lessonId: item.id}})"/>
+            </template>
+          </v-tooltip>
+          <v-tooltip text="Xóa">
+            <template v-slot:activator="{ props }">
+              <v-icon v-bind="props" icon="mdi-delete" color="red" @click="destroy(item.id)"/>
+            </template>
+          </v-tooltip>
         </div>
       </template>
       <template v-slot:bottom>
