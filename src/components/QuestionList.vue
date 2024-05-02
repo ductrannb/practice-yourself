@@ -12,9 +12,6 @@
         :headers="headers"
         :items="questions"
     >
-      <template v-slot:[`item.teachers`]="{ item }">
-        <span>{{ getLabelTeachers(item.teachers) }}</span>
-      </template>
       <template v-slot:[`item.actions`]="{ item }">
         <div class="admin-user-table--column-action-box">
           <v-icon icon="mdi-eye"/>
@@ -36,58 +33,52 @@
 
 export default {
   name: "QuestionList",
-  props: {
-    questions: {
-      type: Array,
-      required: true
-    }
-  },
-  data() {
-    return {
-      headers: [
+  computed: {
+    headers() {
+      return [
         {
           title: 'STT',
           align: 'center',
           sortable: false,
           key: 'index',
           width: '50px'
-        },
-        {
+        }, {
           title: 'Tên',
           align: 'start',
           sortable: false,
           key: 'name'
-        },
-        {
+        }, {
           title: 'Nội dung',
           align: 'start',
           sortable: false,
           key: 'content'
-        },
-        {
+        }, {
           title: 'Người tạo',
           align: 'start',
           sortable: false,
           key: 'author'
-        },
-        {
+        }, {
           title: 'Hành động',
           align: 'center',
           sortable: false,
           key: 'actions'
         }
-      ],
+      ]
+    }
+  },
+  data() {
+    return {
+      form: {
+        lesson_id: this.$route.params.lessonId,
+        keyword: null,
+        page: 1,
+      }
     }
   },
   methods: {
-    getLabelTeachers(teachers) {
-      if (!Array.isArray(teachers)) {
-        return ''
-      }
-      if (teachers.length <= 2) {
-        return teachers.join(', ')
-      }
-      return `${teachers.slice(0, 2).join(', ')}, (+${teachers.length - 2})`
+    async fetchQuestions() {
+      const res = await this.$axios.get(`questions`)
+      this.questions = res.data.data
     }
   }
 }

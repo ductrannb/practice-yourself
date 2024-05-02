@@ -3,7 +3,7 @@
     <div class="admin-container">
       <breadcrumb class="admin-breadcrumb-wrapper" :items="breadcrumbs"/>
       <div class="admin-user-container">
-        <QuestionList :questions="lesson.questions"></QuestionList>
+        <QuestionList/>
       </div>
     </div>
   </div>
@@ -11,13 +11,11 @@
 
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue"
-import LessonList from "@/components/LessonList.vue"
-import Question from "@/components/Question.vue";
 import QuestionList from "@/components/QuestionList.vue";
 
 export default {
   name: "Questions",
-  components: {QuestionList, Question, LessonList, Breadcrumb},
+  components: {QuestionList, Breadcrumb},
   computed: {
     breadcrumbs() {
       return [
@@ -48,12 +46,7 @@ export default {
       name: {
         course_name: null,
         lesson_name: null
-      },
-      lesson: {
-        name: null,
-        teachers: [],
-        questions: []
-      },
+      }
     }
   },
   created() {

@@ -81,7 +81,7 @@ export default {
     return {
       form: {
         content: '',
-        level: this.constants.QUESTION_LEVEL.CODE.LEVEL_EASY,
+        level: constants.QUESTION_LEVEL.CODE.LEVEL_EASY,
         choice: [
           { content: null, is_correct: false },
           { content: null, is_correct: false },
