@@ -5,7 +5,7 @@
       <div class="admin-user-container">
         <div class="course-teacher-box">
           Danh sách giáo viên:
-          <span>{{ course.teachers.join(', ') }}</span>
+          <span>{{ getLabelListTeachers }}</span>
         </div>
         <LessonList :lessons="course.lessons"></LessonList>
       </div>
@@ -39,6 +39,9 @@ export default {
           title: 'Danh sách bài học',
         }
       ]
+    },
+    getLabelListTeachers() {
+      return this.course.teachers.map(teacher => teacher.name).join(', ')
     }
   },
   data() {
@@ -50,9 +53,13 @@ export default {
       }
     }
   },
+  created() {
+    this.fetchCourse()
+  },
   methods: {
-    fetchLessons() {
-
+    async fetchCourse() {
+      const res = await this.$axios.get(`courses/${this.$route.params.id}`)
+      this.course = res.data.data
     }
   }
 }
