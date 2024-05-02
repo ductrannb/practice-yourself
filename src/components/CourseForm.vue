@@ -45,6 +45,7 @@
       </div>
     </div>
     <v-textarea
+        class="mt-4"
         v-model="form.description" no-resize
         rows="4" max-rows="4"
         label="Mô tả" variant="outlined" color="var(--color-main)"
