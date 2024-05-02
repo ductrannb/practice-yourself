@@ -151,6 +151,11 @@ const router = createRouter({
           component: () => import('@/views/admin/LessonCreate.vue')
         },
         {
+          path: 'courses/:id/lessons/:lessonId/update',
+          name: 'admin.courses.lessons.update',
+          component: () => import('@/views/admin/LessonUpdate.vue')
+        },
+        {
           path: 'courses/:id/lessons/:lessonId/questions',
           name: 'admin.courses.lessons.questions',
           component: () => import('@/views/admin/Questions.vue')

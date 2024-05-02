@@ -34,7 +34,7 @@ export default {
           route: {name: "admin.courses.lessons", params: {id: 1}}
         }, {
           id: 4,
-          title: 'Thêm mới'
+          title: 'Cập nhật'
         },
       ]
     }
@@ -53,8 +53,8 @@ export default {
       this.courseName = res.data.data.name
     },
     async onSubmit(form) {
-      await this.$axios.post('/lessons', form)
-      this.$router.push({name: "admin.courses.lessons", params: {id: 1}})
+      const res = await this.$axios.put(`/lessons/${this.$route.params.lessonId}`, form)
+      this.$router.push({name: 'admin.courses.lessons'})
     }
   }
 }

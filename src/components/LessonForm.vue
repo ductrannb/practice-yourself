@@ -9,6 +9,7 @@
         color="red"
         :is-required="true"
         v-model="form.name"
+        :updater="form.name"
     />
     <div class="admin-form-footer">
       <router-link
@@ -29,8 +30,7 @@ export default {
   name: "LessonForm",
   setup() {
     const schema = Yup.object().shape({
-      name: Yup.string().required().label('tiêu đề'),
-      price: Yup.number().required().min(0).label('giá'),
+      name: Yup.string().required().label('tiêu đề')
     });
 
     return { schema }
@@ -39,18 +39,25 @@ export default {
     return {
       form: {
         name: null,
-        price: null,
+        course_id: null
       },
-      teachers: [
-        {id: 1, name: 'Trần Đức 1'},
-        {id: 2, name: 'Trần Đức 2'},
-        {id: 3, name: 'Trần Đức 3'},
-        {id: 4, name: 'Trần Đức 4'},
-      ]
+      teachers: []
+    }
+  },
+  created() {
+    if (this.$route.name === 'admin.courses.lessons.update') {
+      this.fetchLesson()
+    } else {
+      this.form.course_id = this.$route.params.id
     }
   },
   methods: {
+    async fetchLesson() {
+      const res = await this.$axios.get(`lessons/${this.$route.params.lessonId}`)
+      this.form = res.data.data
+    },
     onSubmit() {
+      console.log(this.form)
       this.$emit('onSubmit', this.form)
     }
   }
