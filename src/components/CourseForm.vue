@@ -45,7 +45,7 @@
       </div>
     </div>
     <v-textarea
-        v-model="form.short_description" no-resize
+        v-model="form.description" no-resize
         rows="4" max-rows="4"
         label="Mô tả" variant="outlined" color="var(--color-main)"
     />
@@ -102,7 +102,6 @@ export default {
       },
       validateMessages: {
         image: null,
-        short_description: null
       },
       teachers: []
     }
