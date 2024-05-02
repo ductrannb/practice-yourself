@@ -7,7 +7,7 @@
           Danh sách giáo viên:
           <span>{{ getLabelListTeachers }}</span>
         </div>
-        <LessonList :lessons="course.lessons"></LessonList>
+        <LessonList :lessons="course.lessons" :paginate="paginate" @fetchList="fetchCourse"></LessonList>
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@ export default {
           route: {name: 'admin.courses'}
         }, {
           id: 3,
-          title: 'Tên khóa học',
+          title: this.course.name,
         }, {
           id: 2,
           title: 'Danh sách bài học',
@@ -50,16 +50,28 @@ export default {
         name: null,
         teachers: [],
         lessons: []
-      }
+      },
+      paginate: {
+        current_page: 1,
+        last_page: 1,
+        total: 0,
+      },
     }
   },
   created() {
     this.fetchCourse()
   },
   methods: {
-    async fetchCourse() {
-      const res = await this.$axios.get(`courses/${this.$route.params.id}`)
+    async fetchCourse(form = {}) {
+      const res = await this.$axios.get(`courses/${this.$route.params.id}`, {params: form})
+      const lessons = res.data.data.lessons
       this.course = res.data.data
+      this.course.lessons = lessons.data
+      this.paginate = {
+        current_page: lessons.current_page,
+        last_page: lessons.last_page,
+        total: lessons.total
+      }
     }
   }
 }

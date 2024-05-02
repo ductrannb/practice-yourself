@@ -44,25 +44,11 @@
         <img :src="getUrlPreview()" alt="preview">
       </div>
     </div>
-    <div class="ckeditor-form-group">
-      <label class="required">Mô tả ngắn</label>
-      <CustomCkeditor
-          class="ckeditor-form--content"
-          v-model="form.short_description"
-          placeholder="Nhập mô tả ngắn"
-          :error-message="validateMessages.short_description"
-          :updater="form.short_description"
-      />
-    </div>
-    <div class="ckeditor-form-group">
-      <label>Mô tả chi tiết</label>
-      <CustomCkeditor
-          class="ckeditor-form--content"
-          v-model="form.description"
-          placeholder="Nhập mô tả chi tiết"
-          :updater="form.description"
-      />
-    </div>
+    <v-textarea
+        v-model="form.short_description" no-resize
+        rows="4" max-rows="4"
+        label="Mô tả" variant="outlined" color="var(--color-main)"
+    />
     <v-autocomplete
       v-model="form.teachers"
       :items="teachers"
@@ -111,7 +97,6 @@ export default {
         name: null,
         price: null,
         image: null,
-        short_description: null,
         description: null,
         teachers: []
       },
@@ -132,10 +117,6 @@ export default {
     onSubmit() {
       if (this.form.image == null) {
         this.validateMessages.image = 'Vui lòng chọn hình ảnh.'
-        return
-      }
-      if (!this.form.short_description) {
-        this.validateMessages.short_description = 'Vui lòng nhập nội dung ngắn.'
         return
       }
       this.$emit('onSubmit', this.form)

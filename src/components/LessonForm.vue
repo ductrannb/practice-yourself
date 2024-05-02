@@ -30,8 +30,7 @@ export default {
   name: "LessonForm",
   setup() {
     const schema = Yup.object().shape({
-      name: Yup.string().required().label('tiêu đề'),
-      price: Yup.number().required().min(0).label('giá'),
+      name: Yup.string().required().label('tiêu đề')
     });
 
     return { schema }
@@ -46,10 +45,19 @@ export default {
     }
   },
   created() {
-    this.form.course_id = this.$route.params.id
+    if (this.$route.name === 'admin.courses.lessons.update') {
+      this.fetchLesson()
+    } else {
+      this.form.course_id = this.$route.params.id
+    }
   },
   methods: {
+    async fetchLesson() {
+      const res = await this.$axios.get(`lessons/${this.$route.params.lessonId}`)
+      this.form = res.data.data
+    },
     onSubmit() {
+      console.log(this.form)
       this.$emit('onSubmit', this.form)
     }
   }

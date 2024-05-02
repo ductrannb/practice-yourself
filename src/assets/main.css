@@ -187,3 +187,9 @@
 .ckeditor-error .ck.ck-toolbar {
     border-color: var(--color-error);
 }
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
