@@ -1,4 +1,5 @@
 import store from "@/plugins/vuex.js";
+import constants from "@/Utils/constants.js";
 
 export default {
     data() {
@@ -69,6 +70,35 @@ export default {
                 }
             }
             return formData;
-        }
+        },
+        getLevelText(value) {
+            switch (value) {
+                case constants.QUESTION_LEVEL.CODE.LEVEL_EASY:
+                    return constants.QUESTION_LEVEL.TEXT.LEVEL_EASY
+                case constants.QUESTION_LEVEL.CODE.LEVEL_MEDIUM:
+                    return constants.QUESTION_LEVEL.TEXT.LEVEL_MEDIUM
+                case constants.QUESTION_LEVEL.CODE.LEVEL_HARD:
+                    return constants.QUESTION_LEVEL.TEXT.LEVEL_HARD
+            }
+        },
+        getChoiceCode(index) {
+            switch (index) {
+                case 0:
+                    return "A"
+                case 1:
+                    return "B"
+                case 2:
+                    return "C"
+                case 3:
+                    return "D"
+            }
+        },
+        async destroy(url, id , callback) {
+            const rs = await this.deleteConfirm()
+            if (rs.isConfirmed) {
+                await this.$axios.delete(`${url}/${id}`)
+                callback()
+            }
+        },
     }
 }

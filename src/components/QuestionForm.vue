@@ -1,45 +1,63 @@
 <template>
   <Form class="question-form" as="v-form" :validation-schema="schema" @submit="onSubmit">
     <span class="question-form--text-note">Hãy nhập nội dung câu hỏi và các đáp án. Sau đó tích vào một đáp án để chọn nó là đáp án đúng</span>
+    <v-radio-group hide-details class="custom-radio-group mt-2" v-model="form.level" inline>
+      <template v-slot:label>
+        <label class="required">Mức độ</label>
+      </template>
+      <v-radio :label="constants.QUESTION_LEVEL.TEXT.LEVEL_EASY" color="#40B4E5" :value="constants.QUESTION_LEVEL.CODE.LEVEL_EASY"></v-radio>
+      <v-radio :label="constants.QUESTION_LEVEL.TEXT.LEVEL_MEDIUM" color="#8AC53E" :value="constants.QUESTION_LEVEL.CODE.LEVEL_MEDIUM"></v-radio>
+      <v-radio :label="constants.QUESTION_LEVEL.TEXT.LEVEL_HARD" color="#FF9B2F" :value="constants.QUESTION_LEVEL.CODE.LEVEL_HARD"></v-radio>
+    </v-radio-group>
     <div class="question-form-group">
       <label class="required">Nội dung câu hỏi</label>
       <CustomCkeditor
         class="question-form--question-content"
         v-model="form.content"
         placeholder="Nhập nội dung câu hỏi"
+        :updater="form.content"
       />
     </div>
     <div class="question-form-group">
       <div class="question-choice-box">
         <label class="question-choice-label required">Đáp án A</label>
-        <v-checkbox-btn size="20"></v-checkbox-btn>
+        <v-checkbox-btn size="20" v-model="form.choices[0].is_correct" @update:model-value="updateCorrectChoice(0)"></v-checkbox-btn>
       </div>
-      <CustomCkeditor v-model="form.content" placeholder="Nhập nội dung đáp án A"/>
+      <CustomCkeditor v-model="form.choices[0].content" :updater="form.choices[0].content" placeholder="Nhập nội dung đáp án A"/>
     </div>
     <div class="question-form-group">
       <div class="question-choice-box">
         <label class="question-choice-label required">Đáp án B</label>
-        <v-checkbox-btn size="20"></v-checkbox-btn>
+        <v-checkbox-btn size="20" v-model="form.choices[1].is_correct" @update:model-value="updateCorrectChoice(1)"></v-checkbox-btn>
       </div>
-      <CustomCkeditor v-model="form.content" placeholder="Nhập nội dung đáp án B"/>
+      <CustomCkeditor v-model="form.choices[1].content" :updater="form.choices[1].content" placeholder="Nhập nội dung đáp án B"/>
     </div>
     <div class="question-form-group">
       <div class="question-choice-box">
         <label class="question-choice-label required">Đáp án C</label>
-        <v-checkbox-btn size="20"></v-checkbox-btn>
+        <v-checkbox-btn size="20" v-model="form.choices[2].is_correct" @update:model-value="updateCorrectChoice(2)"></v-checkbox-btn>
       </div>
-      <CustomCkeditor v-model="form.content" placeholder="Nhập nội dung đáp án C"/>
+      <CustomCkeditor v-model="form.choices[2].content" :updater="form.choices[2].content" placeholder="Nhập nội dung đáp án C"/>
     </div>
     <div class="question-form-group">
       <div class="question-choice-box">
         <label class="question-choice-label required">Đáp án D</label>
-        <v-checkbox-btn size="20"></v-checkbox-btn>
+        <v-checkbox-btn size="20" v-model="form.choices[3].is_correct" @update:model-value="updateCorrectChoice(3)"></v-checkbox-btn>
       </div>
-      <CustomCkeditor v-model="form.content" placeholder="Nhập nội dung đáp án D"/>
+      <CustomCkeditor v-model="form.choices[3].content" :updater="form.choices[3].content" placeholder="Nhập nội dung đáp án D"/>
+    </div>
+    <div class="question-form-group">
+      <label>Lời giải</label>
+      <CustomCkeditor
+          class="question-form--question-content"
+          v-model="form.solution"
+          placeholder="Nhập nội dung lời giải"
+          :updater="form.solution"
+      />
     </div>
     <div class="admin-form-footer">
       <router-link
-          :to="{name: 'admin.courses.lessons.questions', params: {id: 1, lessonId: 2}}"
+          :to="{name: 'admin.courses.lessons.questions', params: {id: $route.params.id, lessonId: $route.params.lessonId}}"
           class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
@@ -51,13 +69,17 @@
 
 <script>
 import * as Yup from "yup";
+import constants from "@/Utils/constants.js";
 
 export default {
   name: "QuestionForm",
+  computed: {
+    constants() {
+      return constants
+    }
+  },
   setup() {
     const schema = Yup.object().shape({
-      name: Yup.string().required().label('tiêu đề'),
-      price: Yup.number().required().min(0).label('giá'),
     });
 
     return { schema }
@@ -65,19 +87,34 @@ export default {
   data() {
     return {
       form: {
-        content: ''
-      },
-      teachers: [
-        {id: 1, name: 'Trần Đức 1'},
-        {id: 2, name: 'Trần Đức 2'},
-        {id: 3, name: 'Trần Đức 3'},
-        {id: 4, name: 'Trần Đức 4'},
-      ]
+        content: '',
+        level: constants.QUESTION_LEVEL.CODE.LEVEL_EASY,
+        choices: [
+          { content: null, is_correct: false },
+          { content: null, is_correct: false },
+          { content: null, is_correct: false },
+          { content: null, is_correct: false },
+        ],
+        lesson_id: this.$route.params.lessonId,
+        solution: ''
+      }
+    }
+  },
+  mounted() {
+    if (this.$route.name === 'admin.courses.lessons.questions.update') {
+      this.fetchQuestion()
     }
   },
   methods: {
     onSubmit() {
       this.$emit('onSubmit', this.form)
+    },
+    updateCorrectChoice(index) {
+      this.form.choices.forEach((choice, i) => { choice.is_correct = i === index })
+    },
+    async fetchQuestion() {
+      const res = await this.$axios.get(`questions/${this.$route.params.questionId}`)
+      this.form = res.data.data
     }
   }
 }

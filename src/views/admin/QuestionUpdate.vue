@@ -14,7 +14,7 @@ import Breadcrumb from "@/components/Breadcrumb.vue";
 import QuestionForm from "@/components/QuestionForm.vue";
 
 export default {
-  name: "QuestionCreate",
+  name: "QuestionUpdate",
   components: {QuestionForm, Breadcrumb},
   computed: {
     breadcrumbs() {
@@ -40,7 +40,7 @@ export default {
           }
         }, {
           id: 5,
-          title: 'Thêm mới'
+          title: 'Cập nhật'
         }
       ]
     }
@@ -58,8 +58,14 @@ export default {
   },
   methods: {
     async onSubmit(form) {
-      const res = await this.$axios.post('questions', form)
-      this.$router.push({name: 'admin.courses.lessons.questions'})
+      const res = await this.$axios.put(`questions/${this.$route.params.questionId}`, form)
+      this.$router.push({
+        name: 'admin.courses.lessons.questions',
+        params: {
+          id: this.$route.params.id,
+          lessonId: this.$route.params.lessonId
+        }
+      })
     },
     async fetchName() {
       const res = await this.$axios.get(`/lessons/get-name/${this.$route.params.lessonId}`)

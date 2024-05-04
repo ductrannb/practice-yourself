@@ -16,18 +16,25 @@
         <span>{{ lessons.indexOf(item) + 1 }}</span>
       </template>
       <template v-slot:[`item.author`]="{ item }">
-        <div class="author-box">
-          <div class="author--avatar-box">
-            <img class="author--avatar avatar" :src="item.author.avatar" alt="avatar">
-          </div>
-          <span>{{ item.author.name }}</span>
-        </div>
+        <Author :author="item.author"/>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <div class="admin-user-table--column-action-box">
-          <v-icon icon="mdi-eye" @click="$router.push({name: 'admin.courses.lessons.questions', params: {id:1, lessonId: item.id}})"/>
-          <v-icon icon="mdi-pencil" @click="$router.push({name: 'admin.courses.lessons.update', params: {id:1, lessonId: item.id}})"/>
-          <v-icon icon="mdi-delete" color="red" @click="destroy(item.id)"/>
+          <v-tooltip text="Danh sách câu hỏi">
+            <template v-slot:activator="{ props }">
+              <v-icon v-bind="props" icon="mdi-eye" @click="$router.push({name: 'admin.courses.lessons.questions', params: {lessonId: item.id}})"/>
+            </template>
+          </v-tooltip>
+          <v-tooltip text="Sửa">
+            <template v-slot:activator="{ props }">
+              <v-icon v-bind="props" icon="mdi-pencil" @click="$router.push({name: 'admin.courses.lessons.update', params: {lessonId: item.id}})"/>
+            </template>
+          </v-tooltip>
+          <v-tooltip text="Xóa">
+            <template v-slot:activator="{ props }">
+              <v-icon v-bind="props" icon="mdi-delete" color="red" @click="destroy('lessons', item.id, fetchList)"/>
+            </template>
+          </v-tooltip>
         </div>
       </template>
       <template v-slot:bottom>
@@ -45,9 +52,11 @@
 <script>
 
 import {debounce} from "lodash";
+import Author from "@/components/Author.vue";
 
 export default {
   name: "LessonList",
+  components: {Author},
   props: {
     lessons: {
       type: Array,
@@ -110,13 +119,6 @@ export default {
         },
         1000
     ),
-    async destroy(id) {
-      const rs = await this.deleteConfirm()
-      if (rs.isConfirmed) {
-        await this.$axios.delete(`lessons/${id}`)
-        this.fetchList()
-      }
-    },
   }
 }
 </script>
@@ -142,17 +144,5 @@ export default {
   display: flex;
   column-gap: 8px;
   justify-content: center;
-}
-.author-box {
-  display: flex;
-  align-items: center;
-  column-gap: 12px;
-}
-.author--avatar-box {
-  width: 28px;
-  height: 28px;
-}
-.author--avatar {
-  border: 1px solid #eeeeee;
 }
 </style>

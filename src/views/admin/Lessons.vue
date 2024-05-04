@@ -18,7 +18,7 @@ import Breadcrumb from "@/components/Breadcrumb.vue"
 import LessonList from "@/components/LessonList.vue"
 
 export default {
-  name: "Courses",
+  name: "Lessons",
   components: {LessonList, Breadcrumb},
   computed: {
     breadcrumbs() {
