@@ -97,9 +97,10 @@ export default {
     },
     routesCourse() {
       return [
-        'admin.courses', 'admin.courses.create',
-        'admin.courses.lessons', 'admin.courses.lessons.create',
-        'admin.courses.lessons.questions', 'admin.courses.lessons.questions.create'
+        'admin.courses', 'admin.courses.create', 'admin.courses.update',
+        'admin.courses.lessons', 'admin.courses.lessons.create', 'admin.courses.lessons.update',
+        'admin.courses.lessons.questions', 'admin.courses.lessons.questions.create',
+        'admin.courses.lessons.questions.update', 'admin.courses.lessons.questions.detail',
       ]
     }
   }
