@@ -1,9 +1,19 @@
 import store from "@/plugins/vuex.js";
 import constants from "@/Utils/constants.js";
+import {mapGetters} from "vuex";
 
 export default {
     data() {
         return {}
+    },
+    computed: {
+        ...mapGetters(['auth']),
+        isAdmin() {
+            return this.auth.role_id === constants.ROLE.ADMIN
+        },
+        isTeacher() {
+            return this.auth.role_id === constants.ROLE.TEACHER
+        }
     },
     methods: {
         changePageTitle(title = 'Practice Yourself') {
@@ -100,5 +110,17 @@ export default {
                 callback()
             }
         },
+        authorIsMe(authorId) {
+            return authorId === this.auth.id
+        },
+        replaceRouteName(routeName) {
+            let routeSplit = routeName.split('.')
+            if (['admin', 'teacher'].includes(routeSplit[0])) {
+                routeSplit[0] = this.isAdmin ? 'admin' : 'teacher'
+            } else {
+                routeSplit.unshift(this.isAdmin ? 'admin' : 'teacher')
+            }
+            return routeSplit.join('.')
+        }
     }
 }

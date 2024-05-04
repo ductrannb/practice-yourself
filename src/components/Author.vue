@@ -3,7 +3,8 @@
     <div class="author--avatar-box">
       <img class="author--avatar avatar" :src="author.avatar || '/images/icons/avatar-default.svg'" alt="avatar">
     </div>
-    <span>{{ author.name }}</span>
+    <span class="author--me" v-if="authorIsMe(author.id)">Tôi</span>
+    <span v-else>{{ author.name }}</span>
   </div>
 </template>
 
@@ -31,5 +32,9 @@ export default {
 }
 .author--avatar {
   border: 1px solid #eeeeee;
+}
+.author--me {
+  font-weight: bold;
+  color: var(--color-main);
 }
 </style>

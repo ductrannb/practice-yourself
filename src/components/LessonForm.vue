@@ -13,7 +13,7 @@
     />
     <div class="admin-form-footer">
       <router-link
-          :to="{name: 'admin.courses.lessons', params: {id: this.$route.params.id}}"
+          :to="{name: replaceRouteName('courses.lessons'), params: {id: this.$route.params.id}}"
           class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
@@ -45,7 +45,7 @@ export default {
     }
   },
   created() {
-    if (this.$route.name === 'admin.courses.lessons.update') {
+    if (this.$route.name === this.replaceRouteName('courses.lessons.update')) {
       this.fetchLesson()
     } else {
       this.form.course_id = this.$route.params.id

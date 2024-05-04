@@ -192,11 +192,6 @@ const router = createRouter({
           component: () => import('@/views/admin/Courses.vue')
         },
         {
-          path: 'courses/create',
-          name: 'teacher.courses.create',
-          component: () => import('@/views/admin/CourseCreate.vue')
-        },
-        {
           path: 'courses/:id/lessons',
           name: 'teacher.courses.lessons',
           component: () => import('@/views/admin/Lessons.vue')
@@ -207,6 +202,11 @@ const router = createRouter({
           component: () => import('@/views/admin/LessonCreate.vue')
         },
         {
+          path: 'courses/:id/lessons/update/:lessonId',
+          name: 'teacher.courses.lessons.update',
+          component: () => import('@/views/admin/LessonUpdate.vue')
+        },
+        {
           path: 'courses/:id/lessons/:lessonId/questions',
           name: 'teacher.courses.lessons.questions',
           component: () => import('@/views/admin/Questions.vue')
@@ -214,6 +214,21 @@ const router = createRouter({
         {
           path: 'courses/:id/lessons/:lessonId/questions/create',
           name: 'teacher.courses.lessons.questions.create',
+          component: () => import('@/views/admin/QuestionCreate.vue')
+        },
+        {
+          path: 'courses/:id/lessons/:lessonId/questions/update/:questionId',
+          name: 'teacher.courses.lessons.questions.update',
+          component: () => import('@/views/admin/QuestionUpdate.vue')
+        },
+        {
+          path: 'courses/:id/lessons/:lessonId/questions/:questionId',
+          name: 'teacher.courses.lessons.questions.detail',
+          component: () => import('@/views/admin/QuestionDetail.vue')
+        },
+        {
+          path: 'exams',
+          name: 'teacher.exams',
           component: () => import('@/views/admin/QuestionCreate.vue')
         }
       ]

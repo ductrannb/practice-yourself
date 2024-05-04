@@ -23,11 +23,11 @@ export default {
         {
           id: 1,
           title: 'Dashboard',
-          route: {name: 'admin.dashboard'}
+          route: {name: this.replaceRouteName('dashboard')}
         }, {
           id: 2,
           title: 'Giáo viên',
-          route: {name: 'admin.teachers'}
+          route: {name: this.replaceRouteName('teachers')}
         }, {
           id: 3,
           title: 'Thêm mới'
@@ -43,7 +43,7 @@ export default {
     async onSubmit(form) {
       form.role_id = constants.ROLE.TEACHER
       await this.$axios.post('/users', form)
-      this.$router.push({name: 'admin.teachers'})
+      this.$router.push({name: this.replaceRouteName('teachers')})
     }
   }
 }

@@ -57,7 +57,7 @@
     </div>
     <div class="admin-form-footer">
       <router-link
-          :to="{name: 'admin.courses.lessons.questions', params: {id: $route.params.id, lessonId: $route.params.lessonId}}"
+          :to="{name: replaceRouteName('courses.lessons.questions'), params: {id: $route.params.id, lessonId: $route.params.lessonId}}"
           class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
@@ -101,7 +101,7 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.name === 'admin.courses.lessons.questions.update') {
+    if (this.$route.name === this.replaceRouteName('courses.lessons.questions.update')) {
       this.fetchQuestion()
     }
   },

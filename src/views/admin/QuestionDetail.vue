@@ -26,13 +26,13 @@
       </div>
       <div class="admin-form-footer">
         <router-link
-            :to="{name: 'admin.courses.lessons.questions', params: { id: this.$route.params.id, lessonId: this.$route.params.lessonId }}"
+            :to="{name: replaceRouteName('courses.lessons.questions'), params: { id: this.$route.params.id, lessonId: this.$route.params.lessonId }}"
             class="admin-form-footer-btn admin-form-footer-btn--cancel"
         >
           Trở lại
         </router-link>
         <router-link
-            :to="{name: 'admin.courses.lessons.questions.update'}"
+            :to="{name: replaceRouteName('courses.lessons.questions.update')}"
             class="admin-form-footer-btn admin-form-footer-btn--submit"
         >
           Sửa
@@ -60,20 +60,20 @@ export default {
         {
           id: 1,
           title: 'Dashboard',
-          route: {name: 'admin.dashboard'}
+          route: {name: this.replaceRouteName('dashboard')}
         }, {
           id: 2,
           title: 'Danh sách khóa học',
-          route: {name: 'admin.courses'}
+          route: {name: this.replaceRouteName('courses')}
         }, {
           id: 3,
           title: this.name.course_name,
-          route: { name: 'admin.courses.lessons', params: { id: this.$route.params.id }}
+          route: { name: this.replaceRouteName('courses.lessons'), params: { id: this.$route.params.id }}
         }, {
           id: 4,
           title: this.name.lesson_name,
           route: {
-            name: 'admin.courses.lessons.questions',
+            name: this.replaceRouteName('courses.lessons.questions'),
             params: { id: this.$route.params.id, lessonId: this.$route.params.lessonId }
           }
         }, {

@@ -99,7 +99,6 @@ export default {
                 this.$router.push({name: 'admin.dashboard'})
                 break
               default:
-                console.log('this default', this.auth.role_id)
                 this.$router.push({name: 'home'})
             }
           })

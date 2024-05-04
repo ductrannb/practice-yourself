@@ -5,7 +5,7 @@
         <svg class="search-input--icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
         <input placeholder="Tìm kiếm ..." type="search" v-model="form.keyword" @input="search" class="search-input--input">
       </div>
-      <router-link :to="{name: 'admin.courses.lessons.create'}" class="custom-btn">Thêm mới</router-link>
+      <router-link :to="{name: replaceRouteName('courses.lessons.create')}" class="custom-btn">Thêm mới</router-link>
     </div>
     <p class="admin-count-data-label">Tổng: <span>{{ paginate.total }}</span></p>
     <v-data-table
@@ -22,15 +22,15 @@
         <div class="admin-user-table--column-action-box">
           <v-tooltip text="Danh sách câu hỏi">
             <template v-slot:activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-eye" @click="$router.push({name: 'admin.courses.lessons.questions', params: {lessonId: item.id}})"/>
+              <v-icon v-bind="props" icon="mdi-eye" @click="$router.push({name: replaceRouteName('courses.lessons.questions'), params: {lessonId: item.id}})"/>
             </template>
           </v-tooltip>
-          <v-tooltip text="Sửa">
+          <v-tooltip text="Sửa" v-if="authorIsMe(item.author.id)">
             <template v-slot:activator="{ props }">
-              <v-icon v-bind="props" icon="mdi-pencil" @click="$router.push({name: 'admin.courses.lessons.update', params: {lessonId: item.id}})"/>
+              <v-icon v-bind="props" icon="mdi-pencil" @click="$router.push({name: replaceRouteName('courses.lessons.update'), params: {lessonId: item.id}})"/>
             </template>
           </v-tooltip>
-          <v-tooltip text="Xóa">
+          <v-tooltip text="Xóa" v-if="authorIsMe(item.author.id)">
             <template v-slot:activator="{ props }">
               <v-icon v-bind="props" icon="mdi-delete" color="red" @click="destroy('lessons', item.id, fetchList)"/>
             </template>
@@ -93,7 +93,7 @@ export default {
           key: 'count_question'
         }, {
           title: 'Hành động',
-          align: 'center',
+          align: 'start',
           sortable: false,
           key: 'actions'
         }
@@ -143,6 +143,6 @@ export default {
 .admin-user-table--column-action-box {
   display: flex;
   column-gap: 8px;
-  justify-content: center;
+  justify-content: start;
 }
 </style>

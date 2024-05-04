@@ -11,27 +11,26 @@
 
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
-import CourseForm from "@/components/CourseForm.vue";
 import LessonForm from "@/components/LessonForm.vue";
 
 export default {
   name: "LessonCreate",
-  components: {LessonForm, CourseForm, Breadcrumb},
+  components: {LessonForm, Breadcrumb},
   computed: {
     breadcrumbs() {
       return [
         {
           id: 1,
           title: 'Dashboard',
-          route: {name: 'admin.dashboard'}
+          route: {name: this.replaceRouteName('dashboard')}
         }, {
           id: 2,
           title: 'Khóa học',
-          route: {name: 'admin.courses'}
+          route: {name: this.replaceRouteName('courses')}
         }, {
           id: 3,
           title: this.courseName,
-          route: {name: "admin.courses.lessons", params: {id: this.$route.params.id}}
+          route: {name: this.replaceRouteName('courses.lessons'), params: {id: this.$route.params.id}}
         }, {
           id: 4,
           title: 'Thêm mới'
@@ -54,7 +53,7 @@ export default {
     },
     async onSubmit(form) {
       await this.$axios.post('/lessons', form)
-      this.$router.push({name: "admin.courses.lessons", params: {id: this.$route.params.id}})
+      this.$router.push({name: this.replaceRouteName('courses.lessons'), params: {id: this.$route.params.id}})
     }
   }
 }
