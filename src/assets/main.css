@@ -1,4 +1,5 @@
 @import './base.css';
+@import "./question.css";
 .fw-bold {
     font-weight: bold;
 }
@@ -198,4 +199,17 @@
 }
 .custom-radio-group .v-label:not(.v-label--clickable) {
     margin-left: 0;
+}
+.ck-content--block {
+    width: fit-content;
+}
+.ck-content--block h1,
+.question-content h1,
+.question-choice-item--content h1 {
+    display: none;
+}
+.ck-content--block .image,
+.question-content .image {
+    display: flex;
+    justify-content: center;
 }

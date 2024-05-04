@@ -13,9 +13,9 @@ const QUESTION_LEVEL = {
         LEVEL_HARD: 3,
     },
     TEXT: {
-        LEVEL_EASY: 'Nhận biết',
-        LEVEL_MEDIUM: 'Thông hiểu',
-        LEVEL_HARD: 'Vận dụng',
+        LEVEL_EASY: 'Cơ bản',
+        LEVEL_MEDIUM: 'Vận dụng',
+        LEVEL_HARD: 'Vận dụng cao',
     },
 }
 const ROLE = {

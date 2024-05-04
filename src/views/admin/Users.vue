@@ -41,7 +41,7 @@
               </v-tooltip>
               <v-tooltip text="Xóa">
                 <template v-slot:activator="{ props }">
-                  <v-icon v-bind="props" icon="mdi-delete" color="red" @click="destroy(item.id)"/>
+                  <v-icon v-bind="props" icon="mdi-delete" color="red" @click="destroy('users', item.id, fetchList)"/>
                 </template>
               </v-tooltip>
             </div>
@@ -152,14 +152,7 @@ export default {
         this.fetchList()
       },
       1000
-    ),
-    async destroy(id) {
-      const rs = await this.deleteConfirm()
-      if (rs.isConfirmed) {
-        await this.$axios.delete(`users/${id}`)
-        this.fetchList()
-      }
-    }
+    )
   }
 }
 </script>
