@@ -57,7 +57,9 @@
     </div>
     <div class="admin-form-footer">
       <router-link
-          :to="{name: replaceRouteName('courses.lessons.questions'), params: {id: $route.params.id, lessonId: $route.params.lessonId}}"
+          :to="isExamQuestion
+            ? {name: replaceRouteName('exams.detail'), params: {id: $route.params.id}}
+            : {name: replaceRouteName('courses.lessons.questions'), params: {id: $route.params.id, lessonId: $route.params.lessonId}}"
           class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
@@ -76,7 +78,10 @@ export default {
   computed: {
     constants() {
       return constants
-    }
+    },
+    isExamQuestion() {
+      return this.$route.query.type == constants.QUESTION_TYPE.EXAM
+    },
   },
   setup() {
     const schema = Yup.object().shape({
@@ -95,14 +100,23 @@ export default {
           { content: null, is_correct: false },
           { content: null, is_correct: false },
         ],
-        lesson_id: this.$route.params.lessonId,
+        assignable_id: null,
+        assignable_type: null,
         solution: ''
       }
     }
   },
-  mounted() {
-    if (this.$route.name === this.replaceRouteName('courses.lessons.questions.update')) {
+  created() {
+    if ([this.replaceRouteName('courses.lessons.questions.update'), this.replaceRouteName('exams.questions.update')].includes(this.$route.name)) {
       this.fetchQuestion()
+    } else {
+      if (this.isExamQuestion) {
+        this.form.assignable_type = constants.QUESTION_TYPE.EXAM
+        this.form.assignable_id = this.$route.params.id
+      } else {
+        this.form.assignable_type = constants.QUESTION_TYPE.LESSON
+        this.form.assignable_id = this.$route.params.lessonId
+      }
     }
   },
   methods: {

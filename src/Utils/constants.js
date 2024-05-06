@@ -23,8 +23,13 @@ const ROLE = {
     TEACHER: 2,
     ADMIN: 3
 }
+const QUESTION_TYPE = {
+    LESSON: 1,
+    EXAM: 2
+}
 export default {
     RESPONSES,
     QUESTION_LEVEL,
-    ROLE
+    ROLE,
+    QUESTION_TYPE
 }

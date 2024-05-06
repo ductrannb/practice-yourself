@@ -13,6 +13,7 @@
 import Breadcrumb from "@/components/Breadcrumb.vue"
 import QuestionList from "@/components/QuestionList.vue";
 import {debounce} from "lodash";
+import constants from "@/Utils/constants.js";
 
 export default {
   name: "Questions",
@@ -67,7 +68,7 @@ export default {
     },
     async fetchQuestions(form) {
       if (!form) {
-        form = {keyword: null, page: 1, lesson_id: this.$route.params.lessonId}
+        form = {keyword: null, page: 1, assignable_id: this.$route.params.lessonId, assignable_type: constants.QUESTION_TYPE.LESSON}
       }
       const res = await this.$axios.get(`questions`, {params: form})
       this.questions = res.data.data

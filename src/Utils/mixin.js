@@ -1,6 +1,6 @@
 import store from "@/plugins/vuex.js";
 import constants from "@/Utils/constants.js";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     data() {
@@ -16,6 +16,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['logoutVuex']),
         changePageTitle(title = 'Practice Yourself') {
             document.title = title
         },
@@ -111,6 +112,9 @@ export default {
             }
         },
         authorIsMe(authorId) {
+            if (this.auth.role_id === constants.ROLE.ADMIN) {
+                return true
+            }
             return authorId === this.auth.id
         },
         replaceRouteName(routeName) {
@@ -121,6 +125,12 @@ export default {
                 routeSplit.unshift(this.isAdmin ? 'admin' : 'teacher')
             }
             return routeSplit.join('.')
+        },
+        async logout() {
+            await axios.get('logout')
+            this.logoutVuex()
+            localStorage.removeItem('access_token')
+            this.$router.push({name: 'home'})
         }
     }
 }

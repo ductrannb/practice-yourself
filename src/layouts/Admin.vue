@@ -48,7 +48,6 @@
           Khóa học
         </router-link>
         <router-link
-          v-if="isTeacher"
           :class="{
             'navbar-menu-item': true,
             'navbar-menu-item--active': routesExam.includes($route.name)
@@ -83,11 +82,8 @@
               </template>
 
               <v-list>
-                <v-list-item
-                    v-for="(item, i) in ['Profile', 'Logout']"
-                    :key="i"
-                >
-                  <v-list-item-title>{{ item }}</v-list-item-title>
+                <v-list-item class="cursor-pointer" @click="logout()">
+                  <v-list-item-title>Đăng xuất</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -124,7 +120,7 @@ export default {
     },
     routesExam() {
       return [
-
+        'teacher.exams', 'teacher.exams.create', 'teacher.exams.update', 'teacher.exams.detail'
       ]
     },
   }

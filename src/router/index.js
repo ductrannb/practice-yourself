@@ -174,6 +174,37 @@ const router = createRouter({
           path: 'courses/:id/lessons/:lessonId/questions/create',
           name: 'admin.courses.lessons.questions.create',
           component: () => import('@/views/admin/QuestionCreate.vue')
+        },
+
+        {
+          path: 'exams',
+          name: 'admin.exams',
+          component: () => import('@/views/admin/Exams.vue')
+        },
+        {
+          path: 'exams/create',
+          name: 'admin.exams.create',
+          component: () => import('@/views/admin/ExamCreate.vue')
+        },
+        {
+          path: 'exams/update/:id',
+          name: 'admin.exams.update',
+          component: () => import('@/views/admin/ExamUpdate.vue')
+        },
+        {
+          path: 'exams/:id',
+          name: 'admin.exams.detail',
+          component: () => import('@/views/admin/ExamDetail.vue')
+        },
+        {
+          path: 'exams/:id/questions/create',
+          name: 'admin.exams.questions.create',
+          component: () => import('@/views/admin/QuestionCreate.vue')
+        },
+        {
+          path: 'exams/:id/questions/update/:questionId',
+          name: 'admin.exams.questions.update',
+          component: () => import('@/views/admin/QuestionUpdate.vue')
         }
       ]
     },
@@ -229,7 +260,32 @@ const router = createRouter({
         {
           path: 'exams',
           name: 'teacher.exams',
+          component: () => import('@/views/admin/Exams.vue')
+        },
+        {
+          path: 'exams/create',
+          name: 'teacher.exams.create',
+          component: () => import('@/views/admin/ExamCreate.vue')
+        },
+        {
+          path: 'exams/update/:id',
+          name: 'teacher.exams.update',
+          component: () => import('@/views/admin/ExamUpdate.vue')
+        },
+        {
+          path: 'exams/:id',
+          name: 'teacher.exams.detail',
+          component: () => import('@/views/admin/ExamDetail.vue')
+        },
+        {
+          path: 'exams/:id/questions/create',
+          name: 'teacher.exams.questions.create',
           component: () => import('@/views/admin/QuestionCreate.vue')
+        },
+        {
+          path: 'exams/:id/questions/update/:questionId',
+          name: 'teacher.exams.questions.update',
+          component: () => import('@/views/admin/QuestionUpdate.vue')
         }
       ]
     },

@@ -53,6 +53,7 @@
 import Author from "@/components/Author.vue";
 import LevelBadge from "@/components/LevelBadge.vue";
 import {debounce} from "lodash";
+import constants from "@/Utils/constants.js";
 
 export default {
   name: "QuestionList",
@@ -99,7 +100,8 @@ export default {
   data() {
     return {
       form: {
-        lesson_id: this.$route.params.lessonId,
+        assignable_id: this.$route.params.lessonId,
+        assignable_type: constants.QUESTION_TYPE.LESSON,
         keyword: null,
         page: 1,
       },
