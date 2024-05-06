@@ -21,11 +21,11 @@ export default {
         {
           id: 1,
           title: 'Dashboard',
-          route: {name: 'admin.dashboard'}
+          route: {name: this.replaceRouteName('dashboard')}
         }, {
           id: 2,
           title: 'Giáo viên',
-          route: {name: 'admin.teachers'}
+          route: {name: this.replaceRouteName('teachers')}
         }, {
           id: 3,
           title: this.user.name
@@ -42,14 +42,9 @@ export default {
     this.fetchUser()
   },
   methods: {
-    fetchUser() {
-      this.$axios.get(`users/${this.$route.params.id}`)
-          .then(response => {
-            this.user = response.data.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
+    async fetchUser() {
+      const res = await this.$axios.get(`users/${this.$route.params.id}`)
+      this.user = res.data.data
     }
   }
 }

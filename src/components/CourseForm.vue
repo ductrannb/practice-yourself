@@ -65,7 +65,7 @@
     </v-autocomplete>
     <div class="admin-form-footer">
       <router-link
-          :to="{name: 'admin.courses'}"
+          :to="{name: replaceRouteName('courses')}"
           class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
@@ -109,7 +109,7 @@ export default {
   },
   created() {
     this.fetchListTeacher()
-    if (this.$route.name === 'admin.courses.update') {
+    if (this.$route.name === this.replaceRouteName('courses.update')) {
       this.fetchCourse()
     }
   },

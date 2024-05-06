@@ -23,15 +23,15 @@ export default {
         {
           id: 1,
           title: 'Dashboard',
-          route: {name: 'admin.dashboard'}
+          route: {name: this.replaceRouteName('dashboard')}
         }, {
           id: 2,
           title: 'Khóa học',
-          route: {name: 'admin.courses'}
+          route: {name: this.replaceRouteName('courses')}
         }, {
           id: 3,
           title: this.courseName,
-          route: {name: "admin.courses.lessons", params: {id: 1}}
+          route: {name: this.replaceRouteName('courses.lessons'), params: {id: 1}}
         }, {
           id: 4,
           title: 'Cập nhật'
@@ -54,7 +54,7 @@ export default {
     },
     async onSubmit(form) {
       const res = await this.$axios.put(`/lessons/${this.$route.params.lessonId}`, form)
-      this.$router.push({name: 'admin.courses.lessons'})
+      this.$router.push({name: this.replaceRouteName('courses.lessons')})
     }
   }
 }

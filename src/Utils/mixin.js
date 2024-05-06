@@ -1,11 +1,22 @@
 import store from "@/plugins/vuex.js";
 import constants from "@/Utils/constants.js";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     data() {
         return {}
     },
+    computed: {
+        ...mapGetters(['auth']),
+        isAdmin() {
+            return this.auth.role_id === constants.ROLE.ADMIN
+        },
+        isTeacher() {
+            return this.auth.role_id === constants.ROLE.TEACHER
+        }
+    },
     methods: {
+        ...mapActions(['logoutVuex']),
         changePageTitle(title = 'Practice Yourself') {
             document.title = title
         },
@@ -100,5 +111,26 @@ export default {
                 callback()
             }
         },
+        authorIsMe(authorId) {
+            if (this.auth.role_id === constants.ROLE.ADMIN) {
+                return true
+            }
+            return authorId === this.auth.id
+        },
+        replaceRouteName(routeName) {
+            let routeSplit = routeName.split('.')
+            if (['admin', 'teacher'].includes(routeSplit[0])) {
+                routeSplit[0] = this.isAdmin ? 'admin' : 'teacher'
+            } else {
+                routeSplit.unshift(this.isAdmin ? 'admin' : 'teacher')
+            }
+            return routeSplit.join('.')
+        },
+        async logout() {
+            await axios.get('logout')
+            this.logoutVuex()
+            localStorage.removeItem('access_token')
+            this.$router.push({name: 'home'})
+        }
     }
 }

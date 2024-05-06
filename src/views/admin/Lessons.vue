@@ -26,11 +26,11 @@ export default {
         {
           id: 1,
           title: 'Dashboard',
-          route: {name: 'admin.dashboard'}
+          route: {name: this.replaceRouteName('dashboard')}
         }, {
           id: 2,
           title: 'Khóa học',
-          route: {name: 'admin.courses'}
+          route: {name: this.replaceRouteName('courses')}
         }, {
           id: 3,
           title: this.course.name,

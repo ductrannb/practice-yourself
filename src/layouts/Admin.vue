@@ -6,13 +6,17 @@
       </div>
       <div class="navbar-menu-box">
         <router-link
-          :class="{'navbar-menu-item': true, 'navbar-menu-item--active': $route.name === 'admin.dashboard'}"
-          :to="{name: 'admin.dashboard'}"
+          :class="{
+            'navbar-menu-item': true,
+            'navbar-menu-item--active': ['admin.dashboard', 'teacher.dashboard'].includes($route.name)
+          }"
+          :to="{name: replaceRouteName('dashboard')}"
         >
           <v-icon icon="mdi-chart-line"/>
           Dashboard
         </router-link>
         <router-link
+          v-if="isAdmin"
           :class="{
             'navbar-menu-item': true,
             'navbar-menu-item--active': routesUser.includes($route.name)
@@ -23,6 +27,7 @@
           Người dùng
         </router-link>
         <router-link
+          v-if="isAdmin"
           :class="{
             'navbar-menu-item': true,
             'navbar-menu-item--active': routesTeacher.includes($route.name)
@@ -37,10 +42,20 @@
             'navbar-menu-item': true,
             'navbar-menu-item--active': routesCourse.includes($route.name)
           }"
-          :to="{name: 'admin.courses'}"
+          :to="{name: replaceRouteName('courses')}"
         >
           <v-icon icon="mdi-account-group"/>
           Khóa học
+        </router-link>
+        <router-link
+          :class="{
+            'navbar-menu-item': true,
+            'navbar-menu-item--active': routesExam.includes($route.name)
+          }"
+          :to="{name: 'teacher.exams'}"
+        >
+          <v-icon icon="mdi-book-open-outline"/>
+          Đề thi thử
         </router-link>
       </div>
       <div class="navbar-footer-box">
@@ -67,11 +82,8 @@
               </template>
 
               <v-list>
-                <v-list-item
-                    v-for="(item, i) in ['Profile', 'Logout']"
-                    :key="i"
-                >
-                  <v-list-item-title>{{ item }}</v-list-item-title>
+                <v-list-item class="cursor-pointer" @click="logout()">
+                  <v-list-item-title>Đăng xuất</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -86,6 +98,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Admin",
   computed: {
@@ -101,8 +114,15 @@ export default {
         'admin.courses.lessons', 'admin.courses.lessons.create', 'admin.courses.lessons.update',
         'admin.courses.lessons.questions', 'admin.courses.lessons.questions.create',
         'admin.courses.lessons.questions.update', 'admin.courses.lessons.questions.detail',
+        'teacher.courses',
+        'teacher.courses.lessons', 'teacher.courses.create', 'teacher.courses.update'
       ]
-    }
+    },
+    routesExam() {
+      return [
+        'teacher.exams', 'teacher.exams.create', 'teacher.exams.update', 'teacher.exams.detail'
+      ]
+    },
   }
 }
 </script>

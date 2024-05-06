@@ -3,7 +3,7 @@
     <InputValidation
         class="mb-2"
         name="name"
-        label="Tên bài học"
+        label="Tiêu đề"
         type="text"
         variant="underlined"
         color="red"
@@ -13,7 +13,7 @@
     />
     <div class="admin-form-footer">
       <router-link
-          :to="{name: replaceRouteName('courses.lessons'), params: {id: this.$route.params.id}}"
+          :to="{name: replaceRouteName('exams')}"
           class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
@@ -27,10 +27,10 @@
 import * as Yup from "yup";
 
 export default {
-  name: "LessonForm",
+  name: "ExamForm",
   setup() {
     const schema = Yup.object().shape({
-      name: Yup.string().required().label('tên bài học')
+      name: Yup.string().required().label('tiêu đề')
     });
 
     return { schema }
@@ -38,22 +38,18 @@ export default {
   data() {
     return {
       form: {
-        name: null,
-        course_id: null
-      },
-      teachers: []
+        name: null
+      }
     }
   },
   created() {
-    if (this.$route.name === this.replaceRouteName('courses.lessons.update')) {
-      this.fetchLesson()
-    } else {
-      this.form.course_id = this.$route.params.id
+    if (this.$route.name === this.replaceRouteName('exams.update')) {
+      this.fetchExam()
     }
   },
   methods: {
-    async fetchLesson() {
-      const res = await this.$axios.get(`lessons/${this.$route.params.lessonId}`)
+    async fetchExam() {
+      const res = await this.$axios.get(`exams/${this.$route.params.id}`)
       this.form = res.data.data
     },
     onSubmit() {

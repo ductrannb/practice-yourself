@@ -6,42 +6,39 @@
         <div class="admin-user-heading-box">
           <div class="search-input-box">
             <svg class="search-input--icon" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
-            <input placeholder="Tìm kiếm ..." type="search" @input="search" v-model="form.keyword" class="search-input--input">
+            <input placeholder="Tìm kiếm ..." type="search" v-model="form.keyword" @input="search" class="search-input--input">
           </div>
-          <router-link v-if="isAdmin" :to="{name: replaceRouteName('courses.create')}" class="custom-btn">Thêm mới</router-link>
+          <router-link :to="{name: replaceRouteName('exams.create')}" class="custom-btn">Thêm mới</router-link>
         </div>
         <p class="admin-count-data-label">Tổng: <span>{{ paginate.total }}</span></p>
         <v-data-table
-          :headers="headers"
-          :items="courses"
+            :headers="headers"
+            :items="exams"
         >
           <template v-slot:[`item.index`]="{ item }">
-            <span>{{ courses.indexOf(item) + 1 }}</span>
+            <span>{{ exams.indexOf(item) + 1 }}</span>
           </template>
-          <template v-slot:[`item.teachers`]="{ item }">
-            <span>{{ getLabelTeachers(item.teachers) }}</span>
+          <template v-slot:[`item.author`]="{ item }">
+            <Author :author="item.author"/>
           </template>
-          <template v-slot:[`item.price`]="{ item }">
-            <span>{{ $filter.formatMoney(item.price) }}</span>
+          <template v-slot:[`item.created_at`]="{ item }">
+            <span>{{ $filter.formatDatetime(item.created_at) }}</span>
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <div class="admin-user-table--column-action-box">
-              <v-tooltip text="Danh sách bài học">
+              <v-tooltip text="Danh sách câu hỏi">
                 <template v-slot:activator="{ props }">
-                  <v-icon v-bind="props" icon="mdi-eye"
-                    @click="$router.push({name: replaceRouteName('courses.lessons'),params: {id: item.id}
-                    })"
-                  />
+                  <v-icon v-bind="props" icon="mdi-eye" @click="$router.push({name: replaceRouteName('exams.detail'), params: {id: item.id}})"/>
                 </template>
               </v-tooltip>
-              <v-tooltip text="Sửa" v-if="isAdmin">
+              <v-tooltip text="Sửa">
                 <template v-slot:activator="{ props }">
-                  <v-icon v-bind="props" icon="mdi-pencil" @click="$router.push({name: replaceRouteName('courses.update'), params: {id: item.id}})"/>
+                  <v-icon v-bind="props" icon="mdi-pencil" @click="$router.push({name: replaceRouteName('exams.update'), params: {id: item.id}})"/>
                 </template>
               </v-tooltip>
-              <v-tooltip text="Xóa" v-if="isAdmin">
+              <v-tooltip text="Xóa">
                 <template v-slot:activator="{ props }">
-                  <v-icon v-bind="props" icon="mdi-delete" color="red" @click="destroy('courses', item.id, fetchList)"/>
+                  <v-icon v-bind="props" icon="mdi-delete" color="red" @click="destroy('exams', item.id, fetchList)"/>
                 </template>
               </v-tooltip>
             </div>
@@ -49,9 +46,8 @@
           <template v-slot:bottom>
             <v-pagination
                 v-model="form.page"
-                :length="paginate.lastPage"
+                :length="paginate.last_page"
                 color="var(--color-primary)"
-                total-visible="5"
                 @update:model-value="fetchList"
             ></v-pagination>
           </template>
@@ -62,13 +58,24 @@
 </template>
 
 <script>
-import Breadcrumb from "@/components/Breadcrumb.vue";
+import Breadcrumb from "@/components/Breadcrumb.vue"
+import Author from "@/components/Author.vue"
 import {debounce} from "lodash";
 
 export default {
-  name: "Courses",
-  components: {Breadcrumb},
+  name: "Exams",
+  components: {Author, Breadcrumb},
   computed: {
+    breadcrumbs() {
+      return [
+        {
+          title: 'Dashboard',
+          route: {name: this.replaceRouteName('dashboard')}
+        }, {
+          title: 'Đề thi thử',
+        }
+      ]
+    },
     headers() {
       return [
         {
@@ -78,35 +85,25 @@ export default {
           key: 'index',
           width: '50px'
         }, {
-          title: 'Tên',
+          title: 'Tiêu đề',
           align: 'start',
           sortable: false,
           key: 'name'
         }, {
-          title: 'Giáo viên',
+          title: 'Người tạo',
           align: 'start',
           sortable: false,
-          key: 'teachers'
-        }, {
-          title: 'Số bài học',
-          align: 'center',
-          sortable: false,
-          key: 'count_lesson'
+          key: 'author'
         }, {
           title: 'Số câu hỏi',
           align: 'center',
           sortable: false,
           key: 'count_question'
         }, {
-          title: 'Giá',
+          title: 'Ngày tạo',
           align: 'center',
           sortable: false,
-          key: 'price'
-        }, {
-          title: 'Lượt bán',
-          align: 'center',
-          sortable: false,
-          key: 'sold'
+          key: 'created_at'
         }, {
           title: 'Hành động',
           align: 'center',
@@ -114,30 +111,19 @@ export default {
           key: 'actions'
         }
       ]
-    },
-    breadcrumbs() {
-      return [
-        {
-          id: 1,
-          title: 'Dashboard',
-          route: {name: this.replaceRouteName('dashboard')}
-        }, {
-          id: 2,
-          title: 'Khóa học',
-        },
-      ]
     }
   },
   data() {
     return {
-      courses: [],
+      exams: [],
+      paginate: {
+        current_page: 1,
+        last_page: 1,
+        total: 0,
+      },
       form: {
         keyword: null,
         page: 1
-      },
-      paginate: {
-        last_page: 1,
-        total: 0,
       },
     }
   },
@@ -145,14 +131,14 @@ export default {
     this.fetchList()
   },
   methods: {
-    async fetchList() {
-      const res = await this.$axios.get('courses', {params: this.form})
-      this.courses = res.data.data ?? []
+    async fetchList(form = {}) {
+      const res = await this.$axios.get(`exams`, {params: form})
+      this.exams = res.data.data
       this.paginate = {
-        lastPage: res.data.last_page ?? 1,
-        total: res.data.total ?? 0
+        current_page: res.data.current_page,
+        last_page: res.data.last_page,
+        total: res.data.total
       }
-      this.form.page = res.data.current_page ?? 1
     },
     search: debounce(
         function() {
@@ -161,16 +147,6 @@ export default {
         },
         1000
     ),
-    getLabelTeachers(teachers) {
-      if (!Array.isArray(teachers)) {
-        return ''
-      }
-      let teachersName = teachers.map(teacher => teacher.name)
-      if (teachersName.length <= 2) {
-        return teachersName.join(', ')
-      }
-      return `${teachersName.slice(0, 2).join(', ')}, (+${teachersName.length - 2})`
-    }
   }
 }
 </script>

@@ -22,11 +22,11 @@ export default {
         {
           id: 1,
           title: 'Dashboard',
-          route: {name: 'admin.dashboard'}
+          route: {name: this.replaceRouteName('dashboard')}
         }, {
           id: 2,
           title: 'Khóa học',
-          route: {name: 'admin.courses'}
+          route: {name: this.replaceRouteName('courses')}
         }, {
           id: 3,
           title: 'Thêm mới'
@@ -42,7 +42,7 @@ export default {
     async onSubmit(form) {
       const formData = this.objectToFormData(form)
       await this.$axios.post('courses', formData, this.configRequestFormData())
-      this.$router.push({name: 'admin.courses'})
+      this.$router.push({name: this.replaceRouteName('courses')})
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="admin-container">
       <breadcrumb class="admin-breadcrumb-wrapper" :items="breadcrumbs"/>
       <div class="user-form-container">
-        <UserForm @onSubmit="onSubmit"></UserForm>
+        <ExamForm @onSubmit="onSubmit"></ExamForm>
       </div>
     </div>
   </div>
@@ -11,29 +11,27 @@
 
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
-import UserForm from "@/components/UserForm.vue";
-import constants from "@/Utils/constants.js";
+import ExamForm from "@/components/ExamForm.vue";
 
 export default {
-  name: "TeacherCreate",
-  components: {UserForm, Breadcrumb},
+  name: "ExamCreate",
+  components: {ExamForm, Breadcrumb},
   computed: {
     breadcrumbs() {
       return [
         {
-          id: 1,
           title: 'Dashboard',
           route: {name: this.replaceRouteName('dashboard')}
         }, {
-          id: 2,
-          title: 'Giáo viên',
-          route: {name: this.replaceRouteName('teachers')}
+          title: 'Đề thi thử',
+          route: {name: this.replaceRouteName('exams')}
         }, {
-          id: 3,
-          title: 'Thêm mới'
+          title: 'Cập nhật'
         },
       ]
     }
+  },
+  created() {
   },
   data() {
     return {
@@ -41,9 +39,8 @@ export default {
   },
   methods: {
     async onSubmit(form) {
-      form.role_id = constants.ROLE.TEACHER
-      await this.$axios.post('/users', form)
-      this.$router.push({name: this.replaceRouteName('teachers')})
+      await this.$axios.put(`/exams/${this.$route.params.id}`, form)
+      this.$router.push({name: this.replaceRouteName('exams')})
     }
   }
 }
