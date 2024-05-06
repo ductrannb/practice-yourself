@@ -14,7 +14,7 @@
           <router-link
               :class="{
                 'exam-item': true,
-                'exam-item--complete': exam.finished
+                'exam-item--complete': exam.is_finished
               }"
               v-for="(exam, index) in exams"
               :key="index"
@@ -25,11 +25,7 @@
               <div class="exam-item--meta">
                 <p>{{ exam.name }}</p>
                 <span class="exam-item--meta-question">{{ exam.count_question }} câu hỏi</span>
-                <span class="exam-item--meta-time">{{ exam.time_limit }} phút</span>
-              </div>
-              <div class="exam-item--completion">
-                <span v-if="!exam.finished">-</span>
-                <span v-else>{{ exam.score }}/{{exam.max_score}}</span>
+                <span class="exam-item--meta-time">{{ exam.time }} phút</span>
               </div>
             </div>
           </router-link>
@@ -37,10 +33,11 @@
         <div class="exam-paginate-box">
           <v-pagination
             class="exam-paginate"
-            v-model="page"
-            :length="15"
+            v-model="paginate.current_page"
+            :length="paginate.last_page"
             :total-visible="6"
             color="var(--color-main)"
+            @update:model-value="fetchData"
           ></v-pagination>
         </div>
       </div>
@@ -55,125 +52,43 @@ import TextBackgroundColor from "@/components/TextBackgroundColor.vue";
 export default {
   name: "Exams",
   components: {TextBackgroundColor, Breadcrumb},
-  data() {
-    return {
-      breadcrumbs: [
+  computed: {
+    breadcrumbs () {
+      return [
         {
-          id: 1,
           title: 'Trang chủ',
           route: {name: 'home'}
-        },
-        {
-          id: 2,
+        }, {
           title: 'Thi thử'
         }
-      ],
-      exams: [
-        {
-          id: 1,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: false,
-          score: 0,
-          max_score: 10,
-          count_question: 50,
-          time_limit: 90
-        },
-        {
-          id: 2,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: true,
-          score: 9,
-          max_score: 10,
-          count_question: 50,
-          time_limit: 50
-        },
-        {
-          id: 3,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: false,
-          score: 0,
-          max_score: 10,
-          count_question: 50,
-          time_limit: 50
-        },
-        {
-          id: 4,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: false,
-          score: 0,
-          max_score: 10,
-          count_question: 90,
-          time_limit: 90
-        },
-        {
-          id: 5,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: false,
-          score: 0,
-          max_score: 10,
-          count_question: 50,
-          time_limit: 50
-        },
-        {
-          id: 6,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: false,
-          score: 0,
-          max_score: 10,
-          count_question: 50,
-          time_limit: 50
-        },
-        {
-          id: 7,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: false,
-          score: 0,
-          max_score: 10,
-          count_question: 50,
-          time_limit: 90
-        },
-        {
-          id: 8,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: false,
-          score: 0,
-          max_score: 10,
-          count_question: 50,
-          time_limit: 50
-        },
-        {
-          id: 9,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: false,
-          score: 0,
-          max_score: 10,
-          count_question: 50,
-          time_limit: 50
-        },
-        {
-          id: 10,
-          name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh ',
-          finished: false,
-          score: 0,
-          max_score: 10,
-          count_question: 50,
-          time_limit: 50
-        }
-      ],
-      page: 1,
+      ]
+    },
+  },
+  data() {
+    return {
+      exams: [],
+      paginate: {
+        current_page: 1,
+        last_page: 1,
+        total: 0,
+      }
     }
   },
   created() {
     this.page = Number.parseInt(this.$route.query.page) || 1
-  },
-  watch: {
-    page(newValue, oldValue) {
-      this.$router.push({name: 'exams', query: {page: newValue}})
-    }
+    this.fetchData()
   },
   methods: {
-    switchPage(page) {
-      console.log(page)
+    async fetchData() {
+      const res = await this.$axios.get('home/exams', {params: {page: this.paginate.current_page}})
+      this.paginate = {
+        current_page: res.data.current_page,
+        last_page: res.data.last_page,
+        total: res.data.total
+      }
+
+      this.$router.push({name: 'exams', query: {page: this.paginate.current_page}})
+      this.exams = res.data.data
     }
   }
 }

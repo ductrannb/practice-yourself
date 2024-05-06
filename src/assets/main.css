@@ -17,6 +17,12 @@
 .swal2-container {
     font-family: "Roboto", sans-serif;
 }
+.text-small {
+    font-size: 0.8rem;
+}
+.text-danger {
+    color: var(--color-error);
+}
 .custom-btn {
     border: 1px solid var(--color-main);
     color: var(--color-main);
@@ -24,7 +30,11 @@
     padding: .7rem 1rem;
     border-radius: 5px;
 }
-.custom-btn:hover {
+.custom-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.custom-btn:hover:not(:disabled){
     border-color: var(--color-main);
     background-color: var(--color-main);
     color: #ffffff;
@@ -205,7 +215,8 @@
 }
 .ck-content--block h1,
 .question-content h1,
-.question-choice-item--content h1 {
+.question-choice-item--content h1,
+.question-solution--content-box h1 {
     display: none;
 }
 .ck-content--block .image,

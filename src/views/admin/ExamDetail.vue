@@ -66,7 +66,7 @@
           <div
               :class="{
           'question-choice-item': true,
-          'question-choice-item--correct': choice.id === question.correct_choice.id
+          'question-choice-item--correct': choice.id === question.correct_choice?.id
         }"
               v-for="(choice, index) in question.choices"
               :key="index">
@@ -76,7 +76,8 @@
         </div>
         <div class="question--solution-box">
           <span>Lời giải:</span>
-          <div class="question-content question--solution" v-html="question.solution"/>
+          <div class="question-content question--solution" v-html="question.solution" v-if="question.solution"/>
+          <strong v-else>&nbsp;Không có</strong>
         </div>
       </div>
     </div>

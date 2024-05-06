@@ -12,23 +12,26 @@
                 :key="question.id"
                 :index="index"
                 :question="question"
+                :selected="getSelected(question.id)"
+                @select-choice="selectChoice"
             />
           </div>
         </div>
         <div class="question-console-wrapper">
           <div class="question-console-box box-shadow-beautiful">
             <p class="question-console-title">Bảng câu hỏi</p>
-            <p class="overview-answer overview-answer--correct"><span>{{'1/20'}}</span> Câu đúng</p>
-            <p class="overview-answer overview-answer--wrong"><span>{{'1/20'}}</span> Câu sai</p>
+            <p class="overview-answer overview-answer--correct"><span>{{ `${countCorrect}/${lesson.total_questions}` }}</span> Câu đúng</p>
+            <p class="overview-answer overview-answer--wrong"><span>{{ `${countWrong}/${lesson.total_questions}` }}</span> Câu sai</p>
             <div class="question-console-list">
             <span
                 :class="{
                   'question-console-item': true,
-                  'question-console-item--correct': index === 0,
-                  'question-console-item--wrong': index === 1
+                  'question-console-item--correct': isCorrect(question.id) == true,
+                  'question-console-item--wrong': isCorrect(question.id) == false
                 }"
                 v-for="(question, index) in lesson.questions"
                 :key="index"
+                @click="scrollToQuestion(index)"
             >
               {{ index + 1 }}
             </span>
@@ -49,316 +52,70 @@ import PopupChatGemini from "@/components/PopupChatGemini.vue";
 export default {
   name: "LessonDetail",
   components: {PopupChatGemini, Question, Breadcrumb},
-  data() {
-    return {
-      breadcrumbs: [
+  computed: {
+    breadcrumbs() {
+      return [
         {
-          id: 1,
           title: 'Trang chủ',
           route: {name: 'home'}
-        },
-        {
-          id: 2,
+        }, {
           title: 'Các khóa học',
           route: {name: 'courses'}
-        },
-        {
-          id: 3,
-          title: 'Ứng dụng của đạo hàm để khảo sát - vẽ đồ thị hàm số',
-          route: {name: 'courses.detail', params: {id: 1}},
-        },
-        {
-          id: 4,
-          title: 'Xét tính đơn điệu của hàm số'
+        }, {
+          title: this.lesson.course_name,
+          route: {name: 'courses.detail', params: {id: this.lesson.course_id}},
+        }, {
+          title: this.lesson.name
         }
-      ],
+      ]
+    },
+    countCorrect() {
+      return this.lesson.selected.filter(question => question.is_correct).length
+    },
+    countWrong() {
+      return this.lesson.selected.filter(question => !question.is_correct).length
+    },
+  },
+  data() {
+    return {
       lesson: {
-        name: 'Xét tính đơn điệu của hàm số',
-        questions: [
-          {
-            id: 1,
-            level: 1,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 1,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-          {
-            id: 2,
-            level: 2,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 1,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-          {
-            id: 3,
-            level: 1,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 2,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-          {
-            id: 4,
-            level: 1,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 2,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-          {
-            id: 5,
-            level: 3,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 3,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-          {
-            id: 6,
-            level: 1,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 1,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-          {
-            id: 7,
-            level: 1,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 1,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-          {
-            id: 8,
-            level: 1,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 1,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-          {
-            id: 9,
-            level: 1,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 2,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-          {
-            id: 10,
-            level: 1,
-            content: '<p>Cho hàm số f(x) có đạo hàm f\'(x) = x<sup>2</sup>(x + 2). Mệnh đề nào sau đây đúng?</p>',
-            choice_selected: 2,
-            choice_correct: {
-              id: 1,
-              content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-            },
-            choices: [
-              {
-                id: 1,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 2,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 3,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-              {
-                id: 4,
-                content: '<p>f(x) đồng biến trên khoảng (-∞, -2)</p>',
-              },
-            ]
-          },
-        ]
+        name: null,
+        course_id: null,
+        course_name: null,
+        total_questions: 0,
+        questions: [],
+        selected: []
       },
     };
   },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    async fetchData() {
+      const res = await this.$axios.get(`home/lessons/${this.$route.params.id}`)
+      this.lesson = res.data.data
+    },
+    isCorrect(questionId) {
+      const selected = this.lesson.selected.find(selected => selected.question_id === questionId)
+      if (!selected) {
+        return null
+      }
+      return selected.is_correct
+    },
+    getSelected(questionId) {
+      return this.lesson.selected.find(selected => selected.question_id === questionId)
+    },
+    async selectChoice(form) {
+      const res = await this.$axios.post('home/lessons/select', form)
+      this.lesson.selected = this.lesson.selected.concat(res.data.data)
+      this.lesson.questions.forEach(question => {
+        if (question.id === form.question_id) {
+          question.is_selected = true
+        }
+      })
+    }
+  }
 }
 </script>
 

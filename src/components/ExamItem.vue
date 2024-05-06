@@ -1,7 +1,6 @@
 <template>
   <router-link :to="{name: 'exams.overview', params: {id: item.id}}" class="exam-item-box float-animation">
     <p class="exam-item--name">{{item.name}}</p>
-    <p class="exam-item--short-description">{{item.short_description}}</p>
     <router-link class="custom-btn exam-item--subscribe-btn" :to="{name: 'exams.overview', params: {id: item.id}}" >Thi thử ngay</router-link>
   </router-link>
 </template>
@@ -24,7 +23,7 @@ export default {
 <style scoped>
 .exam-item-box {
   width: 270px;
-  height: 300px;
+  height: 223px;
   padding: 1rem;
   border-radius: 20px;
   background-color: #fff;
@@ -38,12 +37,13 @@ export default {
 .exam-item--name {
   font-size: 1.5rem;
   font-weight: 600;
-}
-.exam-item--short-description {
-  font-size: .9rem;
-  color: #464646;
-  margin-top: 1rem;
   margin-bottom: 2.8rem;
+  height: 4.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 .exam-item--subscribe-btn {
   font-weight: 600;

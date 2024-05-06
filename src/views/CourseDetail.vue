@@ -4,7 +4,10 @@
       <breadcrumb class="breadcrumb-wrapper" :items="breadcrumbs"/>
       <div class="course-detail-box">
         <p class="page-heading">{{ course.name }}</p>
-        <list-question-overview percentage_easy="25" percentage_medium="50" percentage_hard="25">
+        <list-question-overview
+            :percentage_easy="course.percentage_easy"
+            :percentage_medium="course.percentage_medium"
+            :percentage_hard="course.percentage_hard">
           <template v-slot:overview-item>
             <p>
               Tổng:
@@ -14,29 +17,33 @@
               câu hỏi
             </p>
           </template>
+          <template v-slot:overview-last-item>
+            <div class="overview-item--last-item" v-if="!course.is_bought">
+              <button class="custom-btn" @click="subscribeCourse(course.id)">
+                Đăng ký ngay: {{ course.price == 0 ? `${course.price}đ` : 'MIỄN PHÍ' }}
+              </button>
+            </div>
+          </template>
         </list-question-overview>
         <div class="course-lesson-list-box">
           <div class="course-lesson-list">
+            <div v-if="!course.is_bought"
+                 :class="{
+                  'course-lesson-item': true,
+                  'course-lesson-item--not-allowed': true
+                }"
+                 v-for="(lesson, index) in course.lessons">
+              <LessonItem :index="index" :lesson="lesson"/>
+            </div>
             <router-link
-              :class="{
-                'course-lesson-item': true,
-                'course-lesson-item--complete': lesson.completion === lesson.count_question
-              }"
-              v-for="(lesson, index) in course.lessons"
-              :key="index"
-              :to="{name: 'lessons.detail', params: {id: lesson.id}}"
-            >
-              <div class="course-lesson-item--index"><span>{{index + 1}}</span></div>
-              <div class="course-lesson-item--info">
-                <div class="course-lesson-item--meta">
-                  <p>{{ lesson.name }}</p>
-                  <span>{{ lesson.count_question }} câu hỏi</span>
-                </div>
-                <div class="course-lesson-item--completion">
-                  <span v-if="lesson.completion === lesson.count_question">Hoàn thành</span>
-                  <span v-else>{{ lesson.completion }}/{{lesson.count_question}}</span>
-                </div>
-              </div>
+                v-else
+                :class="{
+                  'course-lesson-item': true,
+                  'course-lesson-item--complete': isCompletedLesson(lesson)
+                }"
+                v-for="(lesson, index) in course.lessons"
+                :to="{name: 'lessons.detail', params: {id: lesson.id}}">
+              <LessonItem :index="index" :lesson="lesson"/>
             </router-link>
           </div>
         </div>
@@ -48,45 +55,61 @@
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue";
 import ListQuestionOverview from "@/components/ListQuestionOverview.vue";
+import LessonItem from "@/components/LessonItem.vue";
 
 export default {
   name: "CourseDetail",
-  components: {ListQuestionOverview, Breadcrumb},
-  data() {
-    return {
-      breadcrumbs: [
+  components: {LessonItem, ListQuestionOverview, Breadcrumb},
+  computed: {
+    breadcrumbs() {
+      return [
         {
-          id: 1,
           title: 'Trang chủ',
           route: {name: 'home'}
-        },
-        {
-          id: 2,
+        }, {
           title: 'Các khóa học',
           route: {name: 'courses'}
-        },
-        {
-          id: 3,
-          title: 'Ứng dụng của đạo hàm để khảo sát - vẽ đồ thị hàm số'
+        }, {
+          title: this.course.name
         }
-      ],
+      ]
+    }
+  },
+  data() {
+    return {
       course: {
-        name: 'Ứng dụng của đạo hàm để khảo sát - vẽ đồ thị hàm số',
+        name: null,
         lessons: [
-          {id: 1, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
-          {id: 2, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-          {id: 3, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
-          {id: 4, name: 'Xét tính đơn điệu của hàm số', count_question: 15, completion: 12},
-          {id: 5, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-          {id: 6, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-          {id: 7, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-          {id: 8, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
+          // {id: 1, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
+          // {id: 2, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
+          // {id: 3, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
+          // {id: 4, name: 'Xét tính đơn điệu của hàm số', count_question: 15, completion: 12},
+          // {id: 5, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
+          // {id: 6, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
+          // {id: 7, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
+          // {id: 8, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
         ],
-        total_question: 155,
-        percentage_easy: 67,
-        percentage_medium: 24,
-        percentage_hard: 9
+        total_question: 0,
+        percentage_easy: 0,
+        percentage_medium: 0,
+        percentage_hard: 0
       }
+    }
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    async fetchData() {
+      const res = await this.$axios.get(`home/courses/${this.$route.params.id}`);
+      this.course = res.data.data
+    },
+    isCompletedLesson(lesson) {
+      return lesson.count_question > 0 && lesson.completion === lesson.count_question
+    },
+    async subscribeCourse(id) {
+      const res = await this.$axios.post(`home/courses/subscribe/${id}`);
+      await this.fetchData()
     }
   }
 }
@@ -120,6 +143,8 @@ export default {
   position: relative;
   box-shadow: rgba(255, 121, 47, 0.7) 0px 3px 8px;
   z-index: 2;
+}
+.course-lesson-item:hover:not(.course-lesson-item--not-allowed) {
   cursor: pointer;
 }
 .course-lesson-item:hover .course-lesson-item--meta p {
@@ -128,46 +153,21 @@ export default {
 .course-lesson-item:not(:last-child) {
   border-bottom: unset;
 }
-.course-lesson-item--index {
-  width: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.course-lesson-item--index > span {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--color-main);
-  color: #ffffff;
-  border-radius: 50%;
-  border: 1px solid var(--color-main);
-  font-weight: 800;
-}
-.course-lesson-item--info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: calc(100% - 80px);
-  padding: 1rem 2rem 1rem 1rem;
-}
 .course-lesson-item--complete {
   background: #f0f9eb;
 }
 .course-lesson-item--complete .course-lesson-item--completion span {
   color: var(--color-main);
 }
-.course-lesson-item--meta p {
-  font-weight: 600;
-}
-.course-lesson-item--meta span {
-  font-size: .85rem;
-  color: #949ba3;
-}
 .course-overview--total-question {
   font-weight: 600;
   color: var(--color-main);
+}
+.course-lesson-item--not-allowed {
+  cursor: not-allowed;
+}
+.overview-item--last-item {
+  width: 100%;
+  text-align: center;
 }
 </style>

@@ -4,7 +4,7 @@
       <slot name="overview-item"></slot>
     </div>
     <div class="course-overview-item">
-      <div>Nhận biết</div>
+      <div>{{ constants.QUESTION_LEVEL.TEXT.LEVEL_EASY }}</div>
       <div class="course-overview-item--process-box">
         <div>{{percentage_easy}}%</div>
         <v-progress-linear
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="course-overview-item">
-      <div>Thông hiểu</div>
+      <div>{{ constants.QUESTION_LEVEL.TEXT.LEVEL_MEDIUM }}</div>
       <div class="course-overview-item--process-box">
         <div>{{percentage_medium}}%</div>
         <v-progress-linear
@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="course-overview-item">
-      <div>Vận dụng</div>
+      <div>{{ constants.QUESTION_LEVEL.TEXT.LEVEL_HARD }}</div>
       <div class="course-overview-item--process-box">
         <div>{{percentage_hard}}%</div>
         <v-progress-linear
@@ -55,8 +55,15 @@
 </template>
 
 <script>
+import constants from "../Utils/constants.js";
+
 export default {
   name: "ListQuestionOverview",
+  computed: {
+    constants() {
+      return constants
+    }
+  },
   props: {
     percentage_easy: {
       type: Number,

@@ -326,6 +326,9 @@ router.beforeEach(async (to, from, next) => {
       next({name: '404'})
     }
   }
+  if(to.name == 'login' && store.getters.auth != null) {
+    next({name: 'home'})
+  }
   next()
 })
 
