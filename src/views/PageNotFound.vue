@@ -58,6 +58,7 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  max-width: unset;
 }
 .container-star {
   background-image: linear-gradient(to bottom, #292256 0%, #8446cf 70%, #a871d6 100%);

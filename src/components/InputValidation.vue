@@ -1,58 +1,112 @@
 <template>
   <v-text-field
-    class="custom-input"
-    v-model="value"
-    :label="label"
-    :error-messages="errors"
-    :type="typeInput"
-    :variant="variant"
-    :color="color"
-    bg-active="#000000"
-    :append-inner-icon="isPassword ? (isShowPassword ? 'mdi-eye' : 'mdi-eye-off') : null"
-    @click:append-inner="isShowPassword = !isShowPassword"
-    validate-on="blur lazy"
-  />
+      class="custom-input"
+      v-model="value"
+      :error-messages="errors"
+      :type="typeInput"
+      :variant="variant"
+      :color="color"
+      bg-active="#000000"
+      :append-inner-icon="isPassword ? (isShowPassword ? 'mdi-eye' : 'mdi-eye-off') : null"
+      @click:append-inner="isShowPassword = !isShowPassword"
+      validate-on="blur lazy"
+      :mask="numberMask"
+      :rules="numberRules"
+  >
+    <template v-slot:label>
+      <span :class="{'required': isRequired}">{{ label }}</span>
+    </template>
+    <template v-slot:append>
+      <slot name="append"></slot>
+    </template>
+  </v-text-field>
 </template>
 
-<script setup>
-import {computed, defineProps, ref, toRef} from "vue";
-import { useField } from "vee-validate";
+<script>
+import { useField } from "vee-validate"
 
-
-const props = defineProps({
-  name: {
-    type: String,
-    required: false,
+export default {
+  props: {
+    name: {
+      type: String,
+      required: false,
+    },
+    type: {
+      type: String,
+      required: false,
+    },
+    label: {
+      type: String,
+      required: false,
+    },
+    variant: {
+      type: String,
+      required: false,
+    },
+    color: {
+      type: String,
+      default: '#000000',
+    },
+    isPassword: {
+      type: Boolean,
+      default: false
+    },
+    numberMask: {
+      type: String,
+      required: false,
+    },
+    numberRules: {
+      type: Array,
+      required: false,
+    },
+    isRequired: {
+      type: Boolean,
+      default: false
+    },
+    updater: {
+      required: true
+    }
   },
-  type: {
-    type: String,
-    required: false,
+  data() {
+    return {
+      isShowPassword: false,
+    };
   },
-  label: {
-    type: String,
-    required: false,
+  computed: {
+    typeInput() {
+      if (this.isPassword && !this.isShowPassword) {
+        return 'password'
+      }
+      return 'text'
+    },
   },
-  variant: {
-    type: String,
-    required: false,
+  mounted() {
+    if (this.name == 'email') {
+      this.$bus.on('validate-email', () => {
+        this.validate();
+      })
+    } else if (this.name == 'password') {
+      this.$bus.on('generate-random', (value) => {
+        this.value = value
+      })
+    }
   },
-  color: {
-    type: String,
-    default: '#000000',
+  watch: {
+    updater(value) {
+      this.value = value
+    }
   },
-  isPassword: {
-    type: Boolean,
-    default: false
-  }
-});
-
-let isShowPassword = ref(false);
-const typeInput = computed(() => {
-  if (props.isPassword && !isShowPassword.value) {
-    return 'password'
-  }
-  return 'text'
-})
-
-const { value, handleBlur, errors } = useField(toRef(props, "name"), undefined);
+  setup(props) {
+    const { value, handleBlur, errors, validate } = useField(props.name, undefined);
+    return {
+      value,
+      handleBlur,
+      errors,
+      validate,
+    };
+  },
+};
 </script>
+
+<style scoped>
+</style>

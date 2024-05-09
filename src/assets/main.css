@@ -1,4 +1,5 @@
 @import './base.css';
+@import "./question.css";
 .fw-bold {
     font-weight: bold;
 }
@@ -9,9 +10,18 @@
 .cursor-default {
     cursor: default;
 }
-.float-animation:hover, .float-animation:focus, .float-animation:active {
+.float-animation {
     transform: translateY(-4px);
     transition: transform .4s ease-in-out;
+}
+.swal2-container {
+    font-family: "Roboto", sans-serif;
+}
+.text-small {
+    font-size: 0.8rem;
+}
+.text-danger {
+    color: var(--color-error);
 }
 .custom-btn {
     border: 1px solid var(--color-main);
@@ -20,12 +30,15 @@
     padding: .7rem 1rem;
     border-radius: 5px;
 }
-.custom-btn:hover {
+.custom-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.custom-btn:hover:not(:disabled){
     border-color: var(--color-main);
     background-color: var(--color-main);
     color: #ffffff;
 }
-
 .custom-input .v-field__input {
     font-size: 1rem;
 }
@@ -37,4 +50,177 @@
 }
 .custom-input .v-field--focused:not(.v-field--error) .v-field__outline {
     color: var(--color-main) !important;
+}
+.box-shadow-beautiful {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.group-heading {
+    position: relative;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 1.5rem 0 1rem;
+}
+.group-heading p {
+    position: relative;
+    z-index: 2;
+}
+.link-active {
+    color: var(--color-main);
+}
+.link-active:hover:after {
+    color: var(--color-main);
+}
+.link-active:after {
+    content: '';
+    border-bottom: 3px solid var(--color-main);
+    width: 75%;
+    display: block;
+    margin: .25rem auto 0;
+}
+.breadcrumb-wrapper {
+    margin: 2rem 0 1rem;
+}
+
+.search-input-box {
+    display: flex;
+    line-height: 28px;
+    align-items: center;
+    position: relative;
+    max-width: 190px;
+}
+.search-input--input {
+    width: 100%;
+    height: 40px;
+    line-height: 28px;
+    padding: 0 1rem;
+    padding-left: 2.5rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f3f3f4;
+    color: #0d0c22;
+    transition: .3s ease;
+}
+.search-input--input::placeholder {
+    color: #9e9ea7;
+}
+.search-input--input:focus, .search-input--input:hover {
+    outline: none;
+    border-color: var(--color-main);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px #f6d8cb;
+}
+.search-input--icon {
+    position: absolute;
+    left: 1rem;
+    fill: #9e9ea7;
+    width: 1rem;
+    height: 1rem;
+}
+.admin-breadcrumb-wrapper {
+    margin-bottom: 1rem;
+}
+.admin-form-footer {
+    display: flex;
+    column-gap: 1rem;
+}
+.admin-form-footer .admin-form-footer-btn {
+    padding: .25rem 1rem;
+    border: 1px solid;
+    border-radius: 4px;
+}
+.admin-form-footer .admin-form-footer-btn--cancel:hover {
+    background-color: #bebebe;
+    border-color: #bebebe;
+    color: #FFFFFF;
+}
+.admin-form-footer .admin-form-footer-btn--submit {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+.admin-form-footer .admin-form-footer-btn--submit:hover {
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+}
+.required:after {
+    content: '*';
+    padding-left: .5rem;
+    color: red;
+}
+.question-form--question-content .ck-editor__editable{
+    min-height: 5rem;
+}
+.ckeditor-box .ck-editor__editable{
+    max-height: 500px;
+}
+.ckeditor-box .ck.ck-editor__editable_inline {
+    padding: .5rem;
+}
+.ckeditor-box .ck-editor__editable h1 {
+    display: none;
+}
+.button-google-login {
+    text-align: center;
+    padding: .7rem 1rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: #757575;
+    border: 1px solid #757575;
+    transition: background-color .3s;
+}
+.button-google-login:hover {
+    background-color: #a4a4a4;
+    border-color: #a4a4a4;
+    color: #FFFFFF;
+}
+.button-google-login:before {
+    display: block;
+    position: absolute;
+    content: '';
+    background-image: url("/images/icons/google.svg");
+    width: 20px;
+    height: 20px;
+}
+.otp-input .v-input--density-default.v-input--plain-underlined .v-input__prepend, .v-input--density-default.v-input--plain-underlined .v-input__append {
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+.ckeditor-form-group {
+    margin: .75rem 0;
+}
+.ckeditor-form--content {
+    margin-top: .5rem;
+}
+.ckeditor-error .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused),
+.ckeditor-error .ck.ck-toolbar {
+    border-color: var(--color-error);
+}
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.custom-radio-group .v-label {
+    opacity: 1;
+}
+.custom-radio-group .v-label:not(.v-label--clickable) {
+    margin-left: 0;
+}
+.ck-content--block {
+    width: fit-content;
+}
+.ck-content--block h1,
+.question-content h1,
+.question-choice-item--content h1,
+.question-solution--content-box h1 {
+    display: none;
+}
+.ck-content--block .image,
+.question-content .image {
+    display: flex;
+    justify-content: center;
 }

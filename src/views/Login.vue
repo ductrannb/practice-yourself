@@ -2,7 +2,7 @@
   <div class="login-form-wrapper">
     <div class="login-form-container">
       <h2 class="page-heading fw-bold text-center">Đăng nhập</h2>
-      <Form class="mb-8" as="v-form" :validation-schema="schema" @submit="onSubmit">
+      <Form class="mb-8" as="v-form" :validation-schema="schema" @submit="login">
         <InputValidation
             class="mb-2"
             name="email"
@@ -10,6 +10,8 @@
             type="text"
             variant="underlined"
             color="red"
+            v-model="form.email"
+            :updater="form.email"
         />
         <InputValidation
             class="mb-4"
@@ -18,14 +20,19 @@
             :is-password="true"
             variant="underlined"
             color="red"
+            v-model="form.password"
+            :updater="form.password"
         />
+        <div class="forget-password-link-box">
+          <router-link class="forget-password-link" :to="{name: 'forget-password'}">Quên mật khẩu?</router-link>
+        </div>
         <div class="btn-login-container">
           <button type="submit" class="custom-btn btn-login float-animation fw-bold">Đăng nhập</button>
         </div>
       </Form>
       <boundary-line text="Or"/>
       <div class="btn-login-container">
-        <GoogleLogin class="btn-login" :callback="googleLogin" prompt/>
+        <button class="button-google-login">Đăng nhập bằng Google</button>
       </div>
       <p class="register-link">
         Bạn chưa có tài khoản?
@@ -38,7 +45,9 @@
 <script>
 import { GoogleLogin, googleOneTap, decodeCredential } from "vue3-google-login"
 import * as Yup from 'yup'
-import BoundaryLine from "@/components/BoundaryLine.vue";
+import BoundaryLine from "@/components/BoundaryLine.vue"
+import constants from "@/Utils/constants.js"
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "Login",
@@ -52,10 +61,17 @@ export default {
   },
   data() {
     return {
-      showPassword: false
+      showPassword: false,
+      form: {
+        email: null,
+        password: null
+      }
     }
   },
   components: {BoundaryLine, GoogleLogin},
+  computed: {
+    ...mapGetters(['auth'])
+  },
   mounted() {
     googleOneTap()
       .then((response) => {
@@ -66,6 +82,30 @@ export default {
       })
   },
   methods: {
+    ...mapActions(['loginVuex']),
+    login() {
+      this.$axios.post('login', this.form)
+          .then(async response => {
+            await this.checkAuth()
+            setTimeout(this.noticeSuccess('Đăng nhập thành công'), 100)
+            switch (this.auth.role_id) {
+              case constants.ROLE.USER:
+                this.$router.push({name: 'home'})
+                break
+              case constants.ROLE.TEACHER:
+                this.$router.push({name: 'teacher.dashboard'})
+                break
+              case constants.ROLE.ADMIN:
+                this.$router.push({name: 'admin.dashboard'})
+                break
+              default:
+                this.$router.push({name: 'home'})
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    },
     googleLogin(response) {
       const userData = decodeCredential(response.credential)
       // Họ: family_name
@@ -117,6 +157,22 @@ export default {
 .register-link a {
   font-weight: bold;
   color: var(--color-primary);
+  text-decoration: underline;
+}
+.button-google-login {
+  width: 100%;
+}
+.forget-password-link-box {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 1rem;
+}
+.forget-password-link {
+  color: var(--color-primary);
+  font-size: .9rem;
+}
+.forget-password-link:hover {
   text-decoration: underline;
 }
 @media screen and (max-width: 425px) {

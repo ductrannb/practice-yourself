@@ -10,27 +10,71 @@
       <nav class="header-nav">
         <ul class="header-nav-list">
           <li>
-            <router-link class="header-nav-item float-animation" :to="{name: 'home'}">Trang chủ</router-link>
+            <router-link
+                :class="{'header-nav-item': true, 'float-animation': true, 'link-active': $route.name === 'home'}"
+                :to="{name: 'home'}"
+            >
+              Trang chủ
+            </router-link>
           </li>
           <li>
-            <router-link class="header-nav-item float-animation" to="">Các khóa học</router-link>
+            <router-link
+                :class="{'header-nav-item': true, 'float-animation': true, 'link-active': $route.name === 'courses'}"
+                :to="{name: 'courses'}"
+            >
+              Các khóa học
+            </router-link>
           </li>
           <li>
-            <router-link class="header-nav-item float-animation" to="">Thi thử THPT</router-link>
+            <router-link
+                :class="{'header-nav-item': true, 'float-animation': true, 'link-active': $route.name === 'exams'}"
+                :to="{name: 'exams'}"
+            >
+              Thi thử
+            </router-link>
           </li>
         </ul>
+        <div class="user-menu-box" v-if="auth">
+          <v-menu>
+            <template v-slot:activator="{ props }">
+              <div class="header-avatar-box" v-bind="props">
+                <img class="header-avatar" :src="auth.avatar || '/images/icons/avatar-default.svg'">
+              </div>
+            </template>
 
-        <router-link class="login-btn-box" :to="{name: 'login'}">
-          <span class="custom-btn float-animation">Đăng nhập</span>
-        </router-link>
+            <v-list>
+              <v-list-item @click="logout()">
+                <v-list-item-title>Đăng xuất</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+        <div class="group-btn-box" v-else>
+          <router-link class="login-btn-box" :to="{name: 'login'}">
+            <span class="custom-btn float-animation">Đăng nhập</span>
+          </router-link>
+          <router-link class="login-btn-box" :to="{name: 'register'}">
+            <span class="custom-btn float-animation">Đăng ký</span>
+          </router-link>
+        </div>
       </nav>
     </div>
   </header>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "Header"
+  name: "Header",
+  created() {
+    this.checkAuth()
+  },
+  computed: {
+    ...mapGetters(['auth'])
+  },
+  methods: {
+  }
 }
 </script>
 
@@ -75,6 +119,10 @@ export default {
   transform: translateY(-.5rem);
   color: var(--color-main);
 }
+.group-btn-box {
+  display: flex;
+  column-gap: .5rem;
+}
 .login-btn-box {
   display: flex;
   align-items: center;
@@ -82,5 +130,21 @@ export default {
 }
 .login-btn-box span:hover{
   transform: translateY(-.5rem);
+}
+.header-avatar-box {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.header-avatar-box img {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #eeeeee;
+  border-radius: 50%;
+}
+.user-menu-box {
+  display: flex;
+  align-items: center;
+  padding: 12px;
 }
 </style>

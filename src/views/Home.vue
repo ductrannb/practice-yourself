@@ -2,7 +2,7 @@
   <div>
     <div class="slogan-box container">
       <p class="slogan-heading cursor-default">
-        Chinh phục kỳ thi THPT Quốc gia cùng hệ thống luyện thi <span>Practice Yourself</span>
+        Chinh phục kỳ thi THPT Quốc gia cùng hệ thống luyện thi <br> <span>Practice Yourself</span>
       </p>
     </div>
 
@@ -18,11 +18,11 @@
 
     <div class="exam-wrapper container">
       <div class="group-heading cursor-default">
-        <p>Thi thử</p>
+        <p>Đề thi thử</p>
         <TextBackgroundColor :blue="true"/>
       </div>
       <div class="exam-list home-list-product">
-        <ExamTestItem v-for="exam in exams" :key="exam.id" :item="exam" />
+        <ExamItem v-for="exam in exams" :key="exam.id" :item="exam" />
       </div>
     </div>
 
@@ -33,7 +33,7 @@
             <img src="/images/icons/student.svg">
           </div>
           <div class="overview-item--meta-box">
-            <span class="overview-item--meta-number">{{ formatNumber(10000) }}</span>
+            <span class="overview-item--meta-number">{{ $filter.formatNumber(overview.count_user) }}</span>
             <span class="overview-item--meta-title">Người dùng</span>
           </div>
         </div>
@@ -42,7 +42,7 @@
             <img src="/images/icons/question.svg">
           </div>
           <div class="overview-item--meta-box">
-            <span class="overview-item--meta-number">{{ formatNumber(2000) }}</span>
+            <span class="overview-item--meta-number">{{ $filter.formatNumber(overview.count_question) }}</span>
             <span class="overview-item--meta-title">Câu trắc nghiệm</span>
           </div>
         </div>
@@ -51,7 +51,7 @@
             <img src="/images/icons/exam.svg">
           </div>
           <div class="overview-item--meta-box">
-            <span class="overview-item--meta-number">{{ formatNumber(5000) }}</span>
+            <span class="overview-item--meta-number">{{ $filter.formatNumber(overview.count_exam) }}</span>
             <span class="overview-item--meta-title">Đề thi thử</span>
           </div>
         </div>
@@ -60,7 +60,7 @@
             <img src="/images/icons/course.svg">
           </div>
           <div class="overview-item--meta-box">
-            <span class="overview-item--meta-number">{{ formatNumber(90) }}</span>
+            <span class="overview-item--meta-number">{{ $filter.formatNumber(overview.count_course) }}</span>
             <span class="overview-item--meta-title">Khóa học</span>
           </div>
         </div>
@@ -72,40 +72,46 @@
 <script>
 import {mapActions, mapGetters} from "vuex"
 import CourseItem from "@/components/CourseItem.vue"
-import ExamTestItem from "@/components/ExamTestItem.vue"
+import ExamItem from "@/components/ExamItem.vue"
 import TextBackgroundColor from "@/components/TextBackgroundColor.vue"
 
 export default {
-  components: {TextBackgroundColor, ExamTestItem, CourseItem},
+  components: {TextBackgroundColor, ExamItem, CourseItem},
   data() {
     return {
       courses: [
-        {id: 1, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        {id: 2, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        {id: 3, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        {id: 4, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        {id: 5, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        {id: 6, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        {id: 7, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'}
+        // {id: 1, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
+        // {id: 2, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
+        // {id: 3, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
+        // {id: 4, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
+        // {id: 5, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
+        // {id: 6, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
+        // {id: 7, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'}
       ],
       exams: [
-        {id: 1, name: 'Đề thi thử THPT Quốc Gia Toán tỉnh Ninh Bình', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        {id: 2, name: 'Đề thi thử THPT Quốc Gia Toán tỉnh Nam Định', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        {id: 3, name: 'Đề thi thử THPT Quốc Gia Toán thành phố Hà Nội', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        {id: 4, name: 'Đề thi thử THPT Quốc Gia Toán tỉnh Ninh Bình', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'}
+        // {id: 1, name: 'Đề thi thử THPT Quốc Gia Toán tỉnh Ninh Bình', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
+        // {id: 2, name: 'Đề thi thử THPT Quốc Gia Toán tỉnh Nam Định', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
+        // {id: 3, name: 'Đề thi thử THPT Quốc Gia Toán thành phố Hà Nội', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
+        // {id: 4, name: 'Đề thi thử THPT Quốc Gia Toán tỉnh Ninh Bình', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'}
       ],
+      overview: {
+        count_user: 0,
+        count_question: 0,
+        count_exam: 0,
+        count_course: 0
+      }
     }
   },
   created() {
-    console.log()
-  },
-  computed: {
-    ...mapGetters(['isLoading'])
-  },
-  mounted() {
+    this.fetchData()
   },
   methods: {
-    ...mapActions(['startLoading', 'stopLoading'])
+    async fetchData() {
+      const res = await this.$axios.get('home')
+      this.courses = res.data.data.courses
+      this.exams = res.data.data.exams
+      this.overview = res.data.data.overview
+    }
   }
 }
 </script>
@@ -123,17 +129,6 @@ export default {
 .slogan-heading span {
   color: var(--color-main);
   font-weight: 800;
-}
-.group-heading {
-  position: relative;
-  font-size: 2rem;
-  font-weight: 600;
-  text-align: center;
-  margin: 1.5rem 0 1rem;
-}
-.group-heading p {
-  position: relative;
-  z-index: 2;
 }
 .course-wrapper {
   padding-top: 2rem;
