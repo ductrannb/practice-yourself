@@ -100,6 +100,11 @@ export default {
           sortable: false,
           key: 'count_question'
         }, {
+          title: 'Thời gian (phút)',
+          align: 'center',
+          sortable: false,
+          key: 'time'
+        }, {
           title: 'Ngày tạo',
           align: 'center',
           sortable: false,

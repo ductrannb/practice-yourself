@@ -11,6 +11,15 @@
         v-model="form.name"
         :updater="form.name"
     />
+    <div class="time-input-box">
+      <v-number-input
+          label="Thời gian (phút)"
+          :min="0"
+          variant="underlined"
+          v-model="form.time"
+          :step="5"
+      ></v-number-input>
+    </div>
     <div class="admin-form-footer">
       <router-link
           :to="{name: replaceRouteName('exams')}"
@@ -38,7 +47,8 @@ export default {
   data() {
     return {
       form: {
-        name: null
+        name: null,
+        time: 45
       }
     }
   },
@@ -60,11 +70,6 @@ export default {
 </script>
 
 <style scoped>
-.form-input-password-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 .form-input-password-box button {
   margin-left: 1rem;
   padding: .5rem 1rem;
@@ -75,5 +80,11 @@ export default {
 .form-input-password-box button:hover {
   background-color: var(--color-primary);
   color: #FFFFFF;
+}
+.time-input-box {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
 }
 </style>

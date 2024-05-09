@@ -9,10 +9,10 @@ export default {
     computed: {
         ...mapGetters(['auth']),
         isAdmin() {
-            return this.auth.role_id === constants.ROLE.ADMIN
+            return this.auth?.role_id === constants.ROLE.ADMIN
         },
         isTeacher() {
-            return this.auth.role_id === constants.ROLE.TEACHER
+            return this.auth?.role_id === constants.ROLE.TEACHER
         }
     },
     methods: {
@@ -52,7 +52,6 @@ export default {
                     const response = await axios.get('me')
                     store.state.userAuth = response.data.data
                 } catch (error) {
-                    console.log(error)
                     localStorage.removeItem('access_token')
                 }
             }
@@ -131,6 +130,16 @@ export default {
             this.logoutVuex()
             localStorage.removeItem('access_token')
             this.$router.push({name: 'home'})
+        },
+        scrollToQuestion(questionIndex) {
+            const element = document.getElementById(`question-${questionIndex}`);
+            if (!element) {
+                return
+            }
+            const rect = element.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const topPosition = rect.top + scrollTop - parseFloat('8rem') * 16; // Convert rem to pixels
+            window.scrollTo({ top: topPosition, behavior: 'smooth' });
         }
     }
 }

@@ -43,8 +43,8 @@
             </template>
 
             <v-list>
-              <v-list-item>
-                <div>haha</div>
+              <v-list-item @click="logout()">
+                <v-list-item-title>Đăng xuất</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>

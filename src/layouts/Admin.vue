@@ -120,7 +120,8 @@ export default {
     },
     routesExam() {
       return [
-        'teacher.exams', 'teacher.exams.create', 'teacher.exams.update', 'teacher.exams.detail'
+        'teacher.exams', 'teacher.exams.create', 'teacher.exams.update', 'teacher.exams.detail',
+        'admin.exams', 'admin.exams.create', 'admin.exams.update', 'admin.exams.detail'
       ]
     },
   }

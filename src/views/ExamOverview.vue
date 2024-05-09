@@ -13,7 +13,7 @@
             <p>
               Tổng:
               <span class="exam-overview--total-question">{{ $filter.formatNumber(exam.count_question) }}</span>
-              câu hỏi
+              câu hỏi ({{ exam.time }} phút)
             </p>
           </template>
           <template v-slot:overview-last-item>
@@ -26,7 +26,7 @@
         </list-question-overview>
         <div class="exam-lesson-list-box">
           <p>Lịch sử làm bài</p>
-          <div class="exam-lesson-list">
+          <div v-if="exam.histories.length > 0" class="exam-lesson-list">
             <router-link
                 class="exam-lesson-item"
                 v-for="(history, index) in exam.histories"
@@ -37,18 +37,19 @@
               <div class="exam-lesson-item--info">
                 <div class="exam-lesson-item--meta">
                   <p>{{ history.name }}</p>
-                  <span>Số câu đúng: {{ history.count_question_correct }}/{{ exam.count_question }}</span>
+                  <span>Số câu đúng: {{ history.count_correct_question }}/{{ history.total_question }}</span>
                   <span>
                     <v-icon icon="mdi-clock"/>
                     {{ $filter.formatDatetime(history.created_at) }}
                   </span>
                 </div>
                 <div class="exam-lesson-item--completion">
-                  <span>{{ history.score }}/{{ exam.max_score }}</span>
+                  <span>{{ history.score }}/10</span>
                 </div>
               </div>
             </router-link>
           </div>
+          <div v-else class="exam-histories-none">Không có lịch sử làm bài.</div>
         </div>
       </div>
     </div>
@@ -62,45 +63,45 @@ import ListQuestionOverview from "@/components/ListQuestionOverview.vue";
 export default {
   name: "ExamOverview",
   components: {ListQuestionOverview, Breadcrumb},
-  data() {
-    return {
-      breadcrumbs: [
+  computed: {
+    breadcrumbs () {
+      return [
         {
-          id: 1,
           title: 'Trang chủ',
           route: {name: 'home'}
-        },
-        {
-          id: 2,
+        }, {
           title: 'Thi thử',
           route: {name: 'exams'}
-        },
-        {
-          id: 3,
-          title: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh'
+        }, {
+          title: this.exam.name
         }
-      ],
+      ]
+    }
+  },
+  data() {
+    return {
       exam: {
-        id: 1,
-        name: 'Đề thi thử quốc gia 2024 môn Toán trường THPT chuyên ĐH Vinh',
-        histories: [
-          {id: 1, name: 'Xét tính đơn điệu của hàm số', score: 3, count_question_correct: 6, created_at: '2024-12-10 08:30:00'},
-          {id: 2, name: 'Xét tính đơn điệu của hàm số', score: 4, count_question_correct: 8, created_at: '2024-12-10 08:30:00'},
-          {id: 3, name: 'Xét tính đơn điệu của hàm số', score: 5, count_question_correct: 10, created_at: '2024-12-10 08:30:00'},
-          {id: 4, name: 'Xét tính đơn điệu của hàm số', score: 6, count_question_correct: 12, created_at: '2024-12-10 08:30:00'},
-          {id: 5, name: 'Xét tính đơn điệu của hàm số', score: 7, count_question_correct: 14, created_at: '2024-12-10 08:30:00'},
-          {id: 6, name: 'Xét tính đơn điệu của hàm số', score: 8, count_question_correct: 16, created_at: '2024-12-10 08:30:00'},
-          {id: 7, name: 'Xét tính đơn điệu của hàm số', score: 8, count_question_correct: 16, created_at: '2024-12-10 08:30:00'},
-          {id: 8, name: 'Xét tính đơn điệu của hàm số', score: 9, count_question_correct: 18, created_at: '2024-12-10 08:30:00'},
-        ],
-        count_question: 20,
-        max_score: 10,
-        percentage_easy: 67,
-        percentage_medium: 24,
-        percentage_hard: 9
+        id: null,
+        name: null,
+        histories: [],
+        count_question: 0,
+        time: 0,
+        percentage_easy: 0,
+        percentage_medium: 0,
+        percentage_hard: 0
       }
     }
-  }
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    async fetchData() {
+      const id = this.$route.params.id
+      const res = await this.$axios.get(`home/exams/overview/${id}`)
+      this.exam = res.data.data
+    }
+  },
 }
 </script>
 
@@ -194,5 +195,8 @@ export default {
 }
 .exam-lesson-item--meta span {
   padding-right: 1rem;
+}
+.exam-histories-none {
+  padding: 1rem 1rem 1.5rem;
 }
 </style>

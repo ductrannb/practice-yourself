@@ -7,7 +7,7 @@
       <p class="course-item--name">{{item.name}}</p>
       <TextBackgroundColor/>
     </div>
-    <p class="course-item--short-description">{{item.short_description}}</p>
+    <p class="course-item--short-description">{{item.description}}</p>
     <router-link class="custom-btn course-item--subscribe-btn" :to="{name: 'courses.detail', params: {id: item.id}}">Đăng ký ngay</router-link>
   </router-link>
 </template>
@@ -63,12 +63,24 @@ export default {
 .course-item--name {
   font-size: 1.5rem;
   font-weight: 600;
+  height: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .course-item--short-description {
   font-size: .9rem;
   color: #464646;
   margin-top: 1rem;
   margin-bottom: 2.8rem;
+  height: 3em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .course-item--subscribe-btn {
   font-weight: 600;
