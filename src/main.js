@@ -36,7 +36,7 @@ app.config.globalProperties.$filter = {
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$bus = bus
 app.use(router).use(vuetify).use(vuex).use(CKEditor)
-    .use(googleLogin.vue3GoogleLogin, googleLogin.options)
+    .use(googleLogin.GAuth, googleLogin.gAuthOptions)
     .use(Sweetalert.VueSweetalert2, Sweetalert.options)
 app.component('InputValidation', InputValidation)
     .component('Form', Form)

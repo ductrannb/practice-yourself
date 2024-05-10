@@ -68,8 +68,8 @@
         </div>
       </Form>
       <boundary-line text="Or"/>
-      <div class="btn-register-container">
-        <button class="button-google-login">Đăng nhập bằng Google</button>
+      <div class="btn-login-container">
+        <button class="button-google-login" @click="googleLogin">Đăng nhập bằng Google</button>
       </div>
       <p class="register-link">
         Bạn đã có tài khoản?
@@ -80,7 +80,6 @@
 </template>
 
 <script>
-import { GoogleLogin, googleOneTap, decodeCredential } from "vue3-google-login"
 import * as Yup from 'yup'
 import BoundaryLine from "@/components/BoundaryLine.vue";
 
@@ -118,16 +117,7 @@ export default {
       countdown: 0
     }
   },
-  components: {BoundaryLine, GoogleLogin},
-  mounted() {
-    googleOneTap()
-        .then((response) => {
-          console.log("Handle the response", response)
-        })
-        .catch((error) => {
-          console.log("Handle the error", error)
-        })
-  },
+  components: {BoundaryLine},
   methods: {
     register() {
       this.$axios.post('register', this.form)
@@ -154,16 +144,6 @@ export default {
         }
         vm.countdown -= 1
       }, 1000)
-    },
-    googleLogin(response) {
-      const userData = decodeCredential(response.credential)
-      // Họ: family_name
-      // Tên: given_name
-      // Avatar: picture
-      // email_verified
-      // email
-      console.log("Handle the userData", userData)
-      console.log(response)
     }
   }
 }
@@ -256,5 +236,12 @@ export default {
 }
 .register-form--btn-send-otp-overlay span:after {
   content: 's';
+}
+.btn-login-container {
+  width: 80%;
+  margin: auto;
+}
+.btn-login {
+  width: 100%;
 }
 </style>
