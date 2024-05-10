@@ -32,9 +32,7 @@
       </Form>
       <boundary-line text="Or"/>
       <div class="btn-login-container">
-        <GoogleLogin class="button-google-login" :callback="googleLogin" prompt>
-          <button>Đăng nhập bằng Google</button>
-        </GoogleLogin>
+        <button class="button-google-login">Đăng nhập bằng Google</button>
       </div>
       <p class="register-link">
         Bạn chưa có tài khoản?
@@ -45,11 +43,11 @@
 </template>
 
 <script>
-import {GoogleLogin, googleOneTap, decodeCredential} from "vue3-google-login"
+import { GoogleLogin, googleOneTap, decodeCredential } from "vue3-google-login"
 import * as Yup from 'yup'
 import BoundaryLine from "@/components/BoundaryLine.vue"
 import constants from "@/Utils/constants.js"
-import {mapActions, mapGetters} from "vuex"
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "Login",
@@ -109,8 +107,6 @@ export default {
           })
     },
     googleLogin(response) {
-      console.log('alo')
-      console.log(response)
       const userData = decodeCredential(response.credential)
       // Họ: family_name
       // Tên: given_name
@@ -118,6 +114,7 @@ export default {
       // email_verified
       // email
       console.log("Handle the userData", userData)
+      console.log(response)
     }
   }
 }
