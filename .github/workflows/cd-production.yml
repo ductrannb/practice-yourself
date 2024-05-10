@@ -26,6 +26,7 @@ jobs:
           run: |
             touch .env
             echo VITE_BASE_URL_API=${{ secrets.BASE_URL_API_PRODUCTION }} >> .env
+            echo VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID_PRODUCTION }} >> .env
         - run: npm run build
         - name: Copy dist
           shell: bash
