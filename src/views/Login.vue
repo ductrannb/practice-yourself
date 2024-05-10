@@ -32,7 +32,7 @@
       </Form>
       <boundary-line text="Or"/>
       <div class="btn-login-container">
-        <button class="button-google-login">Đăng nhập bằng Google</button>
+        <button class="button-google-login" @click="googleLogin">Đăng nhập bằng Google</button>
       </div>
       <p class="register-link">
         Bạn chưa có tài khoản?
@@ -43,11 +43,10 @@
 </template>
 
 <script>
-import { GoogleLogin, googleOneTap, decodeCredential } from "vue3-google-login"
 import * as Yup from 'yup'
 import BoundaryLine from "@/components/BoundaryLine.vue"
 import constants from "@/Utils/constants.js"
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex"
 
 export default {
   name: "Login",
@@ -68,53 +67,17 @@ export default {
       }
     }
   },
-  components: {BoundaryLine, GoogleLogin},
+  components: {BoundaryLine},
   computed: {
     ...mapGetters(['auth'])
   },
   mounted() {
-    googleOneTap()
-      .then((response) => {
-        console.log("Handle the response", response)
-      })
-      .catch((error) => {
-        console.log("Handle the error", error)
-      })
   },
   methods: {
     ...mapActions(['loginVuex']),
-    login() {
-      this.$axios.post('login', this.form)
-          .then(async response => {
-            await this.checkAuth()
-            setTimeout(this.noticeSuccess('Đăng nhập thành công'), 100)
-            switch (this.auth.role_id) {
-              case constants.ROLE.USER:
-                this.$router.push({name: 'home'})
-                break
-              case constants.ROLE.TEACHER:
-                this.$router.push({name: 'teacher.dashboard'})
-                break
-              case constants.ROLE.ADMIN:
-                this.$router.push({name: 'admin.dashboard'})
-                break
-              default:
-                this.$router.push({name: 'home'})
-            }
-          })
-          .catch(error => {
-            console.log(error)
-          })
-    },
-    googleLogin(response) {
-      const userData = decodeCredential(response.credential)
-      // Họ: family_name
-      // Tên: given_name
-      // Avatar: picture
-      // email_verified
-      // email
-      console.log("Handle the userData", userData)
-      console.log(response)
+    async login() {
+      await this.$axios.post('login', this.form)
+      await this.handleLoginSuccess()
     }
   }
 }
