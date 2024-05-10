@@ -1,7 +1,7 @@
 import GAuth from 'vue3-google-oauth2'
 
 const gAuthOptions = {
-    clientId: '50395106962-na1ters0b2rgimgq95gnpsnnrpkev3v8.apps.googleusercontent.com',
+    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     prompt: 'consent',
     plugin_name: 'Practice Yourself'
 }
