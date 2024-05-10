@@ -140,6 +140,38 @@ export default {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const topPosition = rect.top + scrollTop - parseFloat('8rem') * 16; // Convert rem to pixels
             window.scrollTo({ top: topPosition, behavior: 'smooth' });
+        },
+        async googleLogin() {
+            const googleUser = await this.$gAuth.signIn();
+            if (!googleUser) {
+                return null;
+            }
+            const user = {
+                email: googleUser.getBasicProfile().getEmail(),
+                name: googleUser.getBasicProfile().getName(),
+                avatar: googleUser.getBasicProfile().getImageUrl(),
+                token_type: googleUser.getAuthResponse().token_type,
+                access_token: googleUser.getAuthResponse().access_token,
+            }
+            const res = await this.$axios.post('login/google', user)
+            await this.handleLoginSuccess()
+        },
+        async handleLoginSuccess() {
+            await this.checkAuth()
+            setTimeout(this.noticeSuccess('Đăng nhập thành công'), 100)
+            switch (this.auth.role_id) {
+                case constants.ROLE.USER:
+                    this.$router.push({name: 'home'})
+                    break
+                case constants.ROLE.TEACHER:
+                    this.$router.push({name: 'teacher.dashboard'})
+                    break
+                case constants.ROLE.ADMIN:
+                    this.$router.push({name: 'admin.dashboard'})
+                    break
+                default:
+                    this.$router.push({name: 'home'})
+            }
         }
     }
 }

@@ -1,10 +1,13 @@
-import vue3GoogleLogin from 'vue3-google-login'
+import GAuth from 'vue3-google-oauth2'
 
-const options = {
-    clientId: '509066628056-3acdojkep730qt997b9q070m8q59a2ai.apps.googleusercontent.com'
+const gAuthOptions = {
+    clientId: '50395106962-na1ters0b2rgimgq95gnpsnnrpkev3v8.apps.googleusercontent.com',
+    prompt: 'consent',
+    plugin_name: 'Practice Yourself'
 }
 
+
 export default {
-    vue3GoogleLogin,
-    options
+    GAuth,
+    gAuthOptions
 }
