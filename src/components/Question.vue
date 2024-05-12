@@ -23,7 +23,7 @@
           <p class="question-choice-item--content" v-html="choice.content"></p>
         </div>
       </div>
-      <SolutionQuestion v-if="!['exams.detail'].includes($route.name)" :solution="question.solution"/>
+      <SolutionQuestion v-if="!['exams.detail'].includes($route.name) && question.is_selected" :solution="question.solution"/>
     </div>
   </section>
 </template>
