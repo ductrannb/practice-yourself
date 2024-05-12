@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import katex from "katex"
 export default {
   name: "PopupChatGemini",
   props: {
@@ -122,6 +123,14 @@ export default {
       }
     },
     convertModelMessage(message) {
+      if (message.includes('$')) {
+        let matches = message.match(/\$(.*?)\$/g).map(function(val){
+          return val.replace(/\$/g, '');
+        });
+        matches.forEach(match => {
+          message = message.replace(`$${match}$`, katex.renderToString(match));
+        })
+      }
       let lines = message.split('\n');
       let html = '';
       lines.forEach(line => {
@@ -129,6 +138,8 @@ export default {
           html += '<strong>' + line.substring(2, line.length - 2) + '</strong><br>';
         } else if (line.startsWith('* ')) {
           html += '<li>' + line.substring(2) + '</li>';
+        } else if (line.startsWith('$') && line.endsWith('$')) {
+          html += katex.renderToString(line)
         } else {
           html += '<p>' + line + '</p>';
         }
