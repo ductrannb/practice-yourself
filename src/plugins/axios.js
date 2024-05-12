@@ -8,7 +8,9 @@ axios.defaults.baseURL = import.meta.env.VITE_BASE_URL_API
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 axios.interceptors.request.use((config) => {
-    store.state.isLoading = true
+    if (config.url !== 'gemini/send-message') {
+        store.state.isLoading = true
+    }
     if (localStorage.getItem('access_token')) {
         config.headers.Authorization = 'Bearer ' + localStorage.getItem('access_token')
     }

@@ -2,24 +2,35 @@
   <div class="popup-chat-container">
     <Transition name="bounce">
       <div v-if="isShowPopupChat" class="popup-chat-messages-box" v-click-outside="closePopup">
-        <div class="popup-chat-messages-list">
-          <div
-              :class="{
-          'chat-message': true,
-          'chat-message--user': message.role === 'user',
-          'chat-message--model': message.role === 'model',
-        }"
-              v-for="(message, index) in chat.messages"
-              :key="index"
-          >
-            {{ message.text }}
+        <div v-if="chatId != null">
+          <div class="popup-chat-messages-list" ref="chatContainer">
+            <div
+                :class="{
+                  'chat-message': true,
+                  'chat-message--user': message.role === 'user',
+                  'chat-message--model': message.role === 'model',
+                }"
+                v-for="(message, index) in chat.messages"
+                :key="index">
+              <p v-if="message.role === 'user'">{{ message.text }}</p>
+              <div v-else v-html="convertModelMessage(message.text)"></div>
+            </div>
+            <div class="typing-container" v-if="modelTyping">
+              <li class="ball"></li>
+              <li class="ball"></li>
+              <li class="ball"></li>
+            </div>
+          </div>
+          <div class="popup-chat-messages-box--footer">
+            <textarea type="text" v-model="message" ref="areaMessage" placeholder="Nhập tin nhắn" rows="1"/>
+            <div class="popup-chat-messages--button-send" @click="sendMessage">
+              <img src="/images/icons/send-message.svg">
+            </div>
           </div>
         </div>
-        <div class="popup-chat-messages-box--footer">
-          <textarea type="text" placeholder="Nhập tin nhắn" rows="1"/>
-          <div class="popup-chat-messages--button-send">
-            <img src="/images/icons/send-message.svg">
-          </div>
+        <div v-else class="popup-chat-messages--none">
+          <div>Bạn chưa có cuộc trò chuyện</div>
+          <button @click="startNewChat">Bắt đầu</button>
         </div>
       </div>
     </Transition>
@@ -27,7 +38,7 @@
       <div class="popup-chat-icon">
         <img src="/images/icons/icon-chat-ai.png">
       </div>
-      <span>Hỏi đáp với AI</span>
+      <span v-if="!isShowPopupChat">Hỏi đáp với AI</span>
     </div>
   </div>
 </template>
@@ -44,62 +55,30 @@ export default {
   data() {
     return {
       isShowPopupChat: false,
+      message: null,
+      modelTyping: false,
       chat: {
-        id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-        messages: [
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Chào bạn!',
-            role: 'user',
-          },
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Chào bạn! Mình có thể giúp gì cho bạn?',
-            role: 'model',
-          },
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
-            role: 'user',
-          },
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
-            role: 'user',
-          },
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
-            role: 'user',
-          },
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
-            role: 'user',
-          },
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
-            role: 'user',
-          },
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
-            role: 'user',
-          },
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Chiến tranh giữa các vì sao đã truyền cảm hứng cho nhân viên AT-AT, được vẽ bằng cách sử dụng văn bản với màu sắc được tô điểm trong CSS. Một hiệu ứng funky.',
-            role: 'user',
-          },
-          {
-            id: '5a62827f-02d8-46c9-9ec7-748252751b66',
-            text: 'Dạ, bạn cần giúp gì ạ?',
-            role: 'model',
-          }
-        ]
+        chat_session: null,
+        messages: []
       }
     }
+  },
+  watch: {
+    chatId(newVal) {
+      if (newVal != null) {
+        this.fetchData()
+      }
+    },
+    isShowPopupChat(newVal) {
+      if (newVal) {
+        this.$nextTick(() => {
+          this.$refs.areaMessage.focus()
+        })
+      }
+    }
+  },
+  updated() {
+    this.scrollToBottom();
   },
   methods: {
     togglePopupChat() {
@@ -107,6 +86,60 @@ export default {
     },
     closePopup() {
       this.isShowPopupChat = false
+    },
+    async startNewChat() {
+      const res = await this.$axios.post(`home/lessons/start-chat/${this.$route.params.id}`)
+      this.chat = res.data.data
+      this.$emit('update-chat-id', this.chat.chat_session)
+    },
+    async fetchData() {
+      const res = await this.$axios.get(`gemini/${this.chatId}`)
+      this.chat = res.data.data
+    },
+    async sendMessage() {
+      if (this.message != null && this.message.trim() !== '') {
+        this.chat.messages.push({text: this.message, role: 'user'})
+        this.modelTyping = true
+        this.$axios.post('gemini/send-message', {
+          chat_session: this.chat.chat_session,
+          message: this.message
+        })
+            .then(res => {
+              this.modelTyping = false
+              this.chat.messages.push({text: res.data.data.message, role: 'model'})
+              setTimeout(() => {
+                this.scrollToBottom();
+              }, 100)
+            })
+            .catch(error => {
+              this.modelTyping = false
+              console.log(error)
+            })
+        this.message = null
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 100)
+      }
+    },
+    convertModelMessage(message) {
+      let lines = message.split('\n');
+      let html = '';
+      lines.forEach(line => {
+        if (line.startsWith('**') && line.endsWith('**')) {
+          html += '<strong>' + line.substring(2, line.length - 2) + '</strong><br>';
+        } else if (line.startsWith('* ')) {
+          html += '<li>' + line.substring(2) + '</li>';
+        } else {
+          html += '<p>' + line + '</p>';
+        }
+      });
+      return html;
+    },
+    scrollToBottom() {
+      const container = this.$refs.chatContainer;
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
     }
   }
 }
@@ -129,6 +162,7 @@ export default {
   padding: 1rem 1rem 1rem .5rem;
   width: 600px;
   max-height: 50vh;
+  min-height: 200px;
   overflow: auto;
 }
 .popup-chat-icon {
@@ -141,7 +175,7 @@ export default {
   object-fit: contain;
 }
 .chat-message {
-  max-width: 80%;
+  max-width: 90%;
   width: max-content;
   padding: .3rem .6rem;
   border-radius: 8px;
@@ -159,7 +193,8 @@ export default {
   position: relative;
   margin-left: 24px;
 }
-.chat-message--model::before {
+.chat-message--model::before,
+.typing-container::before {
   content: '';
   display: inline-block;
   position: absolute;
@@ -249,6 +284,71 @@ export default {
   }
   100% {
     transform: scale(1);
+  }
+}
+.popup-chat-messages--none {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 5rem;
+  height: 10rem;
+}
+.popup-chat-messages--none div {
+  margin-bottom: 1rem;
+}
+.popup-chat-messages--none button {
+  padding: .5rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-main);
+  font-size: .8rem;
+  color: var(--color-main);
+}
+.popup-chat-messages--none button:hover {
+  background-color: var(--color-main);
+  color: white;
+}
+.typing-container {
+  width: 50px;
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+  margin-left: 1.5rem;
+  background-color: #F0F0F0;
+  height: 1.5rem;
+  border-radius: 8px;
+  align-items: center;
+  padding: 0 5px;
+}
+.ball {
+  list-style: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #000000;
+}
+.ball:nth-child(1) {
+  animation: bounce-1 1.3s ease-in-out infinite;
+}
+@keyframes bounce-1 {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+.ball:nth-child(2) {
+  animation: bounce-3 1.3s ease-in-out 0.3s infinite;
+}
+@keyframes bounce-2 {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+.ball:nth-child(3) {
+  animation: bounce-3 1.3s ease-in-out 0.6s infinite;
+}
+@keyframes bounce-3 {
+  50% {
+    transform: translateY(-4px);
   }
 }
 </style>

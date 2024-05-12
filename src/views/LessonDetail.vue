@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <popup-chat-gemini chat-id="5a62827f-02d8-46c9-9ec7-748252751b66"/>
+    <popup-chat-gemini :chat-id="lesson.chat_session" @update-chat-id="updateChatId"/>
   </div>
 </template>
 
@@ -82,6 +82,7 @@ export default {
         name: null,
         course_id: null,
         course_name: null,
+        chat_session: null,
         total_questions: 0,
         questions: [],
         selected: []
@@ -92,6 +93,9 @@ export default {
     this.fetchData()
   },
   methods: {
+    updateChatId(chatSession) {
+      this.lesson.chat_session = chatSession
+    },
     async fetchData() {
       const res = await this.$axios.get(`home/lessons/${this.$route.params.id}`)
       this.lesson = res.data.data
