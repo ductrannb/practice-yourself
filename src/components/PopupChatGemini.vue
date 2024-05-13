@@ -124,11 +124,10 @@ export default {
     },
     convertModelMessage(message) {
       if (message.includes('$')) {
-        message = message.replace('$$', '$')
-        let matches = message.match(/\$(.*?)\$/g).map(function(val){
+        message = message.replaceAll('$$', '$')
+        message.match(/\$(.*?)\$/g).map(function(val){
           return val.replace(/\$/g, '')
-        })
-        matches.forEach(match => {
+        }).forEach(match => {
           message = message.replace(`$${match}$`, katex.renderToString(match))
         })
       }
