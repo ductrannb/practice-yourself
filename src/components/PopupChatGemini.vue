@@ -124,27 +124,27 @@ export default {
     },
     convertModelMessage(message) {
       if (message.includes('$')) {
-        let matches = message.match(/\$(.*?)\$/g).map(function(val){
-          return val.replace(/\$/g, '');
-        });
-        matches.forEach(match => {
-          message = message.replace(`$${match}$`, katex.renderToString(match));
+        message = message.replaceAll('$$', '$')
+        message.match(/\$(.*?)\$/g).map(function(val){
+          return val.replace(/\$/g, '')
+        }).forEach(match => {
+          message = message.replace(`$${match}$`, katex.renderToString(match))
         })
       }
       let lines = message.split('\n');
       let html = '';
       lines.forEach(line => {
         if (line.startsWith('**') && line.endsWith('**')) {
-          html += '<strong>' + line.substring(2, line.length - 2) + '</strong><br>';
+          html += '<strong>' + line.substring(2, line.length - 2) + '</strong><br>'
         } else if (line.startsWith('* ')) {
-          html += '<li>' + line.substring(2) + '</li>';
+          html += '<li>' + line.substring(2) + '</li>'
         } else if (line.startsWith('$') && line.endsWith('$')) {
           html += katex.renderToString(line)
         } else {
-          html += '<p>' + line + '</p>';
+          html += '<p>' + line + '</p>'
         }
-      });
-      return html;
+      })
+      return html
     },
     scrollToBottom() {
       const container = this.$refs.chatContainer;
