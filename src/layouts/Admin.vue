@@ -1,6 +1,7 @@
 <template>
   <div class="admin-layout">
     <div class="navbar-wrapper">
+      <ModalChangePassword :dialog="changePasswordDialog" @onHidden="changePasswordDialog = false"></ModalChangePassword>
       <div class="navbar-logo-box">
         <img src="/logo-full-light.svg" alt="logo">
       </div>
@@ -77,11 +78,14 @@
             <v-menu>
               <template v-slot:activator="{ props }">
                 <div class="header-avatar-box" v-bind="props">
-                  <img class="header-avatar" src="/images/icons/avatar-default.svg">
+                  <img class="header-avatar" :src="auth.avatar || '/images/icons/avatar-default.svg'">
                 </div>
               </template>
 
               <v-list>
+                <v-list-item v-if="!auth.is_google_account" @click="changePasswordDialog = true">
+                  <v-list-item-title>Đổi mật khẩu</v-list-item-title>
+                </v-list-item>
                 <v-list-item class="cursor-pointer" @click="logout()">
                   <v-list-item-title>Đăng xuất</v-list-item-title>
                 </v-list-item>
@@ -99,9 +103,14 @@
 
 <script>
 
+import {mapGetters} from "vuex";
+import ModalChangePassword from "@/components/ModalChangePassword.vue";
+
 export default {
   name: "Admin",
+  components: {ModalChangePassword},
   computed: {
+    ...mapGetters(['auth']),
     routesUser() {
       return ['admin.users', 'admin.users.create', 'admin.users.update', 'admin.users.detail']
     },
@@ -124,6 +133,11 @@ export default {
         'admin.exams', 'admin.exams.create', 'admin.exams.update', 'admin.exams.detail'
       ]
     },
+  },
+  data() {
+    return {
+      changePasswordDialog: false
+    }
   }
 }
 </script>
@@ -179,8 +193,14 @@ export default {
 .header-avatar-box {
   width: 1.5rem;
   height: 1.5rem;
+  cursor: pointer;
+}
+.header-avatar {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  border: 1px solid #000;
+  border: 1px solid #eeeeee;
+  object-fit: cover;
 }
 .navbar-logo-box {
   border-bottom: 1px solid #323a49;
