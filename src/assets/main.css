@@ -227,3 +227,6 @@
 .katex > .katex-html {
     display: none;
 }
+.breadcrumb-item+.breadcrumb-item::before {
+    display: none;
+}

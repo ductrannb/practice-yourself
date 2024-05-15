@@ -44,6 +44,14 @@ a {
   text-decoration: none;
   color: #000000;
 }
+dl, ol, ul {
+  padding: 0;
+  margin: 0;
+}
+p {
+  margin: 0;
+  padding: 0;
+}
 ul li {
   list-style: none;
 }
@@ -54,10 +62,6 @@ body {
   font-style: normal;
   font-size: 1rem;
   color: #000000;
-}
-.container {
-  max-width: 1140px;
-  margin: auto;
 }
 @media screen and (max-width: 1199px) {
   .container {

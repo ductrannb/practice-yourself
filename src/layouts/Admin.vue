@@ -1,7 +1,6 @@
 <template>
   <div class="admin-layout">
     <div class="navbar-wrapper">
-      <ModalChangePassword :dialog="changePasswordDialog" @onHidden="changePasswordDialog = false"></ModalChangePassword>
       <div class="navbar-logo-box">
         <img src="/logo-full-light.svg" alt="logo">
       </div>
@@ -59,6 +58,8 @@
           Đề thi thử
         </router-link>
       </div>
+
+      <ModalChangePassword :dialog="changePasswordDialog" @onHidden="changePasswordDialog = false"></ModalChangePassword>
       <div class="navbar-footer-box">
         <v-icon icon="mdi-chevron-double-left"/>
       </div>

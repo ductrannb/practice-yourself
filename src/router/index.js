@@ -83,7 +83,7 @@ const router = createRouter({
         {
           path: 'dashboard',
           name: 'admin.dashboard',
-          component: () => import('@/views/admin/Dashboard.vue')
+          component: () => import('@/views/admin/DashboardAdmin.vue')
         },
         {
           path: 'users',
@@ -215,7 +215,7 @@ const router = createRouter({
         {
           path: 'dashboard',
           name: 'teacher.dashboard',
-          component: () => import('@/views/admin/Dashboard.vue')
+          component: () => import('@/views/admin/DashboardAdmin.vue')
         },
         {
           path: 'courses',
@@ -305,9 +305,12 @@ const router = createRouter({
       name: 'forget-password',
       component: () => import('@/views/ForgetPassword.vue')
     },
-    // Not found route
     {
       path: '/:pathMatch(.*)*',
+      redirect: '/404',
+    },
+    {
+      path: '/404',
       name: '404',
       component: () => import('@/views/PageNotFound.vue')
     }

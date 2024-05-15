@@ -156,6 +156,6 @@ export default {
 .user-menu-box {
   display: flex;
   align-items: center;
-  padding: 12px;
+  padding: 12px 12px 20px;
 }
 </style>
