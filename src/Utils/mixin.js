@@ -46,8 +46,8 @@ export default {
                 console.log(result)
             })
         },
-        async checkAuth() {
-            if (localStorage.getItem('access_token') && store.state.userAuth == null) {
+        async checkAuth(force = false) {
+            if (localStorage.getItem('access_token') && (force || store.state.userAuth == null)) {
                 try {
                     const response = await axios.get('me')
                     store.state.userAuth = response.data.data

@@ -31,24 +31,7 @@ export default {
   components: {TextBackgroundColor, CourseItem},
   data() {
     return {
-      courses: [
-        // {id: 1, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 2, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 3, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 4, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 5, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 6, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 7, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 8, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 9, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 10, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 11, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 12, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 13, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 14, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 15, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-        // {id: 16, image: 'https://hocaz.vn/_next/image?url=%2Fimages%2Fhome%2Flop-11.png&w=256&q=90', name: 'Khóa học cấp tốc', short_description: 'Bộ bài tập, đề thi lớp 11 và lập kế hoạch cho tương lai'},
-      ],
+      courses: [],
       form: {
         keyword: null,
         page: 1,
