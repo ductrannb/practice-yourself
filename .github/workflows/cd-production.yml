@@ -9,25 +9,25 @@ on:
 
 jobs:
   deploy-production:
-      runs-on: self-hosted
-      strategy:
-        matrix:
-          node-version: [18.20.0]
-          # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-      steps:
-        - uses: actions/checkout@v3
-        - name: Use Node.js ${{ matrix.node-version }}
-          uses: actions/setup-node@v3
-          with:
-            node-version: ${{ matrix.node-version }}
-            cache: 'npm'
-        - run: npm i
-        - name: 'Create env file'
-          run: |
-            touch .env
-            echo VITE_BASE_URL_API=${{ secrets.BASE_URL_API_PRODUCTION }} >> .env
-            echo VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID_PRODUCTION }} >> .env
-        - run: npm run build
-        - name: Copy dist
-          shell: bash
-          run: echo ${{ secrets.SUDO_PASS }} | sudo -S cp -r ${{ github.workspace }}/dist/. ${{ secrets.SERVER_DIST_DIRECTION }}
+#      runs-on: self-hosted
+#      strategy:
+#        matrix:
+#          node-version: [18.20.0]
+#          # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+#      steps:
+#        - uses: actions/checkout@v3
+#        - name: Use Node.js ${{ matrix.node-version }}
+#          uses: actions/setup-node@v3
+#          with:
+#            node-version: ${{ matrix.node-version }}
+#            cache: 'npm'
+#        - run: npm i
+#        - name: 'Create env file'
+#          run: |
+#            touch .env
+#            echo VITE_BASE_URL_API=${{ secrets.BASE_URL_API_PRODUCTION }} >> .env
+#            echo VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID_PRODUCTION }} >> .env
+#        - run: npm run build
+#        - name: Copy dist
+#          shell: bash
+#          run: echo ${{ secrets.SUDO_PASS }} | sudo -S cp -r ${{ github.workspace }}/dist/. ${{ secrets.SERVER_DIST_DIRECTION }}
