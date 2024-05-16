@@ -17,6 +17,9 @@
           <template v-slot:[`item.index`]="{ item }">
             <span>{{ exams.indexOf(item) + 1 }}</span>
           </template>
+          <template v-slot:[`item.name`]="{ item }">
+            <router-link class="text-primary text-decoration-underline" :to="{name: 'exams.overview', params: {id: item.id}}">{{ item.name }}</router-link>
+          </template>
           <template v-slot:bottom>
             <v-pagination
                 v-model="form.page"
