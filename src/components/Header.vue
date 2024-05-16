@@ -1,4 +1,5 @@
 <template>
+  <ModalChangePassword :dialog="changePasswordDialog" @onHidden="changePasswordDialog = false"></ModalChangePassword>
   <header class="header-wrapper">
     <div class="header-container container">
       <router-link :to="{name: 'home'}">
@@ -43,6 +44,24 @@
             </template>
 
             <v-list>
+              <v-list-item
+                  :prepend-avatar="auth.avatar || '/images/icons/avatar-default.svg'"
+                  :subtitle="`Số dư: ${$filter.formatNumberChart(auth.balance) || 0} VNĐ`"
+                  :title="auth.name"
+              >
+              </v-list-item>
+
+              <v-divider></v-divider>
+
+              <v-list-item @click="$router.push({name: 'user.dashboard'})">
+                <v-list-item-title>Thống kê</v-list-item-title>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title>Nạp tiền</v-list-item-title>
+              </v-list-item>
+              <v-list-item v-if="!auth.is_google_account" @click="changePasswordDialog = true">
+                <v-list-item-title>Đổi mật khẩu</v-list-item-title>
+              </v-list-item>
               <v-list-item @click="logout()">
                 <v-list-item-title>Đăng xuất</v-list-item-title>
               </v-list-item>
@@ -64,14 +83,21 @@
 
 <script>
 import { mapGetters } from "vuex";
+import ModalChangePassword from "@/components/ModalChangePassword.vue";
 
 export default {
   name: "Header",
+  components: {ModalChangePassword},
   created() {
     this.checkAuth()
   },
   computed: {
     ...mapGetters(['auth'])
+  },
+  data() {
+    return {
+      changePasswordDialog: false
+    }
   },
   methods: {
   }
@@ -145,6 +171,6 @@ export default {
 .user-menu-box {
   display: flex;
   align-items: center;
-  padding: 12px;
+  padding: 12px 12px 20px;
 }
 </style>
