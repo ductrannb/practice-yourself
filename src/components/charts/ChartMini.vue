@@ -14,7 +14,7 @@
         type="line"
         class="mt-3 mx-3"
         style="height: 70px"
-        :data="chartData"
+        :data="chart"
         :options="chartOptions"
       />
     </template>
@@ -64,8 +64,29 @@ export default {
     },
   },
   watch: {
-    $props() {
-      this.$forceUpdate();
+    chartLabels(newVal) {
+      console.log(newVal)
+      this.chart.labels = newVal
+    },
+    dataSetDataChart(newVal) {
+      console.log(newVal)
+      this.chart.datasets[0].data = newVal
+    }
+  },
+  data() {
+    return {
+      chart: {
+        labels: [],
+        datasets: [
+          {
+            label: this.dataSetLabel,
+            backgroundColor: 'transparent',
+            borderColor: this.dataSetBorderColor,
+            pointBackgroundColor: this.dataSetPointBackgroundColor,
+            data: [],
+          },
+        ],
+      }
     }
   },
   computed: {
@@ -73,20 +94,6 @@ export default {
       if (!this.growPercent) return 'cil-arrow-top';
       const value = parseFloat(`${this.growPercent}`.replace('%', ''));
       return this.growPercent >= 0 ? 'cil-arrow-top' : 'cil-arrow-bottom';
-    },
-    chartData() {
-      return {
-        labels: this.chartLabels,
-        datasets: [
-          {
-            label: this.dataSetLabel,
-            backgroundColor: 'transparent',
-            borderColor: this.dataSetBorderColor,
-            pointBackgroundColor: this.dataSetPointBackgroundColor,
-            data: this.dataSetDataChart,
-          },
-        ],
-      }
     },
     chartOptions() {
       return {

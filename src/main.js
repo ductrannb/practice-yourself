@@ -30,6 +30,9 @@ const app = createApp(App)
 
 app.config.globalProperties.$filter = {
     formatNumber(number) {
+        if (!number) {
+            return 0
+        }
         return number.toLocaleString() || 0
     },
     formatDatetime(datetime) {

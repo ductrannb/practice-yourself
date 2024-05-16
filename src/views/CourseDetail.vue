@@ -20,7 +20,7 @@
           <template v-slot:overview-last-item>
             <div class="overview-item--last-item" v-if="!course.is_bought">
               <button class="custom-btn" @click="subscribeCourse(course.id)">
-                Đăng ký ngay: {{ course.price == 0 ? `${course.price}đ` : 'MIỄN PHÍ' }}
+                Đăng ký ngay: {{ course?.price > 0 ? `${$filter.formatNumber(course.price)}đ` : 'MIỄN PHÍ' }}
               </button>
             </div>
           </template>
@@ -79,16 +79,7 @@ export default {
     return {
       course: {
         name: null,
-        lessons: [
-          // {id: 1, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
-          // {id: 2, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-          // {id: 3, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 20},
-          // {id: 4, name: 'Xét tính đơn điệu của hàm số', count_question: 15, completion: 12},
-          // {id: 5, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-          // {id: 6, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-          // {id: 7, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-          // {id: 8, name: 'Xét tính đơn điệu của hàm số', count_question: 20, completion: 12},
-        ],
+        lessons: [],
         total_question: 0,
         percentage_easy: 0,
         percentage_medium: 0,
@@ -110,6 +101,7 @@ export default {
     async subscribeCourse(id) {
       const res = await this.$axios.post(`home/courses/subscribe/${id}`);
       await this.fetchData()
+      this.checkAuth(true)
     }
   }
 }
