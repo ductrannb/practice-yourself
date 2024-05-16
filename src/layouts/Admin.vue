@@ -205,7 +205,7 @@ export default {
 }
 .navbar-logo-box {
   border-bottom: 1px solid #323a49;
-  padding: 0 .5rem;
+  padding: 1rem;
 }
 .navbar-menu-box {
   display: flex;

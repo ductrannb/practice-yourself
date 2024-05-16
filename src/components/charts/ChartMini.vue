@@ -14,18 +14,7 @@
         type="line"
         class="mt-3 mx-3"
         style="height: 70px"
-        :data="{
-          labels: chartLabels,
-          datasets: [
-            {
-              label: dataSetLabel,
-              backgroundColor: 'transparent',
-              borderColor: dataSetBorderColor,
-              pointBackgroundColor: dataSetPointBackgroundColor,
-              data: dataSetDataChart,
-            },
-          ],
-        }"
+        :data="chartData"
         :options="chartOptions"
       />
     </template>
@@ -44,11 +33,9 @@ export default {
       required: true
     },
     value: {
-      type: Number,
       required: true,
     },
     growPercent: {
-      type: Number,
       required: true,
     },
     dataSetLabel: {
@@ -76,9 +63,30 @@ export default {
       default: "primary",
     },
   },
+  watch: {
+    $props() {
+      this.$forceUpdate();
+    }
+  },
   computed: {
     iconPercent() {
-      return this.growPercent >= 0 ? "cil-arrow-top" : "cil-arrow-bottom";
+      if (!this.growPercent) return 'cil-arrow-top';
+      const value = parseFloat(`${this.growPercent}`.replace('%', ''));
+      return this.growPercent >= 0 ? 'cil-arrow-top' : 'cil-arrow-bottom';
+    },
+    chartData() {
+      return {
+        labels: this.chartLabels,
+        datasets: [
+          {
+            label: this.dataSetLabel,
+            backgroundColor: 'transparent',
+            borderColor: this.dataSetBorderColor,
+            pointBackgroundColor: this.dataSetPointBackgroundColor,
+            data: this.dataSetDataChart,
+          },
+        ],
+      }
     },
     chartOptions() {
       return {

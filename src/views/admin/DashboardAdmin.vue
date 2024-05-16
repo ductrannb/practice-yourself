@@ -92,7 +92,7 @@
                       },
                       y1: {
                         type: 'linear',
-                        display: true,
+                        display: isAdmin,
                         position: 'right',
                         grid: {
                           drawOnChartArea: false,
@@ -124,22 +124,26 @@ export default {
       return constants
     },
     ...mapGetters(['auth']),
+    isAdmin() {
+      return this.auth.role_id == constants.ROLE.ADMIN
+    },
     mainChartData() {
       return  {
         labels: this.dashboard.mainChart.labels,
         datasets: [
           {
-            label: 'Doanh thu',
+            label: this.isAdmin ? 'Lượng đăng ký khóa học' : 'Số học sinh tham gia',
             backgroundColor: '#000',
             borderColor: '#000',
-            type: 'line',
-            data: this.dashboard.mainChart.revenue_data
+            position: 'right',
+            data: this.isAdmin ? this.dashboard.mainChart.course_data : this.dashboard.mainChart.joiner_data,
           },
           {
-            label: 'Lượng đăng ký khóa học',
-            backgroundColor: '#000',
-            borderColor: '#000',
-            data: this.dashboard.mainChart.course_data,
+            label: this.isAdmin ? 'Doanh thu' : 'Số lượt nộp',
+            backgroundColor: '#ff0000',
+            borderColor: '#ff0000',
+            type: 'line',
+            data: this.isAdmin ? this.dashboard.mainChart.revenue_data : this.dashboard.mainChart.submit_time_data,
           },
         ],
       }
@@ -160,10 +164,22 @@ export default {
         type: 2
       },
       dashboard: {
-        userChart: {},
-        teacherChart: {},
-        questionChart: {},
-        examChart: {},
+        userChart: {
+          chart_labels: [],
+          chart_data: [],
+        },
+        teacherChart: {
+          chart_labels: [],
+          chart_data: [],
+        },
+        questionChart: {
+          chart_labels: [],
+          chart_data: [],
+        },
+        examChart: {
+          chart_labels: [],
+          chart_data: [],
+        },
         mainChart: {}
       }
     }
@@ -180,6 +196,7 @@ export default {
       const url = this.auth.role_id == constants.ROLE.ADMIN ? 'admin/dashboard' : 'teacher/dashboard'
       const res = await this.$axios.get(url, {params: this.form})
       this.dashboard = res.data.data
+      this.$forceUpdate()
     }
   }
 }
