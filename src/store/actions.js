@@ -10,5 +10,11 @@ export default {
     },
     logoutVuex({commit}) {
         commit('setUserAuth', null)
+    },
+    setPaymentUrl({commit}, url) {
+        commit('setPaymentUrl', url)
+    },
+    removePaymentUrl({commit}) {
+        commit('setPaymentUrl', null)
     }
 }
