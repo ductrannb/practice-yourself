@@ -27,9 +27,15 @@ const QUESTION_TYPE = {
     LESSON: 1,
     EXAM: 2
 }
+const PAYMENT_TYPE = {
+    RECHARGE: 1,
+    PURCHASE: 2
+}
+
 export default {
     RESPONSES,
     QUESTION_LEVEL,
     ROLE,
-    QUESTION_TYPE
+    QUESTION_TYPE,
+    PAYMENT_TYPE
 }

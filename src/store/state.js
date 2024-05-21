@@ -1,4 +1,5 @@
 export default {
     isLoading: false,
-    userAuth: null
+    userAuth: null,
+    paymentUrl: null
 }

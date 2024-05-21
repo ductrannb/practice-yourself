@@ -27,6 +27,13 @@ const router = createRouter({
           name: 'home',
           component: () => import('@/views/Home.vue')
         },
+        {
+          path: 'payos',
+          children: [
+            { path: 'return', name: 'payos.return', component: () => import('@/views/payos/ReturnPage.vue')},
+            { path: 'cancel', name: 'payos.cancel', component: () => import('@/views/payos/CancelPage.vue')},
+          ]
+        },
         // Courses routes
         {
           path: '/courses',
