@@ -1,5 +1,11 @@
 <template>
   <ModalChangePassword :dialog="changePasswordDialog" @onHidden="changePasswordDialog = false"></ModalChangePassword>
+  <ModalRecharge
+      :dialog="rechargeDialog"
+      @onHidden="rechargeDialog = false"
+      @onSuccess="onSuccess"
+      @onCancel="onCancel"
+      @onExit="onExit"/>
   <header class="header-wrapper">
     <div class="header-container container">
       <router-link :to="{name: 'home'}">
@@ -56,7 +62,7 @@
               <v-list-item @click="$router.push({name: 'user.dashboard'})">
                 <v-list-item-title>Thống kê</v-list-item-title>
               </v-list-item>
-              <v-list-item>
+              <v-list-item @click="rechargeDialog = true">
                 <v-list-item-title>Nạp tiền</v-list-item-title>
               </v-list-item>
               <v-list-item v-if="!auth.is_google_account" @click="changePasswordDialog = true">
@@ -84,10 +90,11 @@
 <script>
 import { mapGetters } from "vuex";
 import ModalChangePassword from "@/components/ModalChangePassword.vue";
+import ModalRecharge from "@/components/ModalRecharge.vue";
 
 export default {
   name: "Header",
-  components: {ModalChangePassword},
+  components: {ModalRecharge, ModalChangePassword},
   created() {
     this.checkAuth()
   },
@@ -96,10 +103,20 @@ export default {
   },
   data() {
     return {
-      changePasswordDialog: false
+      changePasswordDialog: false,
+      rechargeDialog: false
     }
   },
   methods: {
+    onSuccess(event) {
+      console.log('onSuccess', event)
+    },
+    onCancel(event) {
+      console.log('onCancel', event)
+    },
+    onExit(event) {
+      console.log('onExit', event)
+    },
   }
 }
 </script>
