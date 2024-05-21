@@ -1,6 +1,6 @@
 <template>
   <div class="pa-4 text-center change-password-dialog">
-    <Payment @onSuccess="console.log('alo')"/>
+<!--    <Payment @onSuccess="console.log('alo')"/>-->
     <v-dialog v-model="showDialog" max-width="600">
       <v-card title="Nạp tiền">
         <Form class="recharge-form" @submit="submit">
@@ -41,7 +41,7 @@
 
 <script>
 import constants from "@/Utils/constants.js"
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import Payment from "@/components/Payment.vue";
 
 export default {
@@ -76,6 +76,9 @@ export default {
       isManual: false
     }
   },
+  computed: {
+    ...mapGetters(['paymentUrl'])
+  },
   created() {
     this.showDialog = this.dialog
   },
@@ -108,6 +111,7 @@ export default {
         return_url: res.data.data.return_url || null
       })
       this.resetForm()
+      window.location.href = res.data.data.checkout_url
     },
     resetForm() {
       this.form = {
