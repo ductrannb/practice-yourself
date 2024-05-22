@@ -3,8 +3,29 @@
     <div class="admin-container">
       <breadcrumb class="admin-breadcrumb-wrapper" :items="breadcrumbs"/>
       <div class="heading-box">
-        <div class="author" v-if="exam.author">
-          <Author :author="exam.author"/>
+        <div class="d-flex ga-2 align-items-center">
+          <div class="author" v-if="exam.author">
+            <Author :author="exam.author"/>
+          </div>
+
+          <v-switch
+              v-model="mode"
+              :label="`Chế độ sửa nhanh: ${mode ? 'Bật' : 'Tắt'}`"
+              color="primary"
+              :false-value="0"
+              :true-value="1"
+              hide-details
+          ></v-switch>
+          <v-switch
+              class="ml-2"
+              v-model="notification"
+              :label="`Thông báo: ${notification ? 'Bật' : 'Tắt'}`"
+              color="primary"
+              :false-value="0"
+              :true-value="1"
+              hide-details
+          ></v-switch>
+
         </div>
         <div class="admin-form-footer">
           <router-link
@@ -32,7 +53,20 @@
         <div class="question-heading-box">
           <span class="question-index">{{index + 1}}.</span>
           <div class="question-content" v-html="question.content"/>
-          <LevelBadge :level="question.level"/>
+          <LevelBadge v-if="!mode" :level="question.level"/>
+          <div v-else class="level-selection-box">
+            <v-select
+                v-model="question.level"
+                :items="optionsQuestionLevel"
+                label="Mức độ"
+                variant="underlined"
+                density="compact"
+                item-title="text"
+                item-value="value"
+                @update:model-value="handleUpdateLevel(question)"
+                hide-details
+            />
+          </div>
           <div class="group-button-box">
             <v-tooltip text="Sửa">
               <template v-slot:activator="{ props }">
@@ -65,11 +99,13 @@
         <div class="question-choice-list">
           <div
               :class="{
-          'question-choice-item': true,
-          'question-choice-item--correct': choice.id === question.correct_choice?.id
-        }"
+                'cursor-default': !mode,
+                'question-choice-item': true,
+                'question-choice-item--correct': choice.id === question.correct_choice?.id
+              }"
               v-for="(choice, index) in question.choices"
-              :key="index">
+              :key="index"
+              @click="handleClickChoice(choice, question.id)">
             <span class="question-choice-code">{{getChoiceCode(index)}}.</span>
             <p class="question-choice-item--content" v-html="choice.content"></p>
           </div>
@@ -109,6 +145,13 @@ export default {
           title: 'Chi tiết'
         }
       ]
+    },
+    optionsQuestionLevel() {
+      return [
+        {text: constants.QUESTION_LEVEL.TEXT.LEVEL_EASY, value: constants.QUESTION_LEVEL.CODE.LEVEL_EASY},
+        {text: constants.QUESTION_LEVEL.TEXT.LEVEL_MEDIUM, value: constants.QUESTION_LEVEL.CODE.LEVEL_MEDIUM},
+        {text: constants.QUESTION_LEVEL.TEXT.LEVEL_HARD, value: constants.QUESTION_LEVEL.CODE.LEVEL_HARD}
+      ]
     }
   },
   data() {
@@ -116,7 +159,9 @@ export default {
       exam: {
         questions: []
       },
-      questionIdSelected: null
+      questionIdSelected: null,
+      mode: 0,
+      notification: 1,
     }
   },
   created() {
@@ -130,6 +175,31 @@ export default {
     removeQuestion() {
       const vm = this
       this.exam.questions = this.exam.questions.filter(item => item.id != vm.questionIdSelected)
+    },
+    handleClickChoice(choice, questionId) {
+      if (this.mode) {
+        this.$axios.post('questions/quickly-update', {
+          mode: constants.QUESTION_QUICKLY_MODE.CHOICE,
+          choice_id: choice.id,
+          notification: this.notification,
+        })
+        this.exam.questions = this.exam.questions.map(question => {
+          if (question.id === questionId) {
+            question.correct_choice = choice
+          }
+          return question
+        })
+      }
+    },
+    handleUpdateLevel(question) {
+      if (this.mode) {
+        this.$axios.post('questions/quickly-update', {
+          mode: constants.QUESTION_QUICKLY_MODE.LEVEL,
+          question_id: question.id,
+          level: question.level,
+          notification: this.notification,
+        })
+      }
     }
   }
 }
@@ -146,6 +216,7 @@ export default {
   background: #FFFFFF;
   padding: .5rem 1rem;
   border: 1px solid #eeeeee;
+  z-index: 2;
 }
 .author {
   padding: 8px 0;
@@ -166,5 +237,8 @@ export default {
 }
 .question--solution {
   padding-left: 1rem;
+}
+.level-selection-box {
+  margin: 0 1rem;
 }
 </style>

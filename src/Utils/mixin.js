@@ -55,6 +55,15 @@ export default {
                     localStorage.removeItem('access_token')
                 }
             }
+            if (store.state.userAuth != null) {
+                axios.get('notifications')
+                    .then(response => {
+                        store.state.userAuth.notifications = response.data.data
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
         },
         reloadValueInputValidation(value) {
             this.$bus.emit('reload-value', value)

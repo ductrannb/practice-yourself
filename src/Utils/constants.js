@@ -32,10 +32,16 @@ const PAYMENT_TYPE = {
     PURCHASE: 2
 }
 
+const QUESTION_QUICKLY_MODE = {
+    CHOICE: 1,
+    LEVEL: 2
+}
+
 export default {
     RESPONSES,
     QUESTION_LEVEL,
     ROLE,
     QUESTION_TYPE,
-    PAYMENT_TYPE
+    PAYMENT_TYPE,
+    QUESTION_QUICKLY_MODE
 }
