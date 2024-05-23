@@ -9,16 +9,21 @@
         color="red"
         :is-required="true"
         v-model="form.name"
-        :updater="form.name"
-    />
+        :updater="form.name"/>
     <div class="time-input-box">
       <v-number-input
           label="Thời gian (phút)"
           :min="0"
           variant="underlined"
           v-model="form.time"
-          :step="5"
-      ></v-number-input>
+          :step="5"/>
+    </div>
+    <div class="time-input-box" v-if="['teachers.exams.create', 'admin.exams.create'].includes($route.name)">
+      <v-file-input
+          label="File đề thi"
+          accept=".pdf"
+          variant="underlined"
+          @change="onChange"/>
     </div>
     <div class="admin-form-footer">
       <router-link
@@ -48,7 +53,8 @@ export default {
     return {
       form: {
         name: null,
-        time: 45
+        time: 90,
+        file: null
       }
     }
   },
@@ -64,6 +70,9 @@ export default {
     },
     onSubmit() {
       this.$emit('onSubmit', this.form)
+    },
+    onChange(event) {
+      this.form.file = event.target.files[0] ?? null
     }
   }
 }

@@ -65,11 +65,9 @@ export default {
   },
   watch: {
     chartLabels(newVal) {
-      console.log(newVal)
       this.chart.labels = newVal
     },
     dataSetDataChart(newVal) {
-      console.log(newVal)
       this.chart.datasets[0].data = newVal
     }
   },

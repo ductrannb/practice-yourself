@@ -7,8 +7,10 @@ import router from "@/router/index.js";
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL_API
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
+const routesNotLoading = ['me', 'notifications', 'gemini/send-message']
+
 axios.interceptors.request.use((config) => {
-    if (config.url !== 'gemini/send-message') {
+    if (!routesNotLoading.includes(config.url)) {
         store.state.isLoading = true
     }
     if (localStorage.getItem('access_token')) {
@@ -22,7 +24,9 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use((response) => {
     setTimeout(() => {
-        store.state.isLoading = false
+        if (!routesNotLoading.includes(response.config.url)) {
+            store.state.isLoading = false
+        }
     }, 300)
     if (response.data?.access_token) {
         localStorage.setItem('access_token', response.data.access_token)
@@ -37,7 +41,9 @@ axios.interceptors.response.use((response) => {
     return response;
 }, (error) => {
     setTimeout(() => {
-        store.state.isLoading = false
+        if (!routesNotLoading.includes(error.config.url)) {
+            store.state.isLoading = false
+        }
     }, 300)
     if (error.config.url !== 'me') {
         // handle error axios
