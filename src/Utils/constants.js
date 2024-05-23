@@ -37,11 +37,27 @@ const QUESTION_QUICKLY_MODE = {
     LEVEL: 2
 }
 
+const IMPORT_QUESTION_TYPE = {
+    EXAM: 1,
+    LESSON: 2
+}
+
+const PUSHER_CHANNELS = {
+    IMPORT_QUESTION: 'import-questions',
+}
+
+const PUSHER_EVENTS = {
+    IMPORT_QUESTION_DONE: 'import-questions-done',
+}
+
 export default {
     RESPONSES,
     QUESTION_LEVEL,
     ROLE,
     QUESTION_TYPE,
     PAYMENT_TYPE,
-    QUESTION_QUICKLY_MODE
+    QUESTION_QUICKLY_MODE,
+    PUSHER_CHANNELS,
+    PUSHER_EVENTS,
+    IMPORT_QUESTION_TYPE
 }

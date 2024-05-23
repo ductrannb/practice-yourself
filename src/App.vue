@@ -1,14 +1,14 @@
 <template>
-  <div class="loader-wrapper" v-if="isLoading">
-    <div class="dot-spinner">
-      <div class="dot-spinner__dot"></div>
-      <div class="dot-spinner__dot"></div>
-      <div class="dot-spinner__dot"></div>
-      <div class="dot-spinner__dot"></div>
-      <div class="dot-spinner__dot"></div>
-      <div class="dot-spinner__dot"></div>
-      <div class="dot-spinner__dot"></div>
-      <div class="dot-spinner__dot"></div>
+  <div class='loader-wrapper' v-if='isLoading'>
+    <div class='dot-spinner'>
+      <div class='dot-spinner__dot'></div>
+      <div class='dot-spinner__dot'></div>
+      <div class='dot-spinner__dot'></div>
+      <div class='dot-spinner__dot'></div>
+      <div class='dot-spinner__dot'></div>
+      <div class='dot-spinner__dot'></div>
+      <div class='dot-spinner__dot'></div>
+      <div class='dot-spinner__dot'></div>
     </div>
   </div>
   <RouterView />
@@ -16,11 +16,49 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-import {mapGetters} from "vuex";
+import {mapGetters} from 'vuex'
+import constants from '@/Utils/constants.js'
+import Swal from 'sweetalert2'
+
 export default {
   computed: {
     ...mapGetters(['isLoading', 'auth'])
-  }
+  },
+  mounted() {
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
+      cluster: 'ap1'
+    });
+
+    const vm = this
+
+    pusher.subscribe(constants.PUSHER_CHANNELS.IMPORT_QUESTION)
+        .bind(constants.PUSHER_EVENTS.IMPORT_QUESTION_DONE, function(data) {
+
+          const routeName = data.type == constants.IMPORT_QUESTION_TYPE.LESSON
+              ? vm.replaceRouteName('courses.lessons.questions')
+              : vm.replaceRouteName('exams.detail')
+          const routeParams = data.type == constants.IMPORT_QUESTION_TYPE.LESSON
+              ? {id: data.parent_id,lessonId: data.id}
+              : {id: data.id}
+
+          Swal.fire({
+            title: "Thông báo",
+            text: "Dữ liệu câu hỏi đã được cập nhật",
+            icon: "success",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#8c8c8c",
+            confirmButtonText: "Đi xem"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              vm.$router.push({name: routeName, params: routeParams})
+            }
+          });
+          console.log('alo', data);
+        });
+  },
 }
 </script>
 
