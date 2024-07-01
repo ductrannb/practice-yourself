@@ -66,7 +66,7 @@ export default {
       }
       return ['lessons.detail', 'exams.review'].includes(this.$route.name)
           && this.selected != null
-          && this.question.correct_choice.id === choice.id
+          && this.question.correct_choice?.id === choice.id || false
     },
     isChoiceWrong(choice) {
       return ['lessons.detail'].includes(this.$route.name)

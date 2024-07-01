@@ -18,7 +18,7 @@
           v-model="form.time"
           :step="5"/>
     </div>
-    <div class="time-input-box" v-if="['teachers.exams.create', 'admin.exams.create'].includes($route.name)">
+    <div class="time-input-box" v-if="['teacher.exams.create', 'admin.exams.create'].includes($route.name)">
       <v-file-input
           label="File đề thi"
           accept=".pdf"

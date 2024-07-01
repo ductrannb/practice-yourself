@@ -19,7 +19,7 @@
             <span>{{ courses.indexOf(item) + 1 }}</span>
           </template>
           <template v-slot:[`item.teachers`]="{ item }">
-            <span>{{ getLabelTeachers(item.teachers) }}</span>
+            <span :class="!item.teachers?.length ? 'text-danger' : ''">{{ getLabelTeachers(item.teachers) }}</span>
           </template>
           <template v-slot:[`item.price`]="{ item }">
             <span>{{ $filter.formatMoney(item.price) }}</span>
@@ -162,8 +162,8 @@ export default {
         1000
     ),
     getLabelTeachers(teachers) {
-      if (!Array.isArray(teachers)) {
-        return ''
+      if (!Array.isArray(teachers) || teachers.length === 0) {
+        return 'Chưa có'
       }
       let teachersName = teachers.map(teacher => teacher.name)
       if (teachersName.length <= 2) {

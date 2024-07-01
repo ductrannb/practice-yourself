@@ -79,3 +79,6 @@
 .question-choice-item--content math {
     font-size: 1.1rem;
 }
+.question-content {
+    padding-right: .5rem;
+}

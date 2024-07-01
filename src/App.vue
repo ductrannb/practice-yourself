@@ -35,6 +35,9 @@ export default {
 
     pusher.subscribe(constants.PUSHER_CHANNELS.IMPORT_QUESTION)
         .bind(constants.PUSHER_EVENTS.IMPORT_QUESTION_DONE, function(data) {
+          if (vm.auth.role_id == constants.ROLE.USER) {
+            return
+          }
 
           const routeName = data.type == constants.IMPORT_QUESTION_TYPE.LESSON
               ? vm.replaceRouteName('courses.lessons.questions')
@@ -53,7 +56,11 @@ export default {
             confirmButtonText: "Đi xem"
           }).then((result) => {
             if (result.isConfirmed) {
-              vm.$router.push({name: routeName, params: routeParams})
+              if (vm.$route.name == routeName) {
+                vm.$router.go(0)
+              } else {
+                vm.$router.push({name: routeName, params: routeParams})
+              }
             }
           });
           console.log('alo', data);

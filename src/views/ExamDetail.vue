@@ -12,7 +12,7 @@
               :key="question.id"
               :index="index"
               :question="question"
-              :selected="exam.selected[index]"
+              :selected="exam.selected.find(item => item.question_id === question.id)"
               @select-choice="selectChoice"
             />
           </div>
@@ -20,7 +20,7 @@
         <div class="question-console-wrapper">
           <div class="question-console-box box-shadow-beautiful">
             <p class="question-console-title">Bảng câu hỏi</p>
-            <vue-countdown v-if="exam.time != -1" :time="exam.time * 60 * 1000" v-slot="{ days, hours, minutes, seconds }">
+            <vue-countdown v-if="exam.time != -1" :time="exam.time * 60 * 1000" v-slot="{ days, hours, minutes, seconds }" @end="onSubmit">
               <div class="question-console--countdown">
                 <img src="/images/icons/timer.svg">
                 <span>
