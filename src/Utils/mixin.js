@@ -56,13 +56,13 @@ export default {
                 }
             }
             if (store.state.userAuth != null) {
-                axios.get('notifications')
-                    .then(response => {
-                        store.state.userAuth.notifications = response.data.data
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                // axios.get('notifications')
+                //     .then(response => {
+                //         store.state.userAuth.notifications = response.data.data
+                //     })
+                //     .catch(error => {
+                //         console.log(error)
+                //     })
             }
         },
         reloadValueInputValidation(value) {

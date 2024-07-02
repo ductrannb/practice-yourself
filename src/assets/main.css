@@ -216,7 +216,8 @@
 .ck-content--block h1,
 .question-content h1,
 .question-choice-item--content h1,
-.question-solution--content-box h1 {
+.question-solution--content-box h1,
+.ckeditor-content--remove-heading h1 {
     display: none;
 }
 .ck-content--block .image,
@@ -238,4 +239,7 @@
     right: 0;
     width: 100vw;
     height: 100vh;
+}
+.swal2-container {
+    z-index: 9999;
 }

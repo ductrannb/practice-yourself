@@ -1,6 +1,50 @@
 <template>
   <Form class="question-form" as="v-form" :validation-schema="schema" @submit="onSubmit">
     <span class="question-form--text-note">Hãy nhập nội dung câu hỏi và các đáp án. Sau đó tích vào một đáp án để chọn nó là đáp án đúng</span>
+    <v-row class="learning-module-box">
+      <v-col cols="2">
+        <v-select
+            variant="outlined"
+            label="Lớp"
+            :items="classes"
+            item-title="name"
+            item-value="id"
+            density="compact"
+            v-model="learningModule._class"
+            @update:model-value="() => {
+              learningModule._chapter = null
+              learningModule._unit = null
+              form.learning_module_id = null
+            }"/>
+      </v-col>
+      <v-col cols="5">
+        <v-select
+            variant="outlined"
+            label="Chương"
+            :items="chapters"
+            item-title="name"
+            item-value="id"
+            density="compact"
+            v-model="learningModule._chapter"
+            @update:model-value="() => {
+              learningModule._unit = null
+              form.learning_module_id = null
+            }"/>
+      </v-col>
+      <v-col cols="5">
+        <v-select
+            variant="outlined"
+            label="Bài"
+            :items="units"
+            item-title="name"
+            item-value="id"
+            density="compact"
+            v-model="learningModule._unit"
+            @update:model-value="() => {
+              form.learning_module_id = learningModule._unit
+            }"/>
+      </v-col>
+    </v-row>
     <v-radio-group hide-details class="custom-radio-group mt-2" v-model="form.level" inline>
       <template v-slot:label>
         <label class="required">Mức độ</label>
@@ -57,9 +101,7 @@
     </div>
     <div class="admin-form-footer">
       <router-link
-          :to="isExamQuestion
-            ? {name: replaceRouteName('exams.detail'), params: {id: $route.params.id}}
-            : {name: replaceRouteName('courses.lessons.questions'), params: {id: $route.params.id, lessonId: $route.params.lessonId}}"
+          :to="{name: replaceRouteName('questions-bank')}"
           class="admin-form-footer-btn admin-form-footer-btn--cancel"
       >
         Hủy
@@ -79,9 +121,18 @@ export default {
     constants() {
       return constants
     },
-    isExamQuestion() {
-      return this.$route.query.type == constants.QUESTION_TYPE.EXAM
+    classes() {
+      return this.learningModule.classes.filter(item => item.type === constants.QUESTION_TYPE.CLASS)
     },
+    chapters() {
+      return this.learningModule.chapters.filter(item => item.type === constants.QUESTION_TYPE.CHAPTER && item.parent_id === this.learningModule._class)
+    },
+    units() {
+      return this.learningModule.units.filter(item => item.type === constants.QUESTION_TYPE.UNIT && item.parent_id === this.learningModule._chapter)
+    },
+    isUpdate() {
+      return this.$route.params.id
+    }
   },
   setup() {
     const schema = Yup.object().shape({
@@ -91,6 +142,14 @@ export default {
   },
   data() {
     return {
+      learningModule: {
+        _class: null,
+        _chapter: null,
+        _unit: null,
+        classes: [],
+        chapters: [],
+        units: []
+      },
       form: {
         content: '',
         level: constants.QUESTION_LEVEL.CODE.LEVEL_EASY,
@@ -100,35 +159,40 @@ export default {
           { content: null, is_correct: false },
           { content: null, is_correct: false },
         ],
-        assignable_id: null,
-        assignable_type: null,
-        solution: ''
+        solution: '',
+        learning_module_id: null
       }
     }
   },
   created() {
-    if ([this.replaceRouteName('courses.lessons.questions.update'), this.replaceRouteName('exams.questions.update')].includes(this.$route.name)) {
+    this.fetchLearningModule()
+    if (this.isUpdate) {
       this.fetchQuestion()
-    } else {
-      if (this.isExamQuestion) {
-        this.form.assignable_type = constants.QUESTION_TYPE.EXAM
-        this.form.assignable_id = this.$route.params.id
-      } else {
-        this.form.assignable_type = constants.QUESTION_TYPE.LESSON
-        this.form.assignable_id = this.$route.params.lessonId
-      }
     }
   },
   methods: {
     onSubmit() {
+      if (!this.form.learning_module_id) {
+        this.noticeError('Vui lòng chọn lớp, chương và bài')
+        return
+      }
       this.$emit('onSubmit', this.form)
     },
     updateCorrectChoice(index) {
       this.form.choices.forEach((choice, i) => { choice.is_correct = i === index })
     },
     async fetchQuestion() {
-      const res = await this.$axios.get(`questions/${this.$route.params.questionId}`)
+      const res = await this.$axios.get(`questions/${this.$route.params.id}`)
       this.form = res.data.data
+      this.learningModule._class = res.data.data.class_id
+      this.learningModule._chapter = res.data.data.chapter_id
+      this.learningModule._unit = res.data.data.unit_id
+    },
+    async fetchLearningModule() {
+      const res = await this.$axios.get('learning-modules')
+      this.learningModule.classes = res.data.data.classes
+      this.learningModule.chapters = res.data.data.chapters
+      this.learningModule.units = res.data.data.units
     }
   }
 }
@@ -163,5 +227,8 @@ export default {
 }
 .admin-form-footer {
   margin-top: 2rem;
+}
+.learning-module-box {
+  margin-top: 1rem;
 }
 </style>

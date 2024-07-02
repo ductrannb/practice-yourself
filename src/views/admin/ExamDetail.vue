@@ -8,23 +8,23 @@
             <Author :author="exam.author"/>
           </div>
 
-          <v-switch
-              v-model="mode"
-              :label="`Chế độ sửa nhanh: ${mode ? 'Bật' : 'Tắt'}`"
-              color="primary"
-              :false-value="0"
-              :true-value="1"
-              hide-details
-          ></v-switch>
-          <v-switch
-              class="ml-2"
-              v-model="notification"
-              :label="`Thông báo: ${notification ? 'Bật' : 'Tắt'}`"
-              color="primary"
-              :false-value="0"
-              :true-value="1"
-              hide-details
-          ></v-switch>
+<!--          <v-switch-->
+<!--              v-model="mode"-->
+<!--              :label="`Chế độ sửa nhanh: ${mode ? 'Bật' : 'Tắt'}`"-->
+<!--              color="primary"-->
+<!--              :false-value="0"-->
+<!--              :true-value="1"-->
+<!--              hide-details-->
+<!--          ></v-switch>-->
+<!--          <v-switch-->
+<!--              class="ml-2"-->
+<!--              v-model="notification"-->
+<!--              :label="`Thông báo: ${notification ? 'Bật' : 'Tắt'}`"-->
+<!--              color="primary"-->
+<!--              :false-value="0"-->
+<!--              :true-value="1"-->
+<!--              hide-details-->
+<!--          ></v-switch>-->
 
         </div>
         <div class="admin-form-footer">
@@ -34,16 +34,39 @@
           >
             Trở lại
           </router-link>
-          <router-link
-              :to="{
-                name: replaceRouteName('exams.questions.create'),
-                params: {id: $route.params.id},
-                query: {type: constants.QUESTION_TYPE.EXAM}
-              }"
-              class="admin-form-footer-btn admin-form-footer-btn--submit"
-          >
-            Thêm câu hỏi
-          </router-link>
+          <v-dialog fullscreen>
+            <template v-slot:activator="{ props: activatorProps }">
+              <span
+                  v-bind="activatorProps"
+                  class="admin-form-footer-btn admin-form-footer-btn--submit cursor-pointer"
+              >
+                Thêm câu hỏi
+              </span>
+            </template>
+
+            <template v-slot:default="{ isActive }">
+              <v-card>
+                <v-toolbar>
+                  <v-btn
+                      icon="mdi-close"
+                      @click="isActive.value = false"
+                  ></v-btn>
+
+                  <v-toolbar-title>Danh sách câu hỏi</v-toolbar-title>
+
+                  <v-spacer></v-spacer>
+                  <v-btn variant="text" @click="() => {
+                    attachQuestion()
+                    isActive.value = false
+                  }">Lưu</v-btn>
+                </v-toolbar>
+
+                <v-card-item>
+                  <ListQuestionFromBank :assignable_id="$route.params.id" :assignable_type="constants.QUESTION_TYPE.EXAM"/>
+                </v-card-item>
+              </v-card>
+            </template>
+          </v-dialog>
         </div>
       </div>
       <div class="question-list-empty" v-if="!exam.questions || !exam.questions.length">
@@ -125,14 +148,17 @@ import Breadcrumb from "@/components/Breadcrumb.vue";
 import constants from "@/Utils/constants.js";
 import Author from "@/components/Author.vue";
 import LevelBadge from "@/components/LevelBadge.vue";
+import ListQuestionFromBank from "@/components/ListQuestionFromBank.vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: "QuestionDetail",
-  components: {LevelBadge, Author, Breadcrumb},
+  components: {ListQuestionFromBank, LevelBadge, Author, Breadcrumb},
   computed: {
     constants() {
       return constants
     },
+    ...mapGetters(['lessonQuestionSelected']),
     breadcrumbs() {
       return [
         {
@@ -168,6 +194,13 @@ export default {
     this.fetchExam()
   },
   methods: {
+    async attachQuestion() {
+      const res = await this.$axios.post('exams/attach-questions', {
+        exam_id: this.$route.params.id,
+        selected: this.lessonQuestionSelected
+      })
+      await this.fetchExam()
+    },
     async fetchExam() {
       const res = await this.$axios.get(`exams/${this.$route.params.id}`)
       this.exam = res.data.data

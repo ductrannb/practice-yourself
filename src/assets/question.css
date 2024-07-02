@@ -81,4 +81,5 @@
 }
 .question-content {
     padding-right: .5rem;
+    max-width: 80%;
 }

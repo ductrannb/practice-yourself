@@ -16,5 +16,14 @@ export default {
     },
     removePaymentUrl({commit}) {
         commit('setPaymentUrl', null)
-    }
+    },
+    setLearningModule({commit}, module) {
+        commit('setLearningModule', module)
+    },
+    removeLearningModule({commit}) {
+        commit('setLearningModule', null)
+    },
+    setLessonQuestionSelected({commit}, lessonQuestionSelected) {
+        commit('setLessonQuestionSelected', lessonQuestionSelected)
+    },
 }

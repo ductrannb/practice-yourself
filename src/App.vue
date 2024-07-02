@@ -16,13 +16,26 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import constants from '@/Utils/constants.js'
 import Swal from 'sweetalert2'
 
 export default {
+  data() {
+    return {
+      constants,
+      learningModuleState: {
+        classes: [],
+        chapters: [],
+        units: []
+      },
+    }
+  },
   computed: {
     ...mapGetters(['isLoading', 'auth'])
+  },
+  created() {
+    this.fetchLearningModule()
   },
   mounted() {
     Pusher.logToConsole = true;
@@ -35,16 +48,11 @@ export default {
 
     pusher.subscribe(constants.PUSHER_CHANNELS.IMPORT_QUESTION)
         .bind(constants.PUSHER_EVENTS.IMPORT_QUESTION_DONE, function(data) {
-          if (vm.auth.role_id == constants.ROLE.USER) {
+          if (vm.auth.role_id == constants.ROLE.USER || vm.auth.id != data.auth) {
             return
           }
 
-          const routeName = data.type == constants.IMPORT_QUESTION_TYPE.LESSON
-              ? vm.replaceRouteName('courses.lessons.questions')
-              : vm.replaceRouteName('exams.detail')
-          const routeParams = data.type == constants.IMPORT_QUESTION_TYPE.LESSON
-              ? {id: data.parent_id,lessonId: data.id}
-              : {id: data.id}
+          const routeName = vm.replaceRouteName('questions-bank')
 
           Swal.fire({
             title: "Thông báo",
@@ -59,13 +67,25 @@ export default {
               if (vm.$route.name == routeName) {
                 vm.$router.go(0)
               } else {
-                vm.$router.push({name: routeName, params: routeParams})
+                vm.$router.push({name: routeName})
               }
             }
           });
           console.log('alo', data);
         });
   },
+  methods: {
+    ...mapActions(['setLearningModule']),
+    fetchLearningModule() {
+      this.$axios.get('learning-modules')
+        .then(res => {
+          this.learningModuleState.classes = res.data.data.classes
+          this.learningModuleState.chapters = res.data.data.chapters
+          this.learningModuleState.units = res.data.data.units
+          this.setLearningModule(this.learningModuleState)
+        })
+    }
+  }
 }
 </script>
 

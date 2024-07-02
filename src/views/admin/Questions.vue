@@ -8,23 +8,24 @@
             <Author :author="lesson.author"/>
           </div>
 
-          <v-switch
-              v-model="mode"
-              :label="`Chế độ sửa nhanh: ${mode ? 'Bật' : 'Tắt'}`"
-              color="primary"
-              :false-value="0"
-              :true-value="1"
-              hide-details
-          ></v-switch>
-          <v-switch
-              class="ml-2"
-              v-model="notification"
-              :label="`Thông báo: ${notification ? 'Bật' : 'Tắt'}`"
-              color="primary"
-              :false-value="0"
-              :true-value="1"
-              hide-details
-          ></v-switch>
+<!--          <v-switch-->
+<!--              v-if=""-->
+<!--              v-model="mode"-->
+<!--              :label="`Chế độ sửa nhanh: ${mode ? 'Bật' : 'Tắt'}`"-->
+<!--              color="primary"-->
+<!--              :false-value="0"-->
+<!--              :true-value="1"-->
+<!--              hide-details-->
+<!--          ></v-switch>-->
+<!--          <v-switch-->
+<!--              class="ml-2"-->
+<!--              v-model="notification"-->
+<!--              :label="`Thông báo: ${notification ? 'Bật' : 'Tắt'}`"-->
+<!--              color="primary"-->
+<!--              :false-value="0"-->
+<!--              :true-value="1"-->
+<!--              hide-details-->
+<!--          ></v-switch>-->
 
         </div>
 
@@ -43,53 +44,77 @@
           >
             Trở lại
           </router-link>
-          <v-dialog max-width="500">
+<!--          <v-dialog max-width="500">-->
+<!--            <template v-slot:activator="{ props: activatorProps }">-->
+<!--              <v-btn-->
+<!--                  v-bind="activatorProps"-->
+<!--                  color="surface-variant"-->
+<!--                  text="Import file"-->
+<!--                  variant="outlined"-->
+<!--              ></v-btn>-->
+<!--            </template>-->
+
+<!--            <template v-slot:default="{ isActive }">-->
+<!--              <v-card title="Import danh sách câu hỏi">-->
+<!--                <v-card-text>-->
+<!--                  <v-file-input-->
+<!--                      label="File câu hỏi"-->
+<!--                      accept=".pdf"-->
+<!--                      variant="underlined"-->
+<!--                      @change="onChange"/>-->
+<!--                </v-card-text>-->
+
+<!--                <v-card-actions>-->
+<!--                  <v-spacer></v-spacer>-->
+
+<!--                  <v-btn-->
+<!--                      text="Lưu"-->
+<!--                      @click="() => {-->
+<!--                        const status = onSubmit()-->
+<!--                        isActive.value = false-->
+<!--                      }"-->
+<!--                  ></v-btn>-->
+<!--                  <v-btn-->
+<!--                      text="Đóng"-->
+<!--                      @click="isActive.value = false"-->
+<!--                  ></v-btn>-->
+<!--                </v-card-actions>-->
+<!--              </v-card>-->
+<!--            </template>-->
+<!--          </v-dialog>-->
+          <v-dialog fullscreen>
             <template v-slot:activator="{ props: activatorProps }">
-              <v-btn
+              <span
                   v-bind="activatorProps"
-                  color="surface-variant"
-                  text="Import file"
-                  variant="outlined"
-              ></v-btn>
+                  class="admin-form-footer-btn admin-form-footer-btn--submit cursor-pointer"
+              >
+                Thêm câu hỏi
+              </span>
             </template>
 
             <template v-slot:default="{ isActive }">
-              <v-card title="Import danh sách câu hỏi">
-                <v-card-text>
-                  <v-file-input
-                      label="File câu hỏi"
-                      accept=".pdf"
-                      variant="underlined"
-                      @change="onChange"/>
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-
+              <v-card>
+                <v-toolbar>
                   <v-btn
-                      text="Lưu"
-                      @click="() => {
-                        const status = onSubmit()
-                        isActive.value = false
-                      }"
-                  ></v-btn>
-                  <v-btn
-                      text="Đóng"
+                      icon="mdi-close"
                       @click="isActive.value = false"
                   ></v-btn>
-                </v-card-actions>
+
+                  <v-toolbar-title>Danh sách câu hỏi</v-toolbar-title>
+
+                  <v-spacer></v-spacer>
+                  <v-btn variant="text" @click="() => {
+                    attachQuestion()
+                    isActive.value = false
+                  }">Lưu</v-btn>
+                </v-toolbar>
+
+                <v-card-item>
+                  <ListQuestionFromBank :assignable_id="$route.params.lessonId" :assignable_type="constants.QUESTION_TYPE.LESSON"/>
+                </v-card-item>
               </v-card>
             </template>
           </v-dialog>
-          <router-link
-              :to="{
-                name: replaceRouteName('courses.lessons.questions.create'),
-                query: {type: constants.QUESTION_TYPE.LESSON}
-              }"
-              class="admin-form-footer-btn admin-form-footer-btn--submit"
-          >
-            Thêm câu hỏi
-          </router-link>
         </div>
       </div>
       <div class="question-list-empty" v-if="!lesson.questions || !lesson.questions.length">
@@ -120,9 +145,8 @@
                     v-bind="props"
                     icon="mdi-pencil"
                     @click="$router.push({
-                      name: replaceRouteName('exams.questions.update'),
-                      params: {id: $route.params.id, questionId: question.id},
-                      query: {type: constants.QUESTION_TYPE.EXAM}
+                      name: replaceRouteName('questions-bank.update'),
+                      params: {id: question.id},
                     })"
                 />
               </template>
@@ -172,11 +196,14 @@ import constants from "@/Utils/constants.js";
 import Author from "@/components/Author.vue";
 import LevelBadge from "@/components/LevelBadge.vue";
 import axios from "axios";
+import ListQuestionFromBank from "@/components/ListQuestionFromBank.vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: "QuestionDetail",
-  components: {LevelBadge, Author, Breadcrumb},
+  components: {ListQuestionFromBank, LevelBadge, Author, Breadcrumb},
   computed: {
+    ...mapGetters(['lessonQuestionSelected']),
     constants() {
       return constants
     },
@@ -283,6 +310,13 @@ export default {
           notification: this.notification,
         })
       }
+    },
+    async attachQuestion() {
+      const response = await this.$axios.post('lessons/attach-questions', {
+        lesson_id: this.$route.params.lessonId,
+        selected: this.lessonQuestionSelected
+      })
+      await this.fetchLesson()
     }
   }
 }

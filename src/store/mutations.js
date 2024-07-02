@@ -7,5 +7,11 @@ export default {
     },
     setPaymentUrl(state, url) {
         state.paymentUrl = url
-    }
+    },
+    setLearningModule(state, module) {
+        state.learningModule = module
+    },
+    setLessonQuestionSelected(state, lessonQuestionSelected) {
+        state.lessonQuestionSelected = lessonQuestionSelected
+    },
 }

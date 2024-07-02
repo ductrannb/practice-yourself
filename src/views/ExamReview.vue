@@ -41,7 +41,9 @@
         </div>
       </div>
     </div>
-    <popup-chat-gemini chat-id="5a62827f-02d8-46c9-9ec7-748252751b66"/>
+    <popup-chat-gemini :chat-id="exam_review.chat_session" @update-chat-id="(chatId) => {
+      exam_review.chat_session = chatId
+    }"/>
   </div>
 </template>
 

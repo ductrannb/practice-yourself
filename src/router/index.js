@@ -233,6 +233,21 @@ const router = createRouter({
           path: 'exams/:id/questions/update/:questionId',
           name: 'admin.exams.questions.update',
           component: () => import('@/views/admin/QuestionUpdate.vue')
+        },
+        {
+          path: 'questions-bank',
+          name: 'admin.questions-bank',
+          component: () => import('@/views/question-bank/index.vue')
+        },
+        {
+          path: 'questions-bank/create',
+          name: 'admin.questions-bank.create',
+          component: () => import('@/views/question-bank/QuestionCreate.vue')
+        },
+        {
+          path: 'questions-bank/update/:id',
+          name: 'admin.questions-bank.update',
+          component: () => import('@/views/question-bank/QuestionUpdate.vue')
         }
       ]
     },
@@ -314,6 +329,21 @@ const router = createRouter({
           path: 'exams/:id/questions/update/:questionId',
           name: 'teacher.exams.questions.update',
           component: () => import('@/views/admin/QuestionUpdate.vue')
+        },
+        {
+          path: 'questions-bank',
+          name: 'teacher.questions-bank',
+          component: () => import('@/views/question-bank/index.vue')
+        },
+        {
+          path: 'questions-bank/create',
+          name: 'teacher.questions-bank.create',
+          component: () => import('@/views/question-bank/QuestionCreate.vue')
+        },
+        {
+          path: 'questions-bank/update/:id',
+          name: 'teacher.questions-bank.update',
+          component: () => import('@/views/question-bank/QuestionUpdate.vue')
         }
       ]
     },

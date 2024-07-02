@@ -111,7 +111,7 @@ export default {
       return this.lesson.selected.find(selected => selected.question_id === questionId)
     },
     async selectChoice(form) {
-      const res = await this.$axios.post('home/lessons/select', form)
+      const res = await this.$axios.post(`home/lessons/select/${this.$route.params.id}`, form)
       this.lesson.selected = this.lesson.selected.concat(res.data.data)
       this.lesson.questions.forEach(question => {
         if (question.id === form.question_id) {

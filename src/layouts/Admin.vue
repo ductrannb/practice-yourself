@@ -24,7 +24,7 @@
           :to="{name: 'admin.users'}"
         >
           <v-icon icon="mdi-account-school"/>
-          Người dùng
+          Học sinh
         </router-link>
         <router-link
           v-if="isAdmin"
@@ -52,34 +52,33 @@
             'navbar-menu-item': true,
             'navbar-menu-item--active': routesExam.includes($route.name)
           }"
-          :to="{name: 'teacher.exams'}"
+          :to="{name: replaceRouteName('exams')}"
         >
           <v-icon icon="mdi-book-open-outline"/>
           Đề thi thử
         </router-link>
+        <router-link
+          :class="{
+            'navbar-menu-item': true,
+            'navbar-menu-item--active': routesQuestionBank.includes($route.name)
+          }"
+          :to="{name: replaceRouteName('questions-bank')}"
+        >
+          <v-icon icon="mdi-bank"/>
+          Ngân hàng câu hỏi
+        </router-link>
       </div>
 
       <ModalChangePassword :dialog="changePasswordDialog" @onHidden="changePasswordDialog = false"></ModalChangePassword>
-      <div class="navbar-footer-box">
-        <v-icon icon="mdi-chevron-double-left"/>
-      </div>
     </div>
     <div class="body-wrapper" ref="bodyWrapper">
       <div class="header-wrapper">
         <div class="header-container">
-          <div class="header-left">
-            <v-icon icon="mdi-menu"/>
-          </div>
           <div class="header-right">
-            <div class="header-notification-box">
-              <v-badge color="red" content="10">
-                <v-icon icon="mdi-bell"/>
-              </v-badge>
-            </div>
             <v-menu>
               <template v-slot:activator="{ props }">
                 <div class="header-avatar-box" v-bind="props">
-                  <img class="header-avatar" :src="auth.avatar || '/images/icons/avatar-default.svg'">
+                  <img class="header-avatar" v-if="auth" :src="auth.avatar || '/images/icons/avatar-default.svg'">
                 </div>
               </template>
 
@@ -134,6 +133,11 @@ export default {
         'admin.exams', 'admin.exams.create', 'admin.exams.update', 'admin.exams.detail'
       ]
     },
+    routesQuestionBank() {
+      return [
+          'admin.questions-bank', 'admin.questions-bank.create'
+      ]
+    },
   },
   data() {
     return {
@@ -184,7 +188,7 @@ export default {
 }
 .header-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   width: 100%;
 }
 .header-right {
@@ -192,8 +196,8 @@ export default {
   column-gap: 1.5rem;
 }
 .header-avatar-box {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
 }
 .header-avatar {

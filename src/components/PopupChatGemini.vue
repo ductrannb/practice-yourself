@@ -22,7 +22,13 @@
             </div>
           </div>
           <div class="popup-chat-messages-box--footer">
-            <textarea type="text" v-model="message" ref="areaMessage" placeholder="Nhập tin nhắn" rows="1"/>
+            <textarea
+                type="text"
+                v-model="message"
+                ref="areaMessage"
+                placeholder="Nhập tin nhắn"
+                rows="1"
+                @keydown.enter.exact.prevent="sendMessage"/>
             <div class="popup-chat-messages--button-send" @click="sendMessage">
               <img src="/images/icons/send-message.svg">
             </div>
@@ -78,6 +84,21 @@ export default {
       }
     }
   },
+  mounted() {
+    this.$bus.on('event-question-for-ai', async (content) => {
+      if (!this.chat.chat_session) {
+        await this.startNewChat()
+      }
+      this.message = 'Bạn hãy hướng dẫn tôi giải bài toán: ' + content
+      this.isShowPopupChat = true
+      setTimeout(() => {
+        this.sendMessage()
+      }, 100)
+    })
+  },
+  unmounted() {
+    this.$bus.off('event-question-for-ai')
+  },
   updated() {
     this.scrollToBottom();
   },
@@ -89,7 +110,12 @@ export default {
       this.isShowPopupChat = false
     },
     async startNewChat() {
-      const res = await this.$axios.post(`home/lessons/start-chat/${this.$route.params.id}`)
+      let res = null
+      if (this.$route.name != 'exams.review') {
+        res = await this.$axios.post(`home/lessons/start-chat/${this.$route.params.id}`)
+      } else {
+        res = await this.$axios.post(`home/exams/start-chat/${this.$route.params.id}`)
+      }
       this.chat = res.data.data
       this.$emit('update-chat-id', this.chat.chat_session)
     },
@@ -113,6 +139,7 @@ export default {
               }, 100)
             })
             .catch(error => {
+              this.chat.messages.push({text: 'Có lỗi xảy ra !!!', role: 'model'})
               this.modelTyping = false
               console.log(error)
             })

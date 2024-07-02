@@ -38,15 +38,11 @@
       </div>
 
       <ModalChangePassword :dialog="changePasswordDialog" @onHidden="changePasswordDialog = false"></ModalChangePassword>
-      <div class="navbar-footer-box">
-        <v-icon icon="mdi-chevron-double-left"/>
-      </div>
     </div>
     <div class="body-wrapper" ref="bodyWrapper">
       <div class="header-wrapper">
         <div class="header-container">
           <div class="header-left">
-            <v-icon icon="mdi-menu"/>
           </div>
           <div class="header-right">
             <v-menu>
@@ -173,8 +169,8 @@ export default {
 }
 
 .header-avatar-box {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
 }
 

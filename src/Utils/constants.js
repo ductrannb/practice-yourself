@@ -25,7 +25,10 @@ const ROLE = {
 }
 const QUESTION_TYPE = {
     LESSON: 1,
-    EXAM: 2
+    EXAM: 2,
+    CLASS: 1,
+    CHAPTER: 2,
+    UNIT: 3
 }
 const PAYMENT_TYPE = {
     RECHARGE: 1,

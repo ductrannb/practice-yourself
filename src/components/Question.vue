@@ -6,11 +6,19 @@
         <span class="question-incomplete-flag" v-if="!selected && ['exams.review'].includes($route.name)">Chưa làm</span>
         <div class="question-content" v-html="question.content"/>
         <LevelBadge :level="question.level"/>
+        <v-tooltip text="Nhờ sự trợ giúp từ AI cho câu hỏi này.">
+          <template v-slot:activator="{ props }">
+            <div v-bind="props" class="ai-box" @click="eventQuestionForAI" v-if="!['exams.detail', 'admin.questions-bank', 'teacher.questions-bank'].includes($route.name)">
+              <img src="/images/icons/icon-chat-ai.png">
+            </div>
+          </template>
+        </v-tooltip>
       </div>
       <div class="question-choice-list">
         <div
             :class="{
             'question-choice-item': true,
+            'cursor-default': ['admin.questions-bank', 'teacher.questions-bank'].includes($route.name),
             'question-choice-item--selected': question.is_selected,
             'question-choice-item--wrong': isChoiceWrong(choice),
             'question-choice-item--correct': isChoiceCorrect(choice),
@@ -32,6 +40,7 @@
 import constants from "@/Utils/constants";
 import LevelBadge from "@/components/LevelBadge.vue";
 import SolutionQuestion from "@/components/SolutionQuestion.vue";
+import { MathMLToLaTeX } from 'mathml-to-latex';
 export default {
   name: "Question",
   components: {SolutionQuestion, LevelBadge},
@@ -55,6 +64,18 @@ export default {
     }
   },
   methods: {
+    async eventQuestionForAI() {
+      const div = document.createElement("div");
+      div.innerHTML = this.question.content
+      const mathTags = div.querySelectorAll('math')
+      let content = this.question.content
+      mathTags.forEach(tag => {
+        const tex = MathMLToLaTeX.convert(tag.outerHTML)
+        content = content.replace(tag.outerHTML, `$${tex}$`)
+      })
+      div.innerHTML = content
+      this.$bus.emit('event-question-for-ai', div.innerText)
+    },
     isChoiceSelected(choice) {
       return ['exams.detail', 'exams.review'].includes(this.$route.name)
           && this.selected != null
@@ -98,5 +119,15 @@ export default {
   padding: .25rem .5rem;
   border: 1px solid;
   border-radius: 4px;
+}
+.ai-box {
+  width: 1rem;
+  height: 1rem;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+.ai-box img {
+  width: 100%;
+  height: 100%;
 }
 </style>
