@@ -81,7 +81,9 @@ export default {
         name: null,
         questions: [],
         selected: [],
-        time: -1
+        time: -1,
+        shuffle_questions: 0,
+        shuffle_choices: 0,
       },
     }
   },
@@ -100,6 +102,21 @@ export default {
       const examId = this.$route.params.id
       const response = await this.$axios.get(`home/exams/${examId}`)
       this.exam = response.data.data
+      if (this.exam.shuffle_questions) {
+        this.exam.questions = this.exam.questions
+            .map(value => ({ value, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ value }) => value)
+      }
+      if (this.exam.shuffle_choices) {
+        this.exam.questions = this.exam.questions.map(question => {
+          question.choices = question.choices
+              .map(value => ({ value, sort: Math.random() }))
+              .sort((a, b) => a.sort - b.sort)
+              .map(({ value }) => value)
+          return question
+        })
+      }
       this.exam.selected = []
     },
     selectChoice(selected) {

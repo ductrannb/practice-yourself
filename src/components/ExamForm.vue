@@ -10,21 +10,37 @@
         :is-required="true"
         v-model="form.name"
         :updater="form.name"/>
-    <div class="time-input-box">
-      <v-number-input
-          label="Thời gian (phút)"
-          :min="0"
-          variant="underlined"
-          v-model="form.time"
-          :step="5"/>
+    <div class="d-flex gap-4">
+      <div class="time-input-box">
+        <v-number-input
+            label="Thời gian (phút)"
+            :min="0"
+            variant="underlined"
+            v-model="form.time"
+            :step="5"/>
+      </div>
+      <v-checkbox
+          label="Xáo trộn câu hỏi"
+          v-model="form.shuffle_questions"
+          density="compact"
+          :true-value="1"
+          :false-value="0"
+          hide-details/>
+      <v-checkbox
+          label="Xáo trộn đáp án"
+          v-model="form.shuffle_choices"
+          density="compact"
+          :true-value="1"
+          :false-value="0"
+          hide-details/>
     </div>
-    <div class="time-input-box" v-if="['teacher.exams.create', 'admin.exams.create'].includes($route.name)">
-      <v-file-input
-          label="File đề thi"
-          accept=".pdf"
-          variant="underlined"
-          @change="onChange"/>
-    </div>
+<!--    <div class="time-input-box" v-if="['teacher.exams.create', 'admin.exams.create'].includes($route.name)">-->
+<!--      <v-file-input-->
+<!--          label="File đề thi"-->
+<!--          accept=".pdf"-->
+<!--          variant="underlined"-->
+<!--          @change="onChange"/>-->
+<!--    </div>-->
     <div class="admin-form-footer">
       <router-link
           :to="{name: replaceRouteName('exams')}"
@@ -54,7 +70,8 @@ export default {
       form: {
         name: null,
         time: 90,
-        file: null
+        shuffle_questions: 0,
+        shuffle_choices: 0
       }
     }
   },

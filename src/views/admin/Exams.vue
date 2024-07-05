@@ -21,6 +21,32 @@
           <template v-slot:[`item.author`]="{ item }">
             <Author :author="item.author"/>
           </template>
+          <template v-slot:[`item.shuffle_questions`]="{ item }">
+            <div class="d-flex justify-center">
+              <v-switch
+                  v-model="item.shuffle_questions"
+                  readonly
+                  :true-value="1"
+                  :false-value="0"
+                  color="primary"
+                  density="compact"
+                  hide-details
+              ></v-switch>
+            </div>
+          </template>
+          <template v-slot:[`item.shuffle_choices`]="{ item }">
+            <div class="d-flex justify-center">
+              <v-switch
+                  v-model="item.shuffle_choices"
+                  readonly
+                  :true-value="1"
+                  :false-value="0"
+                  color="primary"
+                  density="compact"
+                  hide-details
+              ></v-switch>
+            </div>
+          </template>
           <template v-slot:[`item.created_at`]="{ item }">
             <span>{{ $filter.formatDatetime(item.created_at) }}</span>
           </template>
@@ -104,6 +130,16 @@ export default {
           align: 'center',
           sortable: false,
           key: 'time'
+        }, {
+          title: 'Xáo trộn câu hỏi',
+          align: 'center',
+          sortable: false,
+          key: 'shuffle_questions'
+        }, {
+          title: 'Xáo trộn đáp án',
+          align: 'center',
+          sortable: false,
+          key: 'shuffle_choices'
         }, {
           title: 'Ngày tạo',
           align: 'center',
