@@ -71,9 +71,9 @@ export default {
       let content = this.question.content
       mathTags.forEach(tag => {
         const tex = MathMLToLaTeX.convert(tag.outerHTML)
-        content = content.replace(tag.outerHTML, `$${tex}$`)
+        const texNode = document.createTextNode(`$${tex}$`);
+        tag.parentNode.replaceChild(texNode, tag);
       })
-      div.innerHTML = content
       this.$bus.emit('event-question-for-ai', div.innerText)
     },
     isChoiceSelected(choice) {

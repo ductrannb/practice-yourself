@@ -13,7 +13,7 @@
                 v-for="(message, index) in chat.messages"
                 :key="index">
               <p v-if="message.role === 'user'">{{ message.text }}</p>
-              <div v-else v-html="convertModelMessage(message.text)"></div>
+              <div v-else v-html="marked(convertModelMessage(message.text))" class="chat-message--marked"></div>
             </div>
             <div class="typing-container" v-if="modelTyping">
               <li class="ball"></li>
@@ -51,6 +51,7 @@
 
 <script>
 import katex from "katex"
+import {marked} from "marked"
 export default {
   name: "PopupChatGemini",
   props: {
@@ -103,6 +104,7 @@ export default {
     this.scrollToBottom();
   },
   methods: {
+    marked,
     togglePopupChat() {
       this.isShowPopupChat = !this.isShowPopupChat
     },
@@ -158,20 +160,7 @@ export default {
           message = message.replace(`$${match}$`, katex.renderToString(match))
         })
       }
-      let lines = message.split('\n');
-      let html = '';
-      lines.forEach(line => {
-        if (line.startsWith('**') && line.endsWith('**')) {
-          html += '<strong>' + line.substring(2, line.length - 2) + '</strong><br>'
-        } else if (line.startsWith('* ')) {
-          html += '<li>' + line.substring(2) + '</li>'
-        } else if (line.startsWith('$') && line.endsWith('$')) {
-          html += katex.renderToString(line)
-        } else {
-          html += '<p>' + line + '</p>'
-        }
-      })
-      return html
+      return message
     },
     scrollToBottom() {
       const container = this.$refs.chatContainer;
@@ -215,7 +204,7 @@ export default {
 .chat-message {
   max-width: 90%;
   width: max-content;
-  padding: .3rem .6rem;
+  padding: .4rem .8rem;
   border-radius: 8px;
   margin-bottom: .5rem;
   font-size: .85rem;

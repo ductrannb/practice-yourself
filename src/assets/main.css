@@ -243,3 +243,7 @@
 .swal2-container {
     z-index: 9999;
 }
+.chat-message .chat-message--marked h2 {
+    font-size: .85rem;
+    font-weight: bold;
+}
