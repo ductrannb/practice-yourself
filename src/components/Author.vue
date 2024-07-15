@@ -1,10 +1,10 @@
 <template>
   <div class="author-box">
     <div class="author--avatar-box">
-      <img class="author--avatar avatar" :src="author.avatar || '/images/icons/avatar-default.svg'" alt="avatar">
+      <img class="author--avatar avatar" :src="author?.avatar || '/images/icons/avatar-default.svg'" alt="avatar">
     </div>
-    <span class="author--me" v-if="authorIsMe(author.id) && this.auth?.role_id != constants.ROLE.ADMIN">Tôi</span>
-    <span v-else>{{ author.name }}</span>
+    <span class="author--me" v-if="authorIsMe(author?.id) && this.auth?.role_id != constants.ROLE.ADMIN">Tôi</span>
+    <span v-else>{{ author?.name }}</span>
   </div>
 </template>
 
