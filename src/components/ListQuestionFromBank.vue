@@ -212,7 +212,9 @@ export default {
             <div class="ckeditor-content--remove-heading" v-html="item.content"></div>
           </template>
           <template v-slot:[`item.level`]="{ item }">
-            <LevelBadge :level="item.level"/>
+            <div class="w-max-content">
+              <LevelBadge :level="item.level"/>
+            </div>
           </template>
           <template v-slot:[`item.author`]="{ item }">
             <Author :author="item.author"/>
@@ -226,5 +228,8 @@ export default {
 <style scoped>
 .list-question-box {
   padding: 14px 24px;
+}
+.w-max-content {
+  width: max-content;
 }
 </style>

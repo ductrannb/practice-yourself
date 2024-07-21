@@ -13,7 +13,7 @@
           :to="{name: replaceRouteName('dashboard')}"
         >
           <v-icon icon="mdi-chart-line"/>
-          Dashboard
+          Trang chủ
         </router-link>
         <router-link
           v-if="isAdmin"
